@@ -18,7 +18,7 @@ export const LOAD_CURRENT_PRICE = "priceSet/LOAD_CURRENT_PRICE";
 * state init (scheduledPrice in redux)
 */
 const initialState = {
-  isLoading: false,
+  isLoading: true,
   errMsg: false,
   priceSet: {
     active: "",
@@ -26,6 +26,7 @@ const initialState = {
   },
   promotion: {
     active: "",
+    onLive:"",
     order: [],
     queue: {} 
   }
@@ -81,6 +82,10 @@ export default (state = initialState, action) => {
         ...state,
         promotion:{
           ...state.promotion,        
+          active: action.promotionId
+        },
+        priceSet:{
+          ...state.priceSet,
           active: action.promotionId
         }
       }
@@ -167,7 +172,7 @@ export const asyncGetPromotion = () => dispatch => {
   dispatch({
     type: GET_PROMOTION_REQ
   })
-  return fetch("/promo")
+  return fetch("/promo4")
     .then(response => response.json())
     .then(json => {
       dispatch({
@@ -181,4 +186,16 @@ export const asyncGetPromotion = () => dispatch => {
         type: GET_PROMOTION_FAIL
       });      
     })
+}
+
+export const addPromotionInQueue = () => dispatch => {
+  dispatch({
+    type: ADD_PROMOTION
+  })
+}
+
+export const applyPromotionNow = () => dispatch => {
+  dispatch({
+    type: APPLY_PROMOTION
+  })
 }

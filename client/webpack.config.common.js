@@ -114,7 +114,9 @@ const commonConfig = {
       reducers: path.join(__dirname, "src/reducers"),
       router: path.join(__dirname, "src/router"),
       mock: path.join(__dirname, "mock"),
-      image: path.join(__dirname, "images")
+      image: path.join(__dirname, "images"),
+      bigCalendarStyle: path.join(__dirname, 'node_modules/react-big-calendar/lib/css/react-big-calendar.css'),
+      dayPickerStyle: path.join(__dirname, 'node_modules/react-day-picker/lib/style.css')
     }
   }
 };

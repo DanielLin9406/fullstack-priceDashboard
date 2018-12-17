@@ -27,7 +27,7 @@ const devConfig = {
             options: {
               sourceMap: true,
               modules: true,
-              localIdentName: "[local]-[hash:base64:5]"
+              localIdentName: "[local]"
             }
           },
           {
@@ -48,7 +48,6 @@ const devConfig = {
             options: {
               sourceMap: true,
               modules: true,
-              localIdentName: "[local]-[hash:base64:5]"
             }
           },          
         ]
@@ -63,7 +62,7 @@ const devConfig = {
     host: "0.0.0.0",
     hot:true,
     proxy: {
-      "/promo": "http://localhost:8090"
+      "/promo4": "http://localhost:8090"
     }
   }
 };

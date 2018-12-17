@@ -1,23 +1,24 @@
 module.exports = function () {
   var data = {}
-  data.promo = {
+  data.promo4 = {
     "promotion":{
-      "active":"1",
+      "onLive":"001",
+      "active":"001",
       "order":[
-        "0","1"
+        "001","002"
       ],    
       "queue":{
-        "0":{
+        "001":{
           "promotionId":"001",
           "name":"Black Friday Promotion",
-          "startDate":"2016/12/06",
-          "endDate":"2016/12/15"
+          "startDate":"2018/12/06",
+          "endDate":"2018/12/15"
         },
-        "1":{
+        "002":{
           "promotionId":"002",
           "name":"Black Friday Promotion",
-          "startDate":"2016/12/06",
-          "endDate":"2016/12/15"
+          "startDate":"2018/12/15",
+          "endDate":"2018/12/22"
         }                      
       }
     },

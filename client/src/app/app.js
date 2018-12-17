@@ -1,16 +1,20 @@
 import React, { Component } from "react";
 import Calendar from './components/Calendar/Container';
+import CurrentPriceRule from './components/CurrentPriceRule/Container';
+import QueuePriceRule from "./components/QueuedPriceRule/Container";
+import CurrentPromotion from "./components/CurrentPromotion/Container";
+import SetPriceRule from "./components/SetPriceRule/Container";
 
 class App extends Component {
-  constructor(props) {
-    super(props);
 
-    this.loadPromotionData = this.loadPromotionData.bind(this);
-  }
   render() {
     return (
       <div id="app">
-        <Calendar />      
+        <Calendar /> 
+        <CurrentPromotion />
+        <QueuePriceRule />
+        <SetPriceRule />
+        <CurrentPriceRule />
       </div>
     );
   }
@@ -26,7 +30,7 @@ class App extends Component {
     }
   }
 
-  loadPromotionData(){
+  loadPromotionData = () => {
     this.props.asyncGetPromotion();
   }
 }
