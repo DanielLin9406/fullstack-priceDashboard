@@ -63,13 +63,13 @@ class Calendar extends Component {
 
   componentDidMount(){
     // 請求異步加載數據+綁定事件監聽
-    console.log('state', this.state);   
+    // console.log('state', this.state);   
     
   }
   
   componentDidUpdate(){
     // 由state變化觸發請求
-    console.log('state', this.state);   
+    // console.log('state', this.state);   
   }
 
   componentWillUnmount(){

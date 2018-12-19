@@ -62,7 +62,7 @@ const devConfig = {
     host: "0.0.0.0",
     hot:true,
     proxy: {
-      "/promo4": "http://localhost:8090"
+      "/promo6": "http://localhost:8090"
     }
   }
 };

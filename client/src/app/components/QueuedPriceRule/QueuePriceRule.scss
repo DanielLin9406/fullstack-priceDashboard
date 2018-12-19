@@ -1,8 +1,9 @@
-.queue-promotion-list{
-  list-style-type: none;   
+ul{
+  list-style-type: none;
 }
 
 .queue-promotion-item{
+  list-style: none;
   .ctrl-btn{
     span{
       display: block;

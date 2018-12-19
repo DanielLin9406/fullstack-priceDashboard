@@ -1,5 +1,7 @@
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
+import { loadPromotion } from "../../../modules/scheduledPrice";
 import CurrentPromotion from './CurrentPromotion';
 
 const mapStateToProps = state => ({
@@ -8,7 +10,10 @@ const mapStateToProps = state => ({
   errMsg: state.scheduledPrice.errMsg,
 });
 
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ loadPromotion }, dispatch);
+
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(CurrentPromotion);

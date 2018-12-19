@@ -1,54 +1,70 @@
 module.exports = function () {
   var data = {}
-  data.promo4 = {
+  data.promo6 = {
     "promotion":{
-      "onLive":"001",
-      "active":"001",
+      "onLive":"1",
+      "active":"2",
       "order":[
-        "001","002"
+        "2", "3"
       ],    
       "queue":{
-        "001":{
-          "promotionId":"001",
+        "1":{
+          "promotionId":"1",
           "name":"Black Friday Promotion",
+          "startDate":"2018/12/03",
+          "endDate":"2018/12/06"
+        },        
+        "2":{
+          "promotionId":"2",
+          "name":"Holiday Season Promotion",
           "startDate":"2018/12/06",
           "endDate":"2018/12/15"
         },
-        "002":{
-          "promotionId":"002",
-          "name":"Black Friday Promotion",
+        "3":{
+          "promotionId":"3",
+          "name":"Chrimas Promotion",
           "startDate":"2018/12/15",
           "endDate":"2018/12/22"
         }                      
       }
     },
     "priceSet":{
-      "order":["001","002"],
-      "active":"001",
+      "active":"2",
       "items":{
-        "001":[
+        "1":[
           {
-            "id":"001",
+            "promotionId":"1",
+            "sku":"L2001",
+            "name":"BIAS FX Std",
+            "price":"$99",
+            "retailPrice":"$199"             
+          }
+        ],        
+        "2":[
+          {
+            "promotionId":"2",
             "sku":"L2001",
             "name":"BIAS FX Std",
             "price":"$99",
             "retailPrice":"$199"
           },
           {
-            "id":"001",
+            "promotionId":"2",
             "sku":"L2001",
             "name":"BIAS FX Std",
             "price":"$99",
             "retailPrice":"$199"   
           }     
         ],
-        "002":{
-          "id":"002",
-          "sku":"L2001",
-          "name":"BIAS FX Std",
-          "price":"$99",
-          "retailPrice":"$199" 
-        }
+        "3":[
+          {
+            "promotionId":"3",
+            "sku":"L2001",
+            "name":"BIAS FX Std",
+            "price":"$99",
+            "retailPrice":"$199" 
+          }
+        ]
       }
     } 
   };

@@ -5,7 +5,10 @@ import { addPromotionInQueue, applyPromotionNow } from "../../../modules/schedul
 import SetPriceRule from './SetPriceRule';
 
 const mapStateToProps = state => ({
-  promotion: state.scheduledPrice.promotion
+  promotion: state.scheduledPrice.promotion,
+  priceSet: state.scheduledPrice.priceSet,
+  isLoading: state.scheduledPrice.isLoading,
+  errMsg: state.scheduledPrice.errMsg,    
 });
 
 const mapDispatchToProps = dispatch =>

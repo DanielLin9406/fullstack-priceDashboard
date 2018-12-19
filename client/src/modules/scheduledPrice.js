@@ -1,3 +1,5 @@
+import { arrayMove} from 'react-sortable-hoc';
+
 /*
 * define async action name
 */
@@ -10,8 +12,6 @@ export const SORT_PROMOTION = "promotion/SORT_PROMOTION";
 export const REMOVE_PROMOTION = "promotion/REMOVE_PROMOTION";
 export const ADD_PROMOTION = "promotion/ADD_PROMOTION";
 export const APPLY_PROMOTION = "promotion/APPLY_PROMOTION";
-
-export const LOAD_CURRENT_PRICE = "priceSet/LOAD_CURRENT_PRICE";
 
 
 /*
@@ -94,10 +94,25 @@ export default (state = initialState, action) => {
         ...state,
         promotion:{
           ...state.promotion,
-          order: action.promotionOrder
+          order: arrayMove(state.promotion.order, action.oldIndex, action.newIndex)
         }
       }
     case REMOVE_PROMOTION:
+      const prevOrder = state.promotion.order;
+      const itemIndex = prevOrder.indexOf(action.promotionId);
+      let nextOrder;
+      if (itemIndex > -1){
+        nextOrder = prevOrder.splice(itemIndex)
+      } else {
+        nextOrder = prevOrder
+      }
+      return {
+        ...state,
+        promotion:{
+          ...state.promotion,
+          order: nextOrder
+        }
+      }     
     case ADD_PROMOTION:
       return {
         ...state,
@@ -105,15 +120,7 @@ export default (state = initialState, action) => {
           ...state.promotion,
           queue: action.promotionQueue
         }
-      }
-    case LOAD_CURRENT_PRICE:
-      return {
-        ...state,
-        priceSet:{
-          ...state.priceSet,
-          active: action.promotionId
-        }
-      }             
+      }           
     default:
       return state;      
   }
@@ -137,17 +144,18 @@ export const loadPromotion = (promotionId) => dispatch => {
   });
 }
 
-export const sortPromotion = (promotionOrder) => dispatch => {
+export const sortPromotion = (oldIndex, newIndex) => dispatch => {
   dispatch({
     type: SORT_PROMOTION,
-    promotionOrder
+    oldIndex,
+    newIndex
   });
 }
 
-export const removePromotion = (promotionQueue) => dispatch => {
+export const removePromotion = (promotionId) => dispatch => {
   dispatch({
     type: REMOVE_PROMOTION,
-    promotionQueue
+    promotionId
   });
 }
 
@@ -158,13 +166,6 @@ export const addPromotion = (promotionQueue) => dispatch => {
   });
 }
 
-export const loadCurrentPrice = (promotionId) => dispatch => {
-  dispatch({
-    type: LOAD_CURRENT_PRICE,
-    promotionId
-  })
-}
-
 /*
 * export async packaged dispatch
 */
@@ -172,7 +173,7 @@ export const asyncGetPromotion = () => dispatch => {
   dispatch({
     type: GET_PROMOTION_REQ
   })
-  return fetch("/promo4")
+  return fetch("/promo6")
     .then(response => response.json())
     .then(json => {
       dispatch({
