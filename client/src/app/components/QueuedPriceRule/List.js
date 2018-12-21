@@ -12,8 +12,8 @@ const DragHandle = SortableHandle(() => (
   </span>
 ));
 
-const SortableItem = SortableElement(
-  class extends React.Component{
+// const SortableItem = SortableElement(
+class Item extends React.Component{
     static contextTypes = {
       removePromotion: PropTypes.func
     }    
@@ -25,7 +25,7 @@ const SortableItem = SortableElement(
     render(){
       return(
       <li className="queue-promotion-item">
-        <DragHandle />
+        {/* <DragHandle /> */}
         <button className='ctrl-btn'>
           <span>{this.props.item.name}</span>
           <span>{this.props.item.startDate} - {this.props.item.endDate}</span>
@@ -39,7 +39,7 @@ const SortableItem = SortableElement(
       )
     }
   }
-)
+// )
 
 const SortableList = SortableContainer(({ items, isLoading, errorMsg }) => (
   <div>
@@ -51,7 +51,7 @@ const SortableList = SortableContainer(({ items, isLoading, errorMsg }) => (
     ) : (
       <ul className="queue-promotion-list">
         {items.order.map((ele, index) => (
-          <SortableItem 
+          <Item 
             key={`item-${index}`} 
             index={index} 
             item={items.queue[ele]}  

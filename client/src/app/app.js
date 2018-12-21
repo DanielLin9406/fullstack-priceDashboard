@@ -21,18 +21,30 @@ class App extends Component {
 
   componentDidMount() {
     this.loadPromotionData();
+    this.loadBCPrice();
+    this.loadPGLicense();
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (this.state.profileOrError === null) {
       // At this point, we're in the "commit" phase, so it's safe to load the new data.
-      this.loadPromotionData();
+      // this.loadPromotionData();
+      // this.loadBCPrice();
+      // this.loadPGLicense();
     }
   }
 
   loadPromotionData = () => {
     this.props.asyncGetPromotion();
   }
+  loadBCPrice = () => {
+    this.props.asyncGetBCPrice();
+  }
+  loadPGLicense = () => {
+    this.props.asyncGetLicenseRule();    
+  }
+
+
 }
 
 export default App;

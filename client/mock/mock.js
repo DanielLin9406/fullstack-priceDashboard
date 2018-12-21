@@ -34,39 +34,62 @@ module.exports = function () {
         "1":[
           {
             "promotionId":"1",
-            "sku":"L2001",
-            "name":"BIAS FX Std",
-            "price":"$99",
-            "retailPrice":"$199"             
+            "sku":"L1101",
+            "name":"BIAS AMP Elite",
+            "sale_price":"$99",
+            "price":"$199"             
           }
         ],        
         "2":[
           {
             "promotionId":"2",
-            "sku":"L2001",
-            "name":"BIAS FX Std",
-            "price":"$99",
-            "retailPrice":"$199"
+            "sku":"L1102",
+            "name":"BIAS AMP 2 Pro",
+            "sale_price":"$99",
+            "price":"$199"
           },
           {
             "promotionId":"2",
-            "sku":"L2001",
-            "name":"BIAS FX Std",
-            "price":"$99",
-            "retailPrice":"$199"   
+            "sku":"L1101",
+            "name":"BIAS AMP 2 Elite",
+            "sale_price":"$99",
+            "price":"$199"   
           }     
         ],
         "3":[
           {
             "promotionId":"3",
-            "sku":"L2001",
-            "name":"BIAS FX Std",
-            "price":"$99",
-            "retailPrice":"$199" 
+            "sku":"L1103",
+            "name":"BIAS AMP 2 Std",
+            "sale_price":"$99",
+            "price":"$199" 
           }
         ]
       }
     } 
   };
+  data.priceList = {
+    "status": true,
+    "data": [
+      {
+        "sku": "L1101",
+        "name": "Name of L1101",
+        "sale_price": 149,
+        "price": 299
+      },
+      {
+        "sku": "L1102",
+        "name": "Name of L1102",
+        "sale_price": 99,
+        "price": 199
+      },
+      {
+        "sku": "L1103",
+        "name": "Name of L1103",
+        "sale_price": 49,
+        "price": 99
+      }
+    ]
+  }
   return data;
 }

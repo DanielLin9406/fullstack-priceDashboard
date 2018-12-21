@@ -1,0 +1,38 @@
+
+
+.product-list{
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;  
+  flex-direction: row;
+  list-style: none;
+  padding:0;
+  .product-item{
+    width: 30%;
+  }
+  h2{
+    text-align: center;
+  }
+}
+
+.price-list{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;  
+  padding:0;  
+  .price-item{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    span{
+      text-align: center;
+      // margin:0 0.3rem;
+      min-width: 33%;
+      &:first-child{
+        
+      }
+    }
+  }
+}
