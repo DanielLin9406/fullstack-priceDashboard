@@ -14,6 +14,10 @@ export const GET_PROMOTION_REQ = "promotion/GET_PROMOTION_REQ";
 export const GET_PROMOTION_SUCCESS = "promotion/GET_PROMOTION_SUCCESS";
 export const GET_PROMOTION_FAIL = "promotion/GET_PROMOTION_FAIL";
 
+export const POST_PROMOTION_REQ = "promotion/POST_PROMOTION_REQ";
+export const POST_PROMOTION_SUCCESS = "promotion/POST_PROMOTION_SUCCESS";
+export const POST_PROMOTION_FAIL = "promotion/POST_PROMOTION_FAIL";
+
 export const ADD_PROMOTION_IN_QUEUE = "promotion/ADD_PROMOTION_IN_QUEUE";
 export const APPLY_PROMOTION_ONLIVE = "promotion/APPLY_PROMOTION_ONLIVE";
 
@@ -24,13 +28,15 @@ export const APPLY_PROMOTION_ONLIVE = "promotion/APPLY_PROMOTION_ONLIVE";
 const initialState = {
   isLoading: true,
   errMsg: false,
+  postLoading: true,
+  postResponse: "",
   priceSet: {
     active: "",
     items: {}
   },
   promotion: {
     active: "",
-    onLive:"",
+    onLive: "",
     order: [],
     queue: {} 
   }
@@ -107,6 +113,24 @@ export default (state = initialState, action) => {
           order: nextOrder
         }
       }     
+    case POST_PROMOTION_REQ:
+      return {
+        ...state,
+        postLoading: true,
+        postResponse: "",        
+      }
+    case POST_PROMOTION_SUCCESS:
+      return {
+        ...state,
+        postLoading: false,
+        postResponse: action.postResponse,        
+      } 
+    case POST_PROMOTION_FAIL:
+      return {
+        ...state,
+        postLoading: false,
+        postResponse: action.postResponse, 
+      }
     case ADD_PROMOTION_IN_QUEUE:
       return {
         ...state,
@@ -189,32 +213,67 @@ export const asyncGetPromotion = () => dispatch => {
     })
 }
 
-export const addPromotionInQueue = (order, queue, items, stashPromotionId) => dispatch => {
-  dispatch({
-    type: ADD_PROMOTION_IN_QUEUE,
-    order,
-    queue,
-    items
-  })
+export const applyPromotion = ({order, queue, items, stashPromotionId, param}) => dispatch => {
+  // dispatch({
+  //   type: POST_PROMOTION_REQ,
+  // })
+  if (param === 'queue'){
+    dispatch({
+      type: ADD_PROMOTION_IN_QUEUE,
+      order,
+      queue,
+      items
+    })   
+    dispatch({
+      type: POST_PROMOTION_SUCCESS,
+      postResponse: 200
+    })   
+  } else {
+    dispatch({
+      type: APPLY_PROMOTION_ONLIVE,
+      order,
+      queue,
+      items    
+    })
+    dispatch({
+      type: POST_PROMOTION_SUCCESS,
+      postResponse: 200
+    })      
+  }
 
-  // return fetch("http://intrapi.positivegrid.com/v2/promotions")
-  //   .then(response => response.json())
-  //   .then(json => {
+  // return fetch("http://intrapi.positivegrid.com/v2/promotions", {
+  //     method: 'POST',
+  //     headers: {
+  //       'Accept': 'application/json',
+  //       'Content-Type': 'application/json'
+  //     },
+  //     body: JSON.stringify({})    
+  //   }).then(response => {
+  //     if (response.ok){
+  //       dispatch({
+  //         type: POST_PROMOTION_SUCCESS,
+  //         postResponse: response
+  //       })               
+  //       return response.json()
+  //     }
   //     dispatch({
-  //       type: GET_PROMOTION_SUCCESS,
-  //       promotion: json.promotion,
-  //       priceSet: json.priceSet
-  //     });              
-  //   })
-  //   .catch(() => {
+  //       type: POST_PROMOTION_FAIL,
+  //       postResponse: response
+  //     })      
+  //     return Promise.reject(new Error('error'))
+  //   }).then(json => {
   //     dispatch({
-  //       type: GET_PROMOTION_FAIL
-  //     });      
-  //   })  
-}
-
-export const applyPromotionNow = () => dispatch => {
-  dispatch({
-    type: APPLY_PROMOTION_ONLIVE
-  })
+  //       type: ADD_PROMOTION_IN_QUEUE,
+  //       order,
+  //       queue,
+  //       items
+  //     })   
+  //     return json
+  //   }).catch((error) => {
+  //     dispatch({
+  //       type: POST_PROMOTION_FAIL,
+  //       postResponse: error
+  //     })
+  //     return Promise.reject(new Error(error.message))      
+  //   }) 
 }

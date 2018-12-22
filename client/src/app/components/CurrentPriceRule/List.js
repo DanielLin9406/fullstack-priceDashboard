@@ -27,11 +27,8 @@ class BCPriceList extends Component{
             const priceObj = this.getUpdatedPriceList(ele);
             const updatedPriceObj = {
               price: priceObj ? priceObj.price : ele.price, 
-              sale_price: priceObj ? priceObj.sale_price : ele.sale_price
+              salePrice: priceObj ? priceObj.salePrice : ele.salePrice
             }
-            console.log(this.props.licenseRule[ele.sku]);
-            console.log(ele.sku);
-            console.log(updatedPriceObj);
             return (
               <li 
                 key={`item-${index}`} 

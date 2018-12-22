@@ -2,6 +2,9 @@ import { hot } from "react-hot-loader";
 import React, { Component } from "react";
 
 class ViewPriceRule extends Component{
+  componentDidUpdate(){
+    console.log('priceList', this.props.currentItemPriceList)
+  }
   render(){
     return (
       <div className="row-group-container item-price-list-container">
@@ -15,7 +18,7 @@ class ViewPriceRule extends Component{
                   <p>{ele.name}</p>
                 </div> 
                 <div className="price-container">
-                  <p>${ele.price}</p>
+                  <p>${ele.salePrice}</p>
                 </div> 
                 <div>
                   <button data-index={index} onClick={this.props.rmItem}>X</button>

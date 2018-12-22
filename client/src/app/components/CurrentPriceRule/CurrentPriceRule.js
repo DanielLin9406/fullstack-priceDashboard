@@ -2,6 +2,8 @@ import { hot } from "react-hot-loader";
 import React, { Component } from "react";
 
 import BCPriceList from './List';
+import { testExternalLoading, testExternalMsg } from '../../../shared/testExternalFetch';
+import getStashPromoId from '../../../shared/getStashPromoId';
 
 import './CurrentPriceRule.scss';
 
@@ -17,23 +19,13 @@ class CurrentPriceRule extends Component{
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {  
-    const keyArr = nextProps.promotion.order.map((ele) => {
-      return Number(ele);
-    });
-    const propsStashId = (Math.max(...keyArr)+1).toString();
-    let isLoading = '';
-    if (nextProps.isLoading_scheduledPrice || 
-      nextProps.isLoading_currentBCPrice || 
-      nextProps.isLoading_licenseRule) {
-        isLoading = true;
-    }
-    if (!isLoading){    
+    if (!testExternalLoading(nextProps)){    
       return {
         ...prevState,
         licenseRule: nextProps.licenseRule,
         bcPrice: nextProps.bcPrice,
         priceList: nextProps.priceSet,
-        stashPromotionId: propsStashId,
+        stashPromotionId: getStashPromoId(nextProps),
         isLoading:false,
         currentPromotionId: nextProps.promotion.active,
         errMsg_scheduledPrice: nextProps.errMsg_scheduledPrice,
@@ -72,7 +64,7 @@ class CurrentPriceRule extends Component{
   }
   componentDidUpdate(){
     // 由state變化觸發請求
-    console.log('state', this.state);
+    // console.log('state', this.state);
   }  
 } 
 

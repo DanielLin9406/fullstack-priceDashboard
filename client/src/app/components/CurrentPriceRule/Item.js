@@ -9,7 +9,7 @@ class BCPriceItem extends Component{
   }
 
   getUpdatedPrice = (deduct) => {
-    let updatedPrice = this.props.priceProps.sale_price;
+    let updatedPrice = this.props.priceProps.salePrice;
     if (typeof updatedPrice === 'number'){
       return `$${updatedPrice - deduct}`;
     } else {
@@ -28,7 +28,7 @@ class BCPriceItem extends Component{
           </li>
           <li className="price-item">
             <span>Guest</span>
-            <span>{this.props.priceProps.sale_price}</span>
+            <span>{this.props.priceProps.salePrice}</span>
             <span>{this.props.priceProps.price}</span>
           </li>           
           {this.props.licenseRule.predecessor.map((ele, index) => {
@@ -37,7 +37,7 @@ class BCPriceItem extends Component{
               <li key={index} className="price-item">
                 <span>{ele} User</span>
                 <span>{this.getUpdatedPrice(deduct)}</span>
-                <span>{this.props.priceProps.sale_price}</span>
+                <span>{this.props.priceProps.salePrice}</span>
               </li>              
             )
           })}
