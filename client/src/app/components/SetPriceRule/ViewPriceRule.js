@@ -3,7 +3,7 @@ import React, { Component } from "react";
 
 class ViewPriceRule extends Component{
   componentDidUpdate(){
-    console.log('priceList', this.props.currentItemPriceList)
+    // console.log('priceList', this.props.currentItemPriceList)
   }
   render(){
     return (

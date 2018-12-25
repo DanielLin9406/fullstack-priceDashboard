@@ -2,8 +2,8 @@ module.exports = function () {
   var data = {}
   data.promo6 = {
     "promotion":{
-      "onLive":"1",
-      "active":"2",
+      "onLive":"",
+      "active":"",
       "order":[
         "2", "3"
       ],    
@@ -29,7 +29,7 @@ module.exports = function () {
       }
     },
     "priceSet":{
-      "active":"2",
+      "active":"",
       "items":{
         "1":[
           {
@@ -88,7 +88,13 @@ module.exports = function () {
         "name": "Name of L1103",
         "salePrice": 49,
         "price": 99
-      }
+      },
+      {
+        "sku": "B1011",
+        "name": "Name of B1011",
+        "salePrice": 349,
+        "price": 699
+      }      
     ]
   }
   return data;

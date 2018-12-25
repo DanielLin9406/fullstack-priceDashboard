@@ -25,7 +25,6 @@ class Calendar extends Component {
       return Number(ele);
     });
     const propsStashId = (Math.max(...keyArr)+1).toString();
-    // console.log(nextProps.promotion.order)
     if (prevState.stashPromotionId !== propsStashId){
       const list = nextProps.promotion.queue;
       const events = nextProps.promotion.order.map((ele, index) => {
@@ -91,9 +90,9 @@ class Calendar extends Component {
 
   onEventChange = (event, e) => {
     this.props.loadPromotion(event.promotionId);
-    this.setState({
-      active: event.promotionId
-    })
+    // this.setState({
+    //   active: event.promotionId
+    // })
   }
 }
 

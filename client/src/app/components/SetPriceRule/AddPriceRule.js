@@ -3,7 +3,7 @@ import React, { Component } from "react";
 
 class AddPriceRule extends Component{
   componentDidMount(){
-    console.log('', this.props.bcPriceList);
+    // console.log('', this.props.bcPriceList);
   }
   render(){
     return (
@@ -28,6 +28,7 @@ class AddPriceRule extends Component{
             <button>+</button>
           </div>
         </form>
+        <div>{this.errMsg}</div>
       </div>      
     )
   }

@@ -1,4 +1,3 @@
-
 class License { 
   constructor(rule) {
     this._rule = rule;

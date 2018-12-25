@@ -2,18 +2,16 @@ import { hot } from "react-hot-loader";
 import React, { Component } from "react";
 import PGLicense from '../../../shared/license';
 
+import getPermutations from '../../../shared/getPermutations';
+import formatNumber from '../../../shared/formatNumber';
+import DiscountList from "./DiscountList";
+
 class BCPriceItem extends Component{
   constructor(props){
     super(props)
-    this.license = new PGLicense(props.licenseRule)
-  }
-
-  getUpdatedPrice = (deduct) => {
-    let updatedPrice = this.props.priceProps.salePrice;
-    if (typeof updatedPrice === 'number'){
-      return `$${updatedPrice - deduct}`;
-    } else {
-      return `$${(parseInt(updatedPrice.replace(/\$/, '')) - deduct)}`;
+    this.license = new PGLicense(props.licenseRule);
+    this.state = {
+      checked:[]
     }
   }
 
@@ -28,24 +26,25 @@ class BCPriceItem extends Component{
           </li>
           <li className="price-item">
             <span>Guest</span>
-            <span>{this.props.priceProps.salePrice}</span>
-            <span>{this.props.priceProps.price}</span>
-          </li>           
-          {this.props.licenseRule.predecessor.map((ele, index) => {
-            const deduct = this.license.calculateDeductible([ele])
-            return (
-              <li key={index} className="price-item">
-                <span>{ele} User</span>
-                <span>{this.getUpdatedPrice(deduct)}</span>
-                <span>{this.props.priceProps.salePrice}</span>
-              </li>              
-            )
-          })}
+            <span>{formatNumber(this.props.priceProps).salePrice}</span>
+            <span>{formatNumber(this.props.priceProps).price}</span>
+          </li>
+          <DiscountList
+            sku={this.props.sku}
+            checked={this.state.checked}
+            licenseRule={this.props.licenseRule}
+            priceProps={this.props.priceProps}
+            license={this.license}
+          />
         </ul>
       </div>
     )
   }
+
+
   componentDidUpdate(){
+    // console.log('license', this.props.licenseRule);
+    // this.getAllPermutations(this.props.licenseRule.upgrade);
     // console.log('BCPriceItem', this.props.sku, this.props.licenseRule);
   }  
 }

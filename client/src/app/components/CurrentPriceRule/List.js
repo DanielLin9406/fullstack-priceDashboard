@@ -5,10 +5,11 @@ import BCPriceItem from './Item';
 
 class BCPriceList extends Component{
   componentDidUpdate(){
-    console.log('BCPriceList', this.props.bcPrice);
-    console.log('PrliceList', this.props.priceList)
+    // console.log('BCPriceList', this.props.bcPrice);
+    // console.log('PrliceList', this.props.priceList)
   }
   getUpdatedPriceList = (product) => {
+    if (!this.props.priceList) return null;
     const List = this.props.priceList.filter((ele2) => {
       if (product.sku === ele2.sku) {
         return true
@@ -22,6 +23,12 @@ class BCPriceList extends Component{
   render(){
     return(
       <div>
+        { this.props.currentPromotionId ? (
+            <div>active promotionId: {this.props.currentPromotionId}</div>
+          ) : (
+            <div>Default BC Price List</div>
+          )
+        }
         <ul className="product-list">
           {this.props.bcPrice.map((ele, index) => { // L1101
             const priceObj = this.getUpdatedPriceList(ele);

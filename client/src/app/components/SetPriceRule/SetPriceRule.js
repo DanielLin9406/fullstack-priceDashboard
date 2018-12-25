@@ -33,18 +33,20 @@ class SetPriceRule extends Component{
       queue:{},
       items:[],
       bcPrice:{},
-      isLoading:true,
+      editingStash: true,
+      isLoading: true,
       stashPromotionId: "",
       currentPromotionId: "",
       errMsg_scheduledPrice: "",
-      errMsg_licenseRule: "",      
+      errMsg_licenseRule: "", 
+      errMsg_component:""     
     }
   }
 
   static getDerivedStateFromProps(props, state) {  
     const propsStashId = getStashPromoId(props);
     if (!testExternalLoading(props)){    
-      console.log('propsStashId', propsStashId);
+      // console.log('propsStashId', propsStashId);
       // Promotion added
       if (state.stashPromotionId !== propsStashId){
         console.log('Promotion added')
@@ -53,42 +55,42 @@ class SetPriceRule extends Component{
           isLoading: false,
           bcPrice: props.bcPrice,
           order: props.promotion.order,
-          items: props.priceSet.items,
-          queue: props.promotion.queue,
-          currentPromotionId: props.promotion.active,
+          items: {
+            ...props.priceSet.items,
+            [propsStashId]:[]
+          },
+          queue: {
+            ...props.promotion.queue,
+            [propsStashId]: {
+              promotionId: propsStashId.toString(),
+              name:"",
+              startDate: "",
+              endDate: "",              
+            }
+          },
+          currentPromotionId: propsStashId,
           stashPromotionId: propsStashId,
           errMsg_scheduledPrice: props.errMsg_scheduledPrice,
           errMsg_licenseRule: props.errMsg_licenseRule,            
         }
       } else if (state.currentPromotionId !== props.promotion.active){
         // Change Promotion
-        console.log(state.stashPromotionId)
-        console.log(state.currentPromotionId);
-        console.log(props.promotion.active);
-        console.log(state.editing);
+        // console.log(state.stashPromotionId)
+        // console.log(state.currentPromotionId);
+        // console.log(props.promotion.active);
+        // console.log(state.editingStash);
         console.log('Change Promotion')
-        // if ((state.stashPromotionId === state.currentPromotionId)) {
-        //   return {
-        //     ...state,
-        //     currentPromotionId: state.stashPromotionId,
-        //   }
-        // } else {
-        //   return {
-        //     ...state,
-        //     currentPromotionId: props.promotion.active,
-        //   }          
-        // }
-        if ((state.stashPromotionId === state.currentPromotionId) && !state.editing) {
+        if ((state.stashPromotionId === state.currentPromotionId) && !state.editingStash) {
           return {
             ...state,
             currentPromotionId: state.stashPromotionId,
-            editing: true,
+            editingStash: true,
           }
         } else {
           return {
             ...state,
             currentPromotionId: props.promotion.active,
-            editing: false,
+            editingStash: false,
           }          
         }
       }
@@ -97,7 +99,6 @@ class SetPriceRule extends Component{
   }  
 
   render(){
-    const FORMAT = 'YYYY/MM/DD';
     return (
       <section>
         <h2>Set Price Rule</h2>
@@ -109,53 +110,62 @@ class SetPriceRule extends Component{
               <div>{this.state.errMsg_scheduledPrice}</div>
               <div>{this.state.errMsg_licenseRule}</div>
             </>
+          ) : !this.state.currentPromotionId ? (
+            <div className="component-group-container">
+              No promotion schedule has been selected
+            </div>
           ) : (
-            <div className="row-group-container">
-              <form action="">
-                <div className="row-group-container">
-                  <label htmlFor="">Promotion Name</label>
-                  <input 
-                    onBlur={this.handlePromoName} 
-                    onChange={this.onChangePromoName}
-                    value={this.state.queue[this.state.currentPromotionId].name}
-                    name="promoName" 
-                    type="text" 
-                  />
-                </div>
-                <div className="row-group-container">
-                  <label htmlFor="">From</label>
-                  <DayPickerInput 
-                    value={this.state.queue[this.state.currentPromotionId].startDate}
-                    onDayChange={this.handleStartDateChange}
-                    formatDate={formatDate}
-                    format={FORMAT}                    
-                    parseDate={parseDate}
-                  />
-                </div>
-                <div className="row-group-container">
-                  <label htmlFor="">To</label>
-                  <DayPickerInput 
-                    value={this.state.queue[this.state.currentPromotionId].endDate}
-                    onDayChange={this.handleEndDateChange}
-                    formatDate={formatDate}
-                    format={FORMAT}                    
-                    parseDate={parseDate}                     
-                  />
-                </div>
-
-                <ViewPriceRule 
-                  currentItemPriceList={this.state.items[this.state.currentPromotionId]}
-                  rmItem={this.removeProductFromList}
+            <div className="component-group-container">
+              <div className="row-group-container">
+                <label htmlFor="">Promotion Name</label>
+                <input 
+                  onBlur={this.handlePromoName} 
+                  onChange={this.handlePromoName}
+                  value={this.state.queue[this.state.currentPromotionId].name}
+                  name="promoName" 
+                  type="text" 
                 />
-                <button onClick={(event) => this.onLoadPromotion(event)}>Load unsave edit</button>
-                <button onClick={(event) => this.handleApplyPromo(event, 'queue')}>Add schedule</button>
-                <div>{this.props.postResponse}</div>
-                <button onClick={(event) => this.handleApplyPromo(event, 'onLive')}>Apply rule now</button>
-              </form>
+              </div>
+              <div className="row-group-container">
+                <label htmlFor="">From</label>
+                <DayPickerInput 
+                  value={this.state.queue[this.state.currentPromotionId].startDate}
+                  onDayChange={this.handleStartDateChange}
+                  formatDate={formatDate}
+                  format={'YYYY/MM/DD'}                    
+                  parseDate={parseDate}
+                />
+              </div>
+              <div className="row-group-container">
+                <label htmlFor="">To</label>
+                <DayPickerInput 
+                  value={this.state.queue[this.state.currentPromotionId].endDate}
+                  onDayChange={this.handleEndDateChange}
+                  formatDate={formatDate}
+                  format={'YYYY/MM/DD'}                    
+                  parseDate={parseDate}                     
+                />
+              </div>
+              <ViewPriceRule 
+                currentItemPriceList={this.state.items[this.state.currentPromotionId]}
+                rmItem={this.removeProductFromList}
+              />
+              {!this.state.editingStash ? (
+                <button onClick={(event) => this.onLoadPromotion(event)}>
+                  Add New Promotion
+                </button>
+              ) : 
+                <>
+                  <button onClick={(event) => this.handleApplyPromo(event, 'queue')}>Add schedule</button>
+                  <button onClick={(event) => this.handleApplyPromo(event, 'onLive')}>Apply rule now</button>
+                </>
+              }
+              <div>{this.props.postResponse}</div>
               <AddPriceRule 
                 addItem={this.handleAddItemToList}
                 bcPriceList={this.state.bcPrice}
                 currentPromotionId={this.state.currentPromotionId}
+                errMsg={this.state.errMsg_component}
               />            
             </div>
           )
@@ -171,72 +181,11 @@ class SetPriceRule extends Component{
     console.log('state', this.state);   
   }  
 
-  onLoadPromotion = (event) => {
-    event.preventDefault();
-    const key = this.state.stashPromotionId;
-    if (this.state.items[key]){
-      this.setState({
-        currentPromotionId: key,
-        editing: false,
-        queue:{
-          ...this.state.queue,
-          [key]:{
-            promotionId: key.toString(),
-            name:"",
-            startDate: "",
-            endDate: "",
-            ...this.state.queue[key]
-          }
-        },
-        items:{
-          ...this.state.items,
-          [key]: this.state.items[key]
-        }      
-      });    
-    } else {
-      this.setState({
-        currentPromotionId: key,
-        editing: false,
-        queue:{
-          ...this.state.queue,
-          [key]:{
-            promotionId: key.toString(),
-            name:"",
-            startDate: "",
-            endDate: "",
-            ...this.state.queue[key]
-          }
-        },
-        items:{
-          ...this.state.items,
-          [key]: []
-        }      
-      });       
-    }
-  }
-
-  handleApplyPromo = (event, param) => {
-    event.preventDefault();
-    const key = this.state.stashPromotionId;
-    if (!this.testScheduleComplete(key)) return;
-    this.setState({
-      order: this.state.order.push(key)
-    })
-    this.props.applyPromotion({
-      order: this.state.order, 
-      queue: this.state.queue,
-      items: this.state.items,
-      stashPromotionId: this.state.stashPromotionId,
-      param: param
-    }
-    );
-  }
-
   testScheduleComplete = (key) => {
     // queue and item has stashPromotionId => starting edit
-    if (this.state.items.hasOwnProperty(key) && this.state.queue.hasOwnProperty(key)){
+    if (this.state.items.hasOwnProperty(key) && this.state.items[key].length>0){
       return true;
-    }
+    }   
     return false;
   }
 
@@ -251,8 +200,17 @@ class SetPriceRule extends Component{
     })
   }
 
-  addProductIntoList = (event) => {
+  onLoadPromotion = (event) => {
+    event.preventDefault();
     const key = this.state.stashPromotionId;
+    this.setState({
+      currentPromotionId: key,
+      editingStash: false,     
+    });
+  }
+
+  addProductIntoList = (event) => {
+    const key = this.state.currentPromotionId;
     const data = new FormData(event.currentTarget);
     const items = this.state.items[key];
     const [sku, name, price] = data.get('productDetails').split('-');   
@@ -274,7 +232,7 @@ class SetPriceRule extends Component{
 
   removeProductFromList = (event) => {
     event.preventDefault();
-    const key = this.state.stashPromotionId;
+    const key = this.state.currentPromotionId;
     const itemIndex = event.currentTarget.dataset.index;
     this.setState({
       items:{
@@ -284,65 +242,59 @@ class SetPriceRule extends Component{
     })
   }
 
+  handleApplyPromo = (event, param) => {
+    event.preventDefault();
+    const key = this.state.stashPromotionId;
+    if (!this.testScheduleComplete(key)) return;
+    this.setState({
+      order: this.state.order.push(key),
+    })
+    this.props.applyPromotion({
+      order: this.state.order, 
+      queue: this.state.queue,
+      items: this.state.items,
+      stashPromotionId: this.state.stashPromotionId,
+      param: param
+    }
+    );
+  }
+
   handleAddItemToList = (event) => {
     event.preventDefault();
     this.addProductIntoList(event)
-    const key = this.state.stashPromotionId;
+    const key = this.state.currentPromotionId;
     this.setState({
       currentPromotionId: key,
-      editing: false,
+      editingStash: false,
       queue:{
         ...this.state.queue,
         [key]:{
-          promotionId: key.toString(),
-          name:"",
-          startDate: "",
-          endDate: "",
           ...this.state.queue[key]
         }
       }     
     });     
   }
 
-  onChangePromoName = (event) => {
+  handlePromoName = (event) => {
     event.preventDefault();
     const key = this.state.currentPromotionId;
-    this.setState({
-      editing: false,
-      queue:{
-        ...this.state.queue,
-        [key]:{
-          ...this.state.queue[key],
-          name: event.target.value
-        }
-      }
-    });
-  }
-
-  handlePromoName = (event) => {
-    const key = this.state.stashPromotionId;
     this.setState({   
-      editing: false,
+      editingStash: false,
       queue:{
         ...this.state.queue,
         [key]:{
           ...this.state.queue[key],
-          promotionId: key.toString(),
           name:event.currentTarget.value
         }
-      },
-      items:{
-        ...this.state.items,
-        [key]:[]
       }
     })
   }
 
   handleStartDateChange = (day) => {
-    const formatDay = moment(day).format('YYYY/MM/DD')
-    const key = this.state.stashPromotionId;
+    const formatDay = moment(day).format('YYYY/MM/DD');
+    const key = this.state.currentPromotionId;
     this.setState({
-      editing: false,
+      editingStash: false,
       queue:{
         ...this.state.queue,
         [key]:{
@@ -350,18 +302,14 @@ class SetPriceRule extends Component{
           promotionId: key.toString(),
           startDate: formatDay,
         }
-      },
-      items:{
-        ...this.state.items,
-        [key]:[]
-      }      
+      }    
     })
   }
   handleEndDateChange = (day) => {
     const formatDay = moment(day).format('YYYY/MM/DD')
-    const key = this.state.stashPromotionId;
+    const key = this.state.currentPromotionId;
     this.setState({
-      editing: false,
+      editingStash: false,
       queue:{
         ...this.state.queue,
         [key]:{
@@ -369,11 +317,7 @@ class SetPriceRule extends Component{
           promotionId: key.toString(),
           endDate: formatDay,
         }
-      },
-      items:{
-        ...this.state.items,
-        [key]:[]
-      }      
+      }    
     })
   }
 }
