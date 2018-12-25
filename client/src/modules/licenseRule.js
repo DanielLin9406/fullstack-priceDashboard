@@ -66,7 +66,7 @@ export const asyncGetLicenseRule = () => dispatch => {
     type: GET_PG_LICENSE_REQ
   })  
 
-  return fetch("https://pg-api-staging.herokuapp.com/api/bigcommerce/guest")
+  return fetch("")
     .then(response => {
       if (response.ok){
         return response.json()

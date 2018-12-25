@@ -241,7 +241,7 @@ export const applyPromotion = ({order, queue, items, stashPromotionId, param}) =
     })      
   }
 
-  // return fetch("http://intrapi.positivegrid.com/v2/promotions", {
+  // return fetch("", {
   //     method: 'POST',
   //     headers: {
   //       'Accept': 'application/json',
