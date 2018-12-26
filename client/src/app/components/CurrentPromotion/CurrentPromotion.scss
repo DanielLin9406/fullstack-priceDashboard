@@ -1,4 +1,8 @@
 .current-promotion{
+  flex-direction: column;
+  .component-group-container{
+    margin-bottom:1rem;
+  }
   p{
     span{
       margin:0 0.2rem;

@@ -22,13 +22,7 @@ class BCPriceList extends Component{
 
   render(){
     return(
-      <div>
-        { this.props.currentPromotionId ? (
-            <div>active promotionId: {this.props.currentPromotionId}</div>
-          ) : (
-            <div>Default BC Price List</div>
-          )
-        }
+      <>
         <ul className="product-list">
           {this.props.bcPrice.map((ele, index) => { // L1101
             const priceObj = this.getUpdatedPriceList(ele);
@@ -42,7 +36,7 @@ class BCPriceList extends Component{
                 index={index}
                 className="product-item"
               >
-                <h2>{ele.name}</h2>
+                <h3>{ele.name}</h3>
                 <BCPriceItem
                   licenseRule={this.props.licenseRule[ele.sku]}
                   sku={ele.sku}
@@ -52,7 +46,7 @@ class BCPriceList extends Component{
             )
           })}     
         </ul>
-      </div>
+      </>
     )
   }
 }

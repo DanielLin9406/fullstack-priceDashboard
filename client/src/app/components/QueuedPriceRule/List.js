@@ -16,7 +16,8 @@ const DragHandle = SortableHandle(() => (
 class Item extends React.Component{
     static contextTypes = {
       removePromotion: PropTypes.func,
-      loadPromotion: PropTypes.func
+      loadPromotion: PropTypes.func,
+      active: PropTypes.string
     }    
 
     removePromotion = (event) => {
@@ -29,15 +30,18 @@ class Item extends React.Component{
 
     render(){
       return(
-      <li className="queue-promotion-item">
+      <li className={
+        this.context.active === this.props.item.promotionId ? 'queue-promotion-item active' : 'queue-promotion-item'
+      }
+      >
         {/* <DragHandle /> */}
         <button 
           className="ctrl-btn"
           id={this.props.item.promotionId}
           onClick={this.loadPromotion}
         >
-          <span>{this.props.item.name}</span>
-          <span>{this.props.item.startDate} - {this.props.item.endDate}</span>
+          <span className="promo-name">{this.props.item.name}</span>
+          <span className="promo-period">{this.props.item.startDate} - {this.props.item.endDate}</span>
         </button>
         <button 
           className='ctrl-btn close-btn'
@@ -51,7 +55,7 @@ class Item extends React.Component{
 // )
 
 const SortableList = SortableContainer(({ items, isLoading, errorMsg }) => (
-  <div>
+  <>
     <div className="queue-promotion">
     {isLoading ? (
       "请求信息中......"
@@ -69,7 +73,7 @@ const SortableList = SortableContainer(({ items, isLoading, errorMsg }) => (
       </ul>      
     )}
     </div>
-  </div>
+  </>
 ))
 
 export default hot(module)(SortableList)

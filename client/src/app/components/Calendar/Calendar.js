@@ -7,6 +7,24 @@ import "./Calendar.scss";
 
 const localizer = BigCalendar.momentLocalizer(moment) 
 
+let allViews = Object.keys(BigCalendar.Views).filter(e => {
+  if (e === 'MONTH'){
+    return true
+  } else {
+    return false
+  }
+}).map(k => BigCalendar.Views[k])
+
+let navigator = Object.keys(BigCalendar.Navigate).filter( e => {
+  if ((e === 'NEXT') || (e === 'PREVIOUS')){
+    return true
+  } else {
+    return false
+  }
+})
+
+console.log('view', BigCalendar.Navigate)
+
 class Calendar extends Component {
   constructor(props){
     super(props);
@@ -62,6 +80,8 @@ class Calendar extends Component {
               onSelectEvent={this.onEventChange}
               startAccessor="start"
               endAccessor="end"
+              views={allViews}
+              navigate={navigator}
             />
           )
         }

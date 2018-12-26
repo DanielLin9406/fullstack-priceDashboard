@@ -50,8 +50,18 @@ class CurrentPriceRule extends Component{
   render(){
     return (
       <section className="current-price-rule">
-        <h2>Current Price Rule</h2>
-        <button onClick={this.loadDefaultPriceList}>Load Default Price List</button>
+        <h2>Selected Promotion Price List</h2>
+        <div className="section-state">
+          { this.state.currentPromotionId ? (
+            <>
+              <div className="current">Promotion Name: <span>{this.props.promotion.queue[this.state.currentPromotionId].name}</span></div>
+              <button className="load-default-btn" onClick={this.loadDefaultPriceList}>Load Default Price List</button>
+            </>
+            ) : (
+              <div className="current">Default BC Price List</div>
+            )
+          }        
+        </div>
         {
           this.state.isLoading 
           ? (
@@ -62,14 +72,6 @@ class CurrentPriceRule extends Component{
               <div>{this.state.errMsg_scheduledPrice}</div>
               <div>{this.state.errMsg_licenseRule}</div>
             </>
-          // ) : !this.state.currentPromotionId ? (
-          //   <div className="component-group-container">
-          //     <p>Default BC Price List</p>
-          //     <BCPriceList 
-          //       bcPrice={this.state.bcPrice}
-          //       licenseRule={this.state.licenseRule}
-          //     />              
-          //   </div>
           ) : (
             <div className="component-group-container">
               <BCPriceList 
@@ -86,7 +88,7 @@ class CurrentPriceRule extends Component{
   }
   componentDidUpdate(){
     // 由state變化觸發請求
-    // console.log('state', this.state);
+    console.log('state', this.state);
   } 
   loadDefaultPriceList = () => {
     this.setState({

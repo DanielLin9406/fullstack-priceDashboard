@@ -9,12 +9,14 @@ import './QueuePriceRule.scss';
 class QueuePriceRule extends Component{
   static childContextTypes = {
     removePromotion: PropTypes.func,
-    loadPromotion:  PropTypes.func
+    loadPromotion:  PropTypes.func,
+    active: PropTypes.string
   }
   getChildContext() {
     return {
       removePromotion: this.props.removePromotion,
-      loadPromotion: this.props.loadPromotion
+      loadPromotion: this.props.loadPromotion,
+      active: this.props.promotion.active
     }
   }
   onSortEnd = ({ oldIndex, newIndex, collection }, e) => {
@@ -23,7 +25,7 @@ class QueuePriceRule extends Component{
   render(){
     return(
       <section className="queue-price-rule">
-        <h2>Promotion Schedule Queue</h2>
+        <h2>Schedule Queue</h2>
         <div className="component-group-container">
           <SortableList 
             onSortEnd={this.onSortEnd}

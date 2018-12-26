@@ -13,7 +13,7 @@ class CurrentPromotion extends Component {
   render(){
     return(
       <section className="current-promotion">
-        <h2>Price on Live</h2>
+        <h2>Promotion Schedule on Live</h2>
         {this.props.isLoading ? (
           "请求信息中......"
         ) : this.props.errorMsg ? (

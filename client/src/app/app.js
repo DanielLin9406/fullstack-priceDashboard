@@ -5,15 +5,17 @@ import QueuePriceRule from "./components/QueuedPriceRule/Container";
 import CurrentPromotion from "./components/CurrentPromotion/Container";
 import SetPriceRule from "./components/SetPriceRule/Container";
 
+import './app.scss';
+
 class App extends Component {
 
   render() {
     return (
       <div id="app">
-        <Calendar /> 
         <CurrentPromotion />
-        <QueuePriceRule />
+        <Calendar /> 
         <SetPriceRule />
+        <QueuePriceRule />
         <CurrentPriceRule />
       </div>
     );

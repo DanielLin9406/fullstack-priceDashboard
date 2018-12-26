@@ -2,19 +2,12 @@ import { hot } from "react-hot-loader";
 import React, { Component } from "react";
 import formatNumber from '../../../shared/formatNumber';
 import getUpdatedPrice from '../../../shared/getUpdatedPrice';
+import testBundle from '../../../shared/testBundle';
 
 class DiscountList extends Component {
   state = {
     checked:{},
     decoratorArr:[]
-  }
-
-  testBundle = (sku) => {
-    const reg = /^B/;
-    if (reg.test(sku)){
-      return true;
-    }
-    return false;
   }
 
   initStateObj = () => {
@@ -48,30 +41,21 @@ class DiscountList extends Component {
       const decoratorArr = this.state.decoratorArr;
       decoratorArr.push(sku);
       this.setState({
-        decoratorArr
+        decoratorArr: decoratorArr
+      }, ()=> {
+        this.props.renderDiscountPrice(this.state.decoratorArr)
       })
     } else {
-      this.setState((state) => ({
-        decoratorArr: state.decoratorArr.filter((ele) => ele !== sku)
-      }))      
+      this.setState({
+        decoratorArr: this.state.decoratorArr.filter((ele) => ele !== sku)
+      }, () => {
+        this.props.renderDiscountPrice(this.state.decoratorArr)
+      })      
     } 
   }
 
-  renderDiscountPrice = (decoratorArr) => {
-    const deduct = this.props.license.calculateDeductible(decoratorArr);
-    return (
-      <li className="price-item">
-        <span>
-          user's discount price
-        </span>
-        <span>{getUpdatedPrice(this.props.priceProps, deduct)}</span>
-        <span></span>
-      </li>              
-    )
-  }
-
   componentDidUpdate(){
-    // console.log('discount', this.state);
+    console.log('discount', this.state);
   }
 
   componentDidMount(){
@@ -81,21 +65,21 @@ class DiscountList extends Component {
   render(){
     return (
       <>
-        {this.testBundle(this.props.sku) ? (
+        {testBundle(this.props.sku) ? (
           // Bundle
           this.getKeyArr(this.props.licenseRule.upgrade).map((ele, index) => {
             return (
               <li key={index} className="price-item">
-                <span>{ele} Owner</span>
-                <span>
+                <p className="price-item-user"><span>{ele}</span></p>
+                <p className="price-item-checkbox">
                   <input 
                     data-sku={ele} 
                     onChange={this.onChangeCheckBox} 
                     value={this.state.checked[ele]}
                     type="checkbox"
                   />
-                </span>
-                <span></span>
+                </p>
+                <p></p>
               </li>
             )
           })
@@ -105,18 +89,13 @@ class DiscountList extends Component {
             const deduct = this.props.license.calculateDeductible([ele])
             return (
               <li key={index} className="price-item">
-                <span>{ele} User</span>
-                <span>{getUpdatedPrice(this.props.priceProps, deduct)}</span>
-                <span>{formatNumber(this.props.priceProps).salePrice}</span>
+                <p className="price-item-user"><span>{ele}</span></p>
+                <p className="price-item-sale-price"><span>{getUpdatedPrice(this.props.priceProps, deduct)}</span></p>
+                <p className="price-item-price"><span>{formatNumber(this.props.priceProps).salePrice}</span></p>
               </li>              
             )
           })
         )}
-        
-        { this.testBundle(this.props.sku) ? (
-          this.renderDiscountPrice(this.state.decoratorArr)) 
-          : ''
-        }
       </>
     )
   }

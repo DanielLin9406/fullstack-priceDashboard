@@ -100,7 +100,7 @@ class SetPriceRule extends Component{
 
   render(){
     return (
-      <section>
+      <section className="set-price-rule">
         <h2>Set Price Rule</h2>
         {this.state.isLoading ? (
           "请求信息中......"
