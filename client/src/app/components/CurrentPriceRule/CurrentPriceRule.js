@@ -88,7 +88,7 @@ class CurrentPriceRule extends Component{
   }
   componentDidUpdate(){
     // 由state變化觸發請求
-    console.log('state', this.state);
+    // console.log('state', this.state);
   } 
   loadDefaultPriceList = () => {
     this.setState({

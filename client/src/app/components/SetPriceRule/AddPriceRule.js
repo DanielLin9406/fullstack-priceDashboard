@@ -7,9 +7,8 @@ class AddPriceRule extends Component{
   }
   render(){
     return (
-      <div className="row-group-container add-item-price-container">
+      <div className="add-item-price-container">
         <form onSubmit={this.props.addItem}>
-          <div>Current Promotion Id: {this.props.currentPromotionId}</div>
           <div className="item-container">
             <label htmlFor="">Product Name</label>
             <select name="productDetails" id="productDetails">
@@ -24,8 +23,8 @@ class AddPriceRule extends Component{
             <label htmlFor="salePrice">SalePrice</label>
             <input id="salePrice" name="salePrice" type="text"/>
           </div>
-          <div>
-            <button>+</button>
+          <div className="add-item-container">
+            <button><span>+</span></button>
           </div>
         </form>
         <div>{this.errMsg}</div>

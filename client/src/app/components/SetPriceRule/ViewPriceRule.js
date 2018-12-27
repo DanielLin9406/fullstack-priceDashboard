@@ -7,20 +7,20 @@ class ViewPriceRule extends Component{
   }
   render(){
     return (
-      <div className="row-group-container item-price-list-container">
-        <ul>
+      <div className="item-price-list-container">
+        <ul className="item-price-list">
         {
           this.props.currentItemPriceList ? 
           this.props.currentItemPriceList.map((ele, index) => {
             return (
-              <li key={index}>
+              <li key={index} className="item-price-item">
                 <div className="item-container">
                   <p>{ele.name}</p>
                 </div> 
                 <div className="price-container">
                   <p>${ele.salePrice}</p>
                 </div> 
-                <div>
+                <div className="remove-container">
                   <button data-index={index} onClick={this.props.rmItem}>X</button>
                 </div>
               </li>                                         

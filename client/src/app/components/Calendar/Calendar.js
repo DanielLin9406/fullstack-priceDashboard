@@ -23,8 +23,6 @@ let navigator = Object.keys(BigCalendar.Navigate).filter( e => {
   }
 })
 
-console.log('view', BigCalendar.Navigate)
-
 class Calendar extends Component {
   constructor(props){
     super(props);
@@ -38,14 +36,15 @@ class Calendar extends Component {
     }
   }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    const keyArr = nextProps.promotion.order.map((ele) => {
+  static getDerivedStateFromProps(props, state) {
+    const keyArr = props.promotion.order.map((ele) => {
       return Number(ele);
     });
     const propsStashId = (Math.max(...keyArr)+1).toString();
-    if (prevState.stashPromotionId !== propsStashId){
-      const list = nextProps.promotion.queue;
-      const events = nextProps.promotion.order.map((ele, index) => {
+    if (state.stashPromotionId !== propsStashId){
+      const list = props.promotion.queue;
+      const events = props.promotion.order.map((ele, index) => {
+        console.log('index', index);
         return {
           id: index,
           promotionId: list[ele].promotionId,
@@ -56,8 +55,8 @@ class Calendar extends Component {
         }
       })
       return {
-        order: nextProps.promotion.order,
-        queue: nextProps.promotion.queue,
+        order: props.promotion.order,
+        queue: props.promotion.queue,
         stashPromotionId: propsStashId,
         events: events
       }
@@ -89,7 +88,7 @@ class Calendar extends Component {
     )
   }
 
-  // getSnapshotBeforeUpdate(nextProps, prevState){
+  // getSnapshotBeforeUpdate(props, state){
   //   return null
   // }
 
@@ -101,18 +100,14 @@ class Calendar extends Component {
   
   componentDidUpdate(){
     // 由state變化觸發請求
-    // console.log('state', this.state);   
+    console.log('state', this.state);   
   }
 
   componentWillUnmount(){
 
   }
-
   onEventChange = (event, e) => {
     this.props.loadPromotion(event.promotionId);
-    // this.setState({
-    //   active: event.promotionId
-    // })
   }
 }
 

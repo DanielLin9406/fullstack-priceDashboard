@@ -20,12 +20,8 @@ class BCPriceItem extends Component{
   }
 
   renderDiscountPrice = (decoratorArr) => {
-    console.log(decoratorArr);
     const deduct = this.license.calculateDeductible(decoratorArr);
-    console.log('deduct', deduct);
-    console.log('call renderDiscountPrice')
     const revisedPrice = getUpdatedPrice(this.props.priceProps, deduct);
-    console.log('revisedPrice', revisedPrice)
     this.setState(() => ({
       discountPrice: revisedPrice
     }))
@@ -69,7 +65,7 @@ class BCPriceItem extends Component{
 
 
   componentDidUpdate(){
-    console.log('discountPrice', this.state.discountPrice);
+    // console.log('discountPrice', this.state.discountPrice);
     // console.log('license', this.props.licenseRule);
     // this.getAllPermutations(this.props.licenseRule.upgrade);
     // console.log('BCPriceItem', this.props.sku, this.props.licenseRule);

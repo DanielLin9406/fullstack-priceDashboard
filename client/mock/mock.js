@@ -36,8 +36,8 @@ module.exports = function () {
             "promotionId":"1",
             "sku":"L1101",
             "name":"BIAS AMP Elite",
-            "salePrice":"$99",
-            "price":"$199"             
+            "salePrice":99,
+            "price":199             
           }
         ],        
         "2":[
@@ -45,15 +45,15 @@ module.exports = function () {
             "promotionId":"2",
             "sku":"L1102",
             "name":"BIAS AMP 2 Pro",
-            "salePrice":"$99",
-            "price":"$199"
+            "salePrice":99,
+            "price":199
           },
           {
             "promotionId":"2",
             "sku":"L1101",
             "name":"BIAS AMP 2 Elite",
-            "salePrice":"$99",
-            "price":"$199"   
+            "salePrice":99,
+            "price":199   
           }     
         ],
         "3":[
@@ -61,8 +61,8 @@ module.exports = function () {
             "promotionId":"3",
             "sku":"L1103",
             "name":"BIAS AMP 2 Std",
-            "salePrice":"$99",
-            "price":"$199" 
+            "salePrice":99,
+            "price":199 
           }
         ]
       }

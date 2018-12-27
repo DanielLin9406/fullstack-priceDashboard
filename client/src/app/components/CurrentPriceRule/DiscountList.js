@@ -55,7 +55,7 @@ class DiscountList extends Component {
   }
 
   componentDidUpdate(){
-    console.log('discount', this.state);
+    // console.log('discount', this.state);
   }
 
   componentDidMount(){
