@@ -1,52 +1,26 @@
+import { hot } from "react-hot-loader";
 import React, { Component } from "react";
-import Calendar from './components/Calendar/Container';
-import CurrentPriceRule from './components/CurrentPriceRule/Container';
-import QueuePriceRule from "./components/QueuedPriceRule/Container";
-import CurrentPromotion from "./components/CurrentPromotion/Container";
-import SetPriceRule from "./components/SetPriceRule/Container";
+import { Switch } from 'react-router-dom'
+import ConsoleRoute from './routes/ConsoleRoute/Container'
+import LoginRoute from './routes/LoginRoute/Container'
+import SecuredRoute from './routes/SecuredRoute/Container'
 
-import './app.scss';
+import './App.scss';
 
 class App extends Component {
-
+  componentDidCatch(error, info) {
+    // logError(error, { extra: info })
+  }
   render() {
     return (
       <div id="app">
-        <CurrentPromotion />
-        <Calendar /> 
-        <SetPriceRule />
-        <QueuePriceRule />
-        <CurrentPriceRule />
+        <Switch>
+          <LoginRoute />
+          <SecuredRoute component={ConsoleRoute} />
+        </Switch>
       </div>
     );
   }
-
-  componentDidMount() {
-    this.loadPromotionData();
-    this.loadBCPrice();
-    this.loadPGLicense();
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.profileOrError === null) {
-      // At this point, we're in the "commit" phase, so it's safe to load the new data.
-      // this.loadPromotionData();
-      // this.loadBCPrice();
-      // this.loadPGLicense();
-    }
-  }
-
-  loadPromotionData = () => {
-    this.props.asyncGetPromotion();
-  }
-  loadBCPrice = () => {
-    this.props.asyncGetBCPrice();
-  }
-  loadPGLicense = () => {
-    this.props.asyncGetLicenseRule();    
-  }
-
-
 }
 
-export default App;
+export default hot(module)(App);

@@ -18,7 +18,7 @@ class ViewPriceRule extends Component{
                   <p>{ele.name}</p>
                 </div> 
                 <div className="price-container">
-                  <p>${ele.salePrice}</p>
+                  <p>{ele.salePrice}</p>
                 </div> 
                 <div className="remove-container">
                   <button data-index={index} onClick={this.props.rmItem}>X</button>

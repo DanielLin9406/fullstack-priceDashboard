@@ -6,9 +6,11 @@
     box-shadow: none;
   }  
 }
+html{
+  background:rgba(40, 40, 40, 0.8);
+}
 
 #root{
-  background:rgba(40, 40, 40, 0.8);
 }
 
 #app{
@@ -34,10 +36,14 @@ section{
 }
 
 .current-promotion{
-  flex:0 0 98%;
+  flex:0 0 73%;
   display: flex;
   align-items: center;
   justify-content: center;  
+}
+
+.user-section{
+  flex:0 0 23%;
 }
 
 .calendar-container{
@@ -62,13 +68,22 @@ section{
   flex: 0 0 73%;
 }
 
+.loading-container{
+  text-align: center;
+  margin-top:1rem;
+  margin-bottom:1rem;
+  div{
+    margin:auto;
+  }
+}
+
 h2{
   background:#fff;
   font-size: 1.3rem;
   display: block;
   padding: 8px 0;
   margin-top:0;
-  margin-bottom:2%;
+  margin-bottom:1rem;
   width:100%;
   border-bottom: 2px solid #f4f4f4;
 }

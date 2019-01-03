@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import formatNumber from '../../../shared/formatNumber';
 import getUpdatedPrice from '../../../shared/getUpdatedPrice';
 import testBundle from '../../../shared/testBundle';
+import getDefaultPrice from "../../../shared/getDefaultPrice";
 
 class DiscountList extends Component {
   state = {
@@ -55,7 +56,7 @@ class DiscountList extends Component {
   }
 
   componentDidUpdate(){
-    // console.log('discount', this.state);
+    console.log('price', this.props.priceProps);
   }
 
   componentDidMount(){
@@ -90,9 +91,16 @@ class DiscountList extends Component {
             return (
               <li key={index} className="price-item">
                 <p className="price-item-user"><span>{ele}</span></p>
-                <p className="price-item-sale-price"><span>{getUpdatedPrice(this.props.priceProps, deduct)}</span></p>
-                <p className="price-item-price"><span>{formatNumber(this.props.priceProps).salePrice}</span></p>
-              </li>              
+                <p className={this.props.priceProps.isModPrice ? "price-item-sale-price mod-price" : "price-item-sale-price" }><span>{getUpdatedPrice(this.props.priceProps, deduct)}</span></p>
+                <p className={this.props.priceProps.isModPrice ? "price-item-price mod-price" : "price-item-price" }><span>{formatNumber(this.props.priceProps).salePrice}</span></p>
+                {this.props.priceProps.isModPrice && (
+                  <>
+                  <p className="price-item-user"><span></span></p>
+                  <p className="price-item-default-sale-price"><span>def: {getDefaultPrice(this.props.priceProps, deduct)}</span></p>
+                  <p className="price-item-default-price"><span>def: {formatNumber(this.props.priceProps).defaultSalePrice}</span></p>
+                  </>
+                )}
+              </li>             
             )
           })
         )}

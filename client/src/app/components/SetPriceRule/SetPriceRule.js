@@ -236,7 +236,7 @@ class SetPriceRule extends Component{
     if (!this.testProductInItem(key, sku)) return;
     items.push({
       name: name,
-      salePrice: data.get('salePrice'),
+      salePrice: `$${data.get('salePrice')}`,
       promotionId: key.toString(),
       price: `$${price}`,
       sku: sku

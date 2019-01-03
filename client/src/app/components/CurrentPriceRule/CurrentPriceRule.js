@@ -1,7 +1,7 @@
 import { hot } from "react-hot-loader";
 import React, { Component } from "react";
 
-import BCPriceList from './List';
+import ProductList from './ProductList';
 import { testExternalLoading, testExternalMsg } from '../../../shared/testExternalFetch';
 import getStashPromoId from '../../../shared/getStashPromoId';
 
@@ -74,7 +74,7 @@ class CurrentPriceRule extends Component{
             </>
           ) : (
             <div className="component-group-container">
-              <BCPriceList 
+              <ProductList 
                 currentPromotionId={this.state.currentPromotionId}
                 bcPrice={this.state.bcPrice}
                 licenseRule={this.state.licenseRule}
@@ -94,6 +94,7 @@ class CurrentPriceRule extends Component{
     this.setState({
       isDefaultPrice: false,
     })
+    this.props.loadDefaultPromotion();
   }
 } 
 

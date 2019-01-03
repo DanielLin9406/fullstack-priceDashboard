@@ -1,7 +1,7 @@
 import { hot } from "react-hot-loader";
 import React, { Component } from "react";
 
-import BCPriceItem from './Item';
+import ProductItem from './ProductItem';
 
 class BCPriceList extends Component{
   componentDidUpdate(){
@@ -28,7 +28,10 @@ class BCPriceList extends Component{
             const priceObj = this.getUpdatedPriceList(ele);
             const updatedPriceObj = {
               price: priceObj ? priceObj.price : ele.price, 
-              salePrice: priceObj ? priceObj.salePrice : ele.salePrice
+              salePrice: priceObj ? priceObj.salePrice : ele.salePrice,
+              defaultPrice: ele.price,
+              defaultSalePrice: ele.salePrice,
+              isModPrice: priceObj ? true : false,
             }
             return (
               <li 
@@ -37,7 +40,8 @@ class BCPriceList extends Component{
                 className="product-item"
               >
                 <h3>{ele.name}</h3>
-                <BCPriceItem
+                <ProductItem
+                  currentPromotionId={this.props.currentPromotionId}
                   licenseRule={this.props.licenseRule[ele.sku]}
                   sku={ele.sku}
                   priceProps={updatedPriceObj}

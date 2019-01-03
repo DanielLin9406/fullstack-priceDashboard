@@ -5,7 +5,7 @@ module.exports = function () {
       "onLive":"",
       "active":"",
       "order":[
-        "2", "3"
+        "4", "2", "3"
       ],    
       "queue":{
         "1":{
@@ -25,6 +25,12 @@ module.exports = function () {
           "name":"Chrimas Promotion",
           "startDate":"2018/12/15",
           "endDate":"2018/12/22"
+        },             
+        "4":{
+          "promotionId":"4",
+          "name":"New Year Promotion",
+          "startDate":"2018/12/30",
+          "endDate":"2019/01/15"
         }                      
       }
     },
@@ -38,7 +44,7 @@ module.exports = function () {
             "name":"BIAS AMP Elite",
             "salePrice":99,
             "price":199             
-          }
+          }        
         ],        
         "2":[
           {
@@ -54,16 +60,39 @@ module.exports = function () {
             "name":"BIAS AMP 2 Elite",
             "salePrice":99,
             "price":199   
-          }     
+          },
+          {
+            "promotionId":"2",
+            "sku":"B1011",
+            "name":"Bundle",
+            "salePrice":299,
+            "price":699             
+          }               
         ],
         "3":[
           {
             "promotionId":"3",
             "sku":"L1103",
             "name":"BIAS AMP 2 Std",
-            "salePrice":99,
-            "price":199 
+            "salePrice":49,
+            "price":99 
           }
+        ],
+        "4":[
+          {
+            "promotionId":"2",
+            "sku":"L1101",
+            "name":"BIAS AMP 2 Elite",
+            "salePrice":99,
+            "price":199   
+          },
+          {
+            "promotionId":"2",
+            "sku":"B1011",
+            "name":"Bundle",
+            "salePrice":299,
+            "price":699             
+          } 
         ]
       }
     } 

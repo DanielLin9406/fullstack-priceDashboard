@@ -1,16 +1,16 @@
-const merge = require("webpack-merge");
-const webpack = require("webpack");
-const env = process.env.NODE_ENV || "production";
+import merge from "webpack-merge";
+import webpack from "webpack";
 
-const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
-const CleanWebpackPlugin = require("clean-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const WebpackAssetsManifest = require("webpack-assets-manifest");
+import UglifyJSPlugin from "uglifyjs-webpack-plugin";
+import CleanWebpackPlugin from "clean-webpack-plugin";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import WebpackAssetsManifest from "webpack-assets-manifest";
 
-const commonConfig = require("./webpack.config.common.js");
-const variables = require("./webpack.variables");
+import commonConfig from "./webpack.config.common.js";
+import env from "./webpack.env";
 
 const publicConfig = {
+  mode: 'production',
   module: {
     rules: [
       {
@@ -41,7 +41,7 @@ const publicConfig = {
   plugins: [
     new CleanWebpackPlugin(["build/*.*"]),
     new UglifyJSPlugin(),
-    new webpack.DefinePlugin(variables[env]),
+    new webpack.DefinePlugin(env.variables),
     new MiniCssExtractPlugin({
       filename: "[name].[hash].css",
       chunkFilename: "[name].[hash].css",
@@ -51,4 +51,4 @@ const publicConfig = {
   ]
 };
 
-module.exports = merge(commonConfig, publicConfig);
+export default merge(commonConfig, publicConfig);

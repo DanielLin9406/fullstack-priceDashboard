@@ -1,5 +1,7 @@
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
+import { loadDefaultPromotion } from "../../../modules/scheduled-price/scheduledPrice";
 import CurrentPriceRule from './CurrentPriceRule';
 
 const mapStateToProps = state => ({
@@ -17,7 +19,10 @@ const mapStateToProps = state => ({
   licenseRule: state.licenseRule.rule,
 });
 
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ loadDefaultPromotion }, dispatch);
+
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(CurrentPriceRule);

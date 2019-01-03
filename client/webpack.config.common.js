@@ -1,13 +1,34 @@
-const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const webpack = require("webpack");
-const env = process.env.NODE_ENV || "development";
-const DEV_MODE = env === "development";
+import path from "path";
+import HtmlWebpackPlugin from "html-webpack-plugin";
+import webpack from "webpack";
+import env from './webpack.env';
+// import { path }  from "./webpack.const.js";
+
+const babelOptions = {
+  presets: [
+    [
+      "@babel/preset-env",{
+        "modules": false,
+      }
+    ],
+    "@babel/preset-react"
+  ],
+  plugins:[
+    "@babel/plugin-syntax-dynamic-import",
+    "@babel/plugin-proposal-export-namespace-from",
+    "@babel/plugin-proposal-class-properties",
+    "@babel/plugin-proposal-export-default-from",
+    "@babel/plugin-proposal-optional-chaining",
+    "@babel/plugin-transform-runtime",
+    "react-hot-loader/babel"
+  ],
+  cacheDirectory: true
+}
 
 const commonConfig = {
   entry: {
-    index: [path.join(__dirname, "src/index.js")],
-    vendor: ["react", "react-dom", "react-redux", "redux", "react-router-dom"]
+    index: [path.join(__dirname, 'src/index.js')],
+    vendor: ["react", "react-dom", "react-redux", "redux", "react-router-dom", "lodash"]
   },
   output: {
     path: path.join(__dirname, "./build"),
@@ -22,9 +43,7 @@ const commonConfig = {
         use: [
           {
             loader: "babel-loader",
-            options: {
-              cacheDirectory: true
-            }
+            options: babelOptions
           }
         ],
         include: path.join(__dirname, "src")
@@ -70,7 +89,7 @@ const commonConfig = {
           {
             loader: "pug-html-loader",
             options: {
-              pretty: DEV_MODE
+              pretty: env.isDev
             }
           }
         ]
@@ -102,7 +121,7 @@ const commonConfig = {
   plugins: [
     new HtmlWebpackPlugin({
       filename: "index.html",
-      template: path.join(__dirname, "./public/index.html")
+      template: path.join(__dirname, "src/assets/template/index.html")
     }),
     new webpack.HashedModuleIdsPlugin()
   ],
@@ -121,4 +140,4 @@ const commonConfig = {
   }
 };
 
-module.exports = commonConfig;
+export default commonConfig;

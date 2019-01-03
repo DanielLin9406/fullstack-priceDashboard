@@ -59,22 +59,30 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        flex-wrap: wrap;
         width: 100%;
         padding: 3% 0;
         p{
           text-align: center;
           min-width: 33%;
+          &.mod-price{
+            color:#F42E65
+          }
           &.price-item-user{
             text-align: left;
             font-size: 0.8rem;
             color: #898989;
           }
-          &.price-item-sale-price, &.price-item-price{
+          &.price-item-sale-price, &.price-item-price, &.price-item-default-sale-price, &.price-item-default-price{
             text-align: left;
             font-size: 1rem;
             span{
               padding-left:25%;
             }
+          }
+          &.price-item-default-sale-price, &.price-item-default-price{
+            font-size: 0.5rem;
+            color:#888;
           }
           &.price-item-checkbox{
             input[type=checkbox]{

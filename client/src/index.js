@@ -5,7 +5,7 @@ import { Provider } from "react-redux";
 import { Frontload } from "react-frontload";
 import createStore from "./store";
 import { BrowserRouter } from "react-router-dom";
-import Appc from "./app/appc";
+import App from "./app/App";
 
 const { store } = createStore();
 const root = document.querySelector("#root");
@@ -14,7 +14,7 @@ const Application = (
     <Provider store={store}>
       <BrowserRouter>
         <Frontload noServerRender={true}>
-          <Appc />
+          <App />
         </Frontload>
       </BrowserRouter>
     </Provider>
@@ -25,8 +25,8 @@ const Application = (
 render(Application, root);
 // If runnign in development with Hot Reload
 if (module.hot) {
-  module.hot.accept("./app/appc", () => {
-    const NextApp = require('./app/appc').default;
+  module.hot.accept("./app/App", () => {
+    const NextApp = require('./app/App').default;
     render(NextApp);
   });
 }

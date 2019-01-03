@@ -5,9 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npx webpack-dev-server --config webpack.config.dev.js --color --progress --hot --mode development",
-    "dev-build": "npx webpack --config webpack.config.dev.js --mode development",
-    "build": "npx webpack --config webpack.config.prod.js --mode production",
+    "start": "NODE_ENV=development npx webpack-dev-server --config webpack.js --color --progress --hot",
+    "build:prod": "NODE_ENV=production npx webpack --config webpack.js --mode production",
+    "build:staging": "NODE_ENV=staging npx webpack --config webpack.js --mode production",
+    "build:dev": "NODE_ENV=development npx webpack --config webpack.js --mode development",
     "mockdev": "npm run mock & npm start",
     "mock": "npx json-server mock/mock.js --watch --port 8090"
   },
@@ -15,9 +16,12 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.10",
     "@fortawesome/free-solid-svg-icons": "^5.6.1",
     "@fortawesome/react-fontawesome": "^0.1.3",
+    "@shinin/load-script": "^1.0.4",
     "date-fns": "^1.30.1",
+    "firebase": "^5.7.2",
     "history": "^4.7.2",
     "js-cookie": "^2.2.0",
+    "lodash": "^4.17.11",
     "moment": "^2.23.0",
     "react": "^16.6.3",
     "react-big-calendar": "^0.20.2",
@@ -32,15 +36,21 @@
     "react-router-dom": "^4.2.2",
     "react-sortable-hoc": "^0.8.4",
     "redux": "^3.7.2",
-    "redux-thunk": "^2.2.0"
+    "redux-saga": "^0.16.2",
+    "redux-thunk": "^2.2.0",
+    "stringify-object-values": "^0.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.2.0",
     "@babel/plugin-proposal-class-properties": "^7.2.1",
+    "@babel/plugin-proposal-export-default-from": "^7.2.0",
+    "@babel/plugin-proposal-export-namespace-from": "^7.2.0",
+    "@babel/plugin-proposal-optional-chaining": "^7.2.0",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/plugin-transform-runtime": "^7.2.0",
     "@babel/preset-env": "^7.2.0",
     "@babel/preset-react": "^7.0.0",
+    "@babel/register": "^7.0.0",
     "babel-loader": "^8.0.0-beta.0",
     "clean-webpack-plugin": "^0.1.16",
     "css-loader": "^0.28.7",
@@ -64,5 +74,17 @@
     "webpack-dev-middleware": "^3.4.0",
     "webpack-dev-server": "^3.0.0",
     "webpack-merge": "^4.1.0"
+  },
+  "babel": {
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "node": "current"
+          }
+        }
+      ]
+    ]
   }
 }

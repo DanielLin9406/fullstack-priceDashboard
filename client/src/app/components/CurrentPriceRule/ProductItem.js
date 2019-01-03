@@ -15,16 +15,19 @@ class BCPriceItem extends Component{
     this.license = new PGLicense(props.licenseRule);
     this.state = {
       checked:[],
-      discountPrice:""
+      deduct:0
     }
   }
 
   renderDiscountPrice = (decoratorArr) => {
     const deduct = this.license.calculateDeductible(decoratorArr);
-    const revisedPrice = getUpdatedPrice(this.props.priceProps, deduct);
     this.setState(() => ({
-      discountPrice: revisedPrice
+      deduct
     }))
+  }
+
+  getDiscountPrice = (priceProps, deduct) => {
+    return getUpdatedPrice(priceProps, deduct);    
   }
 
   render(){
@@ -38,11 +41,19 @@ class BCPriceItem extends Component{
           </li>
           <li className="price-item">
             <p className="price-item-user"><span>Guest</span></p>
-            <p className="price-item-sale-price"><span>{formatNumber(this.props.priceProps).salePrice}</span></p>
-            <p className="price-item-price"><span>{formatNumber(this.props.priceProps).price}</span></p>
+            <p className={this.props.priceProps.isModPrice ? "price-item-sale-price mod-price" : "price-item-sale-price" }><span>{formatNumber(this.props.priceProps).salePrice}</span></p>
+            <p className={this.props.priceProps.isModPrice ? "price-item-price mod-price" : "price-item-price" }><span>{formatNumber(this.props.priceProps).price}</span></p>
+            {this.props.priceProps.isModPrice && (
+              <>
+                <p className="price-item-user"><span></span></p>
+                <p className="price-item-default-sale-price"><span>def: {formatNumber(this.props.priceProps).defaultSalePrice}</span></p>
+                <p className="price-item-default-price"><span>def: {formatNumber(this.props.priceProps).defaultPrice}</span></p>
+              </>
+            )}
           </li>
           <DiscountList
             sku={this.props.sku}
+            currentPromotionId={this.props.currentPromotionId}
             checked={this.state.checked}
             licenseRule={this.props.licenseRule}
             priceProps={this.props.priceProps}
@@ -55,7 +66,7 @@ class BCPriceItem extends Component{
             <span className="name">
               Discount price
             </span>
-            <span className="price">{this.state.discountPrice || formatNumber(this.props.priceProps).salePrice}</span>
+            <span className="price">{this.getDiscountPrice(this.props.priceProps, this.state.deduct) || formatNumber(this.props.priceProps).salePrice}</span>
           </div>              
           ) : ''
         }
@@ -63,12 +74,8 @@ class BCPriceItem extends Component{
     )
   }
 
-
   componentDidUpdate(){
-    // console.log('discountPrice', this.state.discountPrice);
-    // console.log('license', this.props.licenseRule);
-    // this.getAllPermutations(this.props.licenseRule.upgrade);
-    // console.log('BCPriceItem', this.props.sku, this.props.licenseRule);
+
   }  
 }
 

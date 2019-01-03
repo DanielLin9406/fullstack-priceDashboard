@@ -1,12 +1,13 @@
-const merge = require("webpack-merge");
-const path = require("path");
-const webpack = require("webpack");
-const env = process.env.NODE_ENV || "development";
+import merge from "webpack-merge";
+import path from "path";
+import webpack from "webpack";
+import stringify from 'stringify-object-values'
 
-const commonConfig = require("./webpack.config.common.js");
-const variables = require("./webpack.variables");
+import commonConfig from "./webpack.config.common.js";
+import env from "./webpack.env";
 
 const devConfig = {
+  mode: 'development',
   devtool: "inline-source-map",
   entry: {
     index: ["react-hot-loader/patch", path.join(__dirname, "src/index.js")]
@@ -54,7 +55,7 @@ const devConfig = {
       }
     ]
   },
-  plugins: [new webpack.DefinePlugin(variables[env])],
+  plugins: [new webpack.DefinePlugin(stringify(env.variables))],
   devServer: {
     port: 8080,
     // contentBase: path.join(__dirname, './build'),
@@ -67,7 +68,8 @@ const devConfig = {
     }
   }
 };
-module.exports = merge({
+
+export default merge({
   customizeArray(a, b, key) {
     if (key === "entry.index") {
       return b;

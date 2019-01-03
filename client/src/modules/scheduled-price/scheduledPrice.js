@@ -161,6 +161,13 @@ export default (state = initialState, action) => {
 * export sync packaged dispatch
 */
 
+export const loadDefaultPromotion = () => dispatch => {
+  dispatch({
+    type: LOAD_PROMOTION,
+    promotionId: ''
+  });
+}
+
 export const loadPromotion = (promotionId) => dispatch => {
   dispatch({
     type: LOAD_PROMOTION,

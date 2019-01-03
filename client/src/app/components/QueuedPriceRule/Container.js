@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import { loadPromotion, sortPromotion, removePromotion } from "../../../modules/scheduledPrice";
+import { loadPromotion, sortPromotion, removePromotion } from "../../../modules/scheduled-price/scheduledPrice";
 import QueuePriceRule from './QueuePriceRule';
 
 const mapStateToProps = state => ({
