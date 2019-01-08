@@ -43,28 +43,25 @@ const devConfig = {
         ]
       },{
         test: /\.css$/,
-        use: [
-          {
-            loader: "css-loader",
-            options: {
-              sourceMap: true,
-              modules: true,
-            }
-          },          
-        ]
+        use: {
+          loader: "css-loader",
+          options: {
+            sourceMap: true,
+            modules: true,
+          }
+        },          
       }
     ]
   },
   plugins: [new webpack.DefinePlugin(stringify(env.variables))],
   devServer: {
     port: 8080,
-    // contentBase: path.join(__dirname, './build'),
     historyApiFallback: true,
     host: "0.0.0.0",
     hot:true,
     proxy: {
-      "/promo6": "http://localhost:8090",
-      "/priceList": "http://localhost:8090",
+      "/promotions": "http://localhost:8090",
+      "/price": "http://localhost:8090",
     }
   }
 };

@@ -1,3 +1,5 @@
+import licenseRuleAPI from '../../api/pg/licenseRule';
+
 /*
 * define action name
 */
@@ -5,7 +7,6 @@
 /*
 * define async action name
 */
-export const GET_PG_LICENSE_REQ = "license/GET_PG_LICENSE_REQ";
 export const GET_PG_LICENSE_SUCCESS = "license/GET_PG_LICENSE_SUCCESS";
 export const GET_PG_LICENSE_FAIL = "license/GET_PG_LICENSE_FAIL";
 
@@ -24,15 +25,6 @@ const initialState = {
 */
 export default (state = initialState, action) => {
   switch(action.type){
-    case GET_PG_LICENSE_REQ:
-      return {
-        ...state,
-        isLoading: true,
-        errMsg: "",
-        rule: {
-          ...state.rule
-        }
-      }
     case GET_PG_LICENSE_SUCCESS:
       return {
         ...state,
@@ -62,23 +54,17 @@ export default (state = initialState, action) => {
 * export async packaged dispatch
 */
 export const asyncGetLicenseRule = () => dispatch => {
-  dispatch({
-    type: GET_PG_LICENSE_REQ
-  })  
-
-  return fetch("https://pg-api-staging.herokuapp.com/api/bigcommerce/guest")
-    .then(response => {
-      if (response.ok){
-        return response.json()
-      }
-      return Promise.reject(new Error('error'))
-    })    
+  return licenseRuleAPI.fetchList()   
     .then(json => {
       dispatch({
         type: GET_PG_LICENSE_SUCCESS,
-        rule: json.rule
+        rule: json.data.rule
       });
-      return json.rule               
+      return json.data.rule              
+      // dispatch({
+      //   type: GET_PG_LICENSE_SUCCESS,
+      //   rule: json.rule
+      // });
     })
     .catch((error) => {
       dispatch({

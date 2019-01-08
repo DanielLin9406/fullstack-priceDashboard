@@ -1,0 +1,1 @@
+export default `${app.env.PG_INTERNAL_API_URL}`

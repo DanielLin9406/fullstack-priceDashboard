@@ -2,7 +2,7 @@ import path from "path";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import webpack from "webpack";
 import env from './webpack.env';
-// import { path }  from "./webpack.const.js";
+import { paths } from "./webpack.const";
 
 const babelOptions = {
   presets: [
@@ -26,59 +26,44 @@ const babelOptions = {
 }
 
 const commonConfig = {
-  entry: {
-    index: [path.join(__dirname, 'src/index.js')],
-    vendor: ["react", "react-dom", "react-redux", "redux", "react-router-dom", "lodash"]
-  },
-  output: {
-    path: path.join(__dirname, "./build"),
-    filename: "[name].[chunkhash].js",
-    chunkFilename: "[name].[chunkhash].js"
-    // publicPath: "/"
-  },
   module: {
     rules: [
       {
         test: /\.(js|jsx)$/,
-        use: [
-          {
-            loader: "babel-loader",
-            options: babelOptions
-          }
-        ],
-        include: path.join(__dirname, "src")
+        use: {
+          loader: "babel-loader",
+          options: babelOptions
+        },
+        include: paths.srcDir
       },
       {
         test: /\.(jpg|png|gif|JPG)$/,
-        use: [
-          {
-            loader: "url-loader",
-            options: {
-              limit: 8192,
-              name: "./images/[name].[ext]"
-            }
+        use: {
+          loader: "url-loader",
+          options: {
+            limit: 8192,
+            name: `${paths.assetsDir}/images/[name].[ext]`
           }
-        ]
+        }
       },
       {
         test: /\.(woff|woff2|eot|ttf|ttc)$/,
-        use: [
-          {
-            loader: "url-loader",
-            options: {
-              limit: 10000,
-              name: "./assets/fonts/[name].[ext]"
-            }
+        use: {
+          loader: "url-loader",
+          options: {
+            limit: 10000,
+            name: `${paths.assetsDir}/fonts/[name].[ext]`
           }
-        ]
+        }
       },
       {
         test: /\.svg$/,
-        use: [
-          {
-            loader: "svg-url-loader"
+        use: {
+          loader: "svg-url-loader",
+          options:{
+            name: `${paths.assetsDir}/svg/[name].[ext]`
           }
-        ]
+        }
       },
       {
         test: /\.pug$/,
@@ -96,11 +81,9 @@ const commonConfig = {
       },
       {
         test: /\.json$/,
-        use: [
-          {
-            loader: "json-loader"
-          }
-        ]
+        use: {
+          loader: "json-loader"
+        }
       }
     ]
   },
@@ -121,19 +104,14 @@ const commonConfig = {
   plugins: [
     new HtmlWebpackPlugin({
       filename: "index.html",
-      template: path.join(__dirname, "src/assets/template/index.html")
+      template: paths.appHtml
     }),
     new webpack.HashedModuleIdsPlugin()
   ],
   resolve: {
     alias: {
-      pages: path.join(__dirname, "src/pages"),
-      components: path.join(__dirname, "src/components"),
-      actions: path.join(__dirname, "src/actions"),
-      reducers: path.join(__dirname, "src/reducers"),
-      router: path.join(__dirname, "src/router"),
-      mock: path.join(__dirname, "mock"),
-      image: path.join(__dirname, "images"),
+      '@app/api': paths.apiDir,
+      '@app/components':paths.componentsDir,
       bigCalendarStyle: path.join(__dirname, 'node_modules/react-big-calendar/lib/css/react-big-calendar.css'),
       dayPickerStyle: path.join(__dirname, 'node_modules/react-day-picker/lib/style.css')
     }

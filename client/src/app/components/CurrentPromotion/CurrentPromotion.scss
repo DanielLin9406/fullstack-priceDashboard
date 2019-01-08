@@ -2,8 +2,19 @@
   flex-direction: column;
   .component-group-container{
     margin-bottom:1rem;
+    .show-default-promotion-button{
+      padding:10px;
+      border-radius: 8px;
+      color:#fff;
+      border:none;    
+      background:#008072;
+      margin-left:1rem;      
+    }
   }
   p{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     span{
       margin:0 0.2rem;
     }

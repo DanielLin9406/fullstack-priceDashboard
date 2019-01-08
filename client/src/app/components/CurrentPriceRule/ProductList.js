@@ -28,9 +28,9 @@ class BCPriceList extends Component{
             const priceObj = this.getUpdatedPriceList(ele);
             const updatedPriceObj = {
               price: priceObj ? priceObj.price : ele.price, 
-              salePrice: priceObj ? priceObj.salePrice : ele.salePrice,
+              salePrice: priceObj ? priceObj.sale_price : ele.sale_price,
               defaultPrice: ele.price,
-              defaultSalePrice: ele.salePrice,
+              defaultSalePrice: ele.sale_price,
               isModPrice: priceObj ? true : false,
             }
             return (

@@ -7,8 +7,7 @@ import CurrentPromotion from "../../components/CurrentPromotion/Container";
 import SetPriceRule from "../../components/SetPriceRule/Container";
 import UserSection from '../../components/UserSection/Container';
 
-class ConsoleRoute extends Component {
-  
+class Dashboard extends Component {  
   componentDidCatch(error, info) {
     logError(error, { extra: info })
   }
@@ -16,12 +15,7 @@ class ConsoleRoute extends Component {
   render() {
     return (
       <>
-        <CurrentPromotion />
-        <UserSection />
-        <Calendar /> 
-        <SetPriceRule />
-        <QueuePriceRule />
-        <CurrentPriceRule />
+        {this.props.children}
       </>
     );
   }
@@ -33,12 +27,7 @@ class ConsoleRoute extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    // if (this.state.profileOrError === null) {
-      // At this point, we're in the "commit" phase, so it's safe to load the new data.
-      // this.loadPromotionData();
-      // this.loadBCPrice();
-      // this.loadPGLicense();
-    // }
+    console.log('props', this.props);
   }
 
   loadPromotionData = () => {
@@ -52,4 +41,18 @@ class ConsoleRoute extends Component {
   }
 }
 
-export default hot(module)(ConsoleRoute);
+const WrappedDashboard = ({...props}) => {
+  return (
+    <Dashboard {...props}>
+      <CurrentPromotion />
+      <UserSection />
+      <Calendar /> 
+      <SetPriceRule />
+      <QueuePriceRule />
+      <CurrentPriceRule />
+    </Dashboard>
+  )
+}
+
+
+export default hot(module)(WrappedDashboard);

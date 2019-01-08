@@ -1,4 +1,4 @@
-
+import currentBCPriceApi from '../../api/pg/currentBCPrice'
 
 /*
 * define action name
@@ -7,7 +7,6 @@
 /*
 * define async action name
 */
-export const GET_BC_PRICE_REQ = "priceList/GET_BC_PRICE_REQ";
 export const GET_BC_PRICE_SUCCESS = "priceList/GET_BC_PRICE_SUCCESS";
 export const GET_BC_PRICE_FAIL = "priceList/GET_BC_PRICE_FAIL";
 
@@ -27,15 +26,6 @@ const initialState = {
 */
 export default (state = initialState, action) => {
   switch(action.type){
-    case GET_BC_PRICE_REQ:
-      return {
-        ...state,
-        isLoading: true,
-        errMsg: "",
-        priceList: {
-          ...state.priceList
-        }
-      }
     case GET_BC_PRICE_SUCCESS:
       return {
         ...state,
@@ -66,16 +56,7 @@ export default (state = initialState, action) => {
 */
 
 export const asyncGetBCPrice = () => dispatch => {
-  dispatch({
-    type: GET_BC_PRICE_REQ
-  })   
-  return fetch("/priceList")
-    .then(response => {
-      if (response.ok){
-        return response.json()
-      }
-      return Promise.reject(new Error('error'))
-    })  
+  return currentBCPriceApi.fetchList() 
     .then(json => {
       dispatch({
         type: GET_BC_PRICE_SUCCESS,

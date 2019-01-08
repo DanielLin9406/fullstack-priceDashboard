@@ -46,14 +46,15 @@ class SetPriceRule extends Component{
   static getDerivedStateFromProps(props, state) {  
     const propsStashId = getStashPromoId(props);
     if (!testExternalLoading(props)){    
-      console.log('state.stashPromotionId', state.stashPromotionId)
-      console.log('state.currentPromotionId', state.currentPromotionId);
-      console.log('props.promotion.active', props.promotion.active);
-      console.log('state.editingStash', state.editingStash); 
-      console.log('propsStashId', propsStashId);
+      // console.log('state.stashPromotionId', state.stashPromotionId)
+      // console.log('state.currentPromotionId', state.currentPromotionId);
+      // console.log('props.promotion.active', props.promotion.active);
+      // console.log('props.promotion', props.promotion);
+      // console.log('state.editingStash', state.editingStash); 
+      // console.log('propsStashId', propsStashId);
       // Promotion added
       if (state.stashPromotionId !== propsStashId){
-        console.log('Promotion added')
+        console.log('Promotion added')       
         return {
           ...state,
           isLoading: false,
@@ -77,6 +78,7 @@ class SetPriceRule extends Component{
           errMsg_scheduledPrice: props.errMsg_scheduledPrice,
           errMsg_licenseRule: props.errMsg_licenseRule,            
         }
+
       } else if (state.currentPromotionId !== props.promotion.active){
         // Change Promotion
         if ((state.stashPromotionId === state.currentPromotionId) && !state.editingStash) {
@@ -138,7 +140,7 @@ class SetPriceRule extends Component{
                       value={this.state.queue[this.state.currentPromotionId].startDate}
                       onDayChange={this.handleStartDateChange}
                       formatDate={formatDate}
-                      format={'YYYY/MM/DD'}                    
+                      format={'YYYY-MM-DD'}                    
                       parseDate={parseDate}
                     />
                   </div>
@@ -149,7 +151,7 @@ class SetPriceRule extends Component{
                       value={this.state.queue[this.state.currentPromotionId].endDate}
                       onDayChange={this.handleEndDateChange}
                       formatDate={formatDate}
-                      format={'YYYY/MM/DD'}                    
+                      format={'YYYY-MM-DD'}                    
                       parseDate={parseDate}                     
                     />
                   </div>
@@ -202,7 +204,12 @@ class SetPriceRule extends Component{
 
   testScheduleComplete = (key) => {
     // queue and item has stashPromotionId => starting edit
-    if (this.state.items.hasOwnProperty(key) && this.state.items[key].length>0){
+    if (this.state.items.hasOwnProperty(key) && 
+        this.state.items[key].length>0 && 
+        this.state.queue[key].startDate !== '' &&
+        this.state.queue[key].endDate !== '' &&
+        this.state.queue[key].name !== ''
+    ){
       return true;
     }   
     return false;
@@ -236,7 +243,7 @@ class SetPriceRule extends Component{
     if (!this.testProductInItem(key, sku)) return;
     items.push({
       name: name,
-      salePrice: `$${data.get('salePrice')}`,
+      sale_price: `$${data.get('salePrice')}`,
       promotionId: key.toString(),
       price: `$${price}`,
       sku: sku
@@ -311,7 +318,7 @@ class SetPriceRule extends Component{
   }
 
   handleStartDateChange = (day) => {
-    const formatDay = moment(day).format('YYYY/MM/DD');
+    const formatDay = moment(day).format('YYYY-MM-DD');
     const key = this.state.currentPromotionId;
     this.setState({
       editingStash: false,
@@ -326,7 +333,7 @@ class SetPriceRule extends Component{
     })
   }
   handleEndDateChange = (day) => {
-    const formatDay = moment(day).format('YYYY/MM/DD')
+    const formatDay = moment(day).format('YYYY-MM-DD')
     const key = this.state.currentPromotionId;
     this.setState({
       editingStash: false,

@@ -2,7 +2,11 @@ const getStashPromoId = (nextProps) => {
   const keyArr = nextProps.promotion.order.map((ele) => {
     return Number(ele);
   });
-  return (Math.max(...keyArr)+1).toString();  
+  if (keyArr.length === 0){
+    return "0";
+  } else {
+    return (Math.max(...keyArr || 0)+1).toString();  
+  }
 }
 
 export default getStashPromoId;

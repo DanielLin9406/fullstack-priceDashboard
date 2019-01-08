@@ -16,7 +16,7 @@ export const SIGN_OUT_SUCCESS = "auth/SIGN_OUT_SUCCESS";
 * state init (scheduledPrice in redux)
 */
 
-const initialState = {
+export const initialState = {
   initialized: false,
   authenticated: false,
   user: undefined,

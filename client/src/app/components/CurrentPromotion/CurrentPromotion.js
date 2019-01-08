@@ -29,7 +29,7 @@ class CurrentPromotion extends Component {
               <span>{this.props.promotion.queue[this.props.promotion.onLive].startDate}-</span>
               <span>{this.props.promotion.queue[this.props.promotion.onLive].endDate}</span>
             </p>
-            <button onClick={this.onChangePromotion}>show on live details</button>
+            <button className="button show-default-promotion-button" onClick={this.onChangePromotion}>Load onLive Promotion Details</button>
           </div>
         )}  
     </section>
@@ -38,6 +38,7 @@ class CurrentPromotion extends Component {
 
   componentDidUpdate(){
     // console.log(getPermutations([1,2,3,4,5]));
+    console.log('promotion', this.props.promotion);
   }
 }
 

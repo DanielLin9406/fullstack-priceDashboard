@@ -8,7 +8,7 @@ const VARIABLES = {
   MONITORING: false,
   ENVIRONMENT_NAME: ENV,
   VERSION: packageJSON.version,
-  GAPI_CLIENT_ID:'', 
+  GAPI_CLIENT_ID:'334112269174-4c48ai8lgbsgjds7pm1q70d5233n97sg.apps.googleusercontent.com', 
 }
 
 const ENV_VARIABLES = {
@@ -36,9 +36,13 @@ const ENV_VARIABLES = {
       PG_INTERNAL_API_URL: paths.pgInternalApiProxyUrl  
     }    
   },
-  test: {
-    'process.env.NODE_ENV': 'test',
-    'app.env': VARIABLES
+  jsonServer: {
+    'process.env.NODE_ENV': 'jsonServer',
+    'app.env': {
+      ...VARIABLES,
+      MONITORING: true,
+      PG_INTERNAL_API_URL: paths.pgInternalApiLocalUrl 
+    }
   }  
 }
 

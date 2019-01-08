@@ -4,7 +4,7 @@ import { bindActionCreators } from "redux";
 import { asyncGetPromotion } from "../../../modules/scheduled-price/scheduledPrice";
 import { asyncGetBCPrice } from "../../../modules/current-BC-price/currentBCPrice";
 import { asyncGetLicenseRule } from "../../../modules/license-rule/licenseRule";
-import Dashboard from "./Dashboard";
+import WrappedDashboard from "./Dashboard";
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators({ asyncGetPromotion, asyncGetBCPrice, asyncGetLicenseRule }, dispatch);
@@ -12,4 +12,4 @@ const mapDispatchToProps = dispatch =>
 export default connect(
   null,
   mapDispatchToProps
-)(Dashboard);
+)(WrappedDashboard);

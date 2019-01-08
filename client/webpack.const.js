@@ -21,6 +21,7 @@ export const paths = {
   servedUrl: '/',
   pgInternalApiUrl: 'https://intrapi.positivegrid.com',
   pgInternalStagingApiUrl: 'https://pg-beta-intrapi.herokuapp.com',
-  pgInternalApiProxyUrl: '/pg-intrapi',
+  pgInternalApiProxyUrl: 'http://localhost:7000/v2',
+  pgInternalApiLocalUrl: "http://localhost:8090",
   webpackVisualizerHtml: 'report/webpack-visualizer.html'
 }

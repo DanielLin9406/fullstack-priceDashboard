@@ -1,5 +1,6 @@
 import merge from "webpack-merge";
 import webpack from "webpack";
+import stringify from 'stringify-object-values'
 
 import UglifyJSPlugin from "uglifyjs-webpack-plugin";
 import CleanWebpackPlugin from "clean-webpack-plugin";
@@ -8,9 +9,19 @@ import WebpackAssetsManifest from "webpack-assets-manifest";
 
 import commonConfig from "./webpack.config.common.js";
 import env from "./webpack.env";
+import { paths } from "./webpack.const";
 
 const publicConfig = {
   mode: 'production',
+  entry: {
+    index: [ paths.appJs ],
+    vendor: ["react", "react-dom", "react-redux", "redux", "react-router-dom", "lodash"]
+  },
+  output: {
+    path: paths.buildDir,
+    filename: 'static/js/[name].[chunkhash].js',
+    chunkFilename: 'static/js/[name].[chunkhash].js'
+  },  
   module: {
     rules: [
       {
@@ -41,10 +52,10 @@ const publicConfig = {
   plugins: [
     new CleanWebpackPlugin(["build/*.*"]),
     new UglifyJSPlugin(),
-    new webpack.DefinePlugin(env.variables),
+    new webpack.DefinePlugin(stringify(env.variables)),
     new MiniCssExtractPlugin({
-      filename: "[name].[hash].css",
-      chunkFilename: "[name].[hash].css",
+      filename: 'static/css/[name].[hash].css',
+      chunkFilename: 'static/css/[name].[hash].css',
       allChunks: true
     }),
     new WebpackAssetsManifest()
