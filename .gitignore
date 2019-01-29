@@ -2,6 +2,7 @@ node_modules
 package-lock.json
 client/node_modules
 client/build/
-serverDist
 client/package-lock.json
-server/
+server/package-lock.json
+server/node_modules
+.vscode
