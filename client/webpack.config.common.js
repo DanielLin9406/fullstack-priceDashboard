@@ -78,12 +78,6 @@ const commonConfig = {
             }
           }
         ]
-      },
-      {
-        test: /\.json$/,
-        use: {
-          loader: "json-loader"
-        }
       }
     ]
   },

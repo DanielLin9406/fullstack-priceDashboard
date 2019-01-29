@@ -3,7 +3,6 @@ import paths from '../paths'
 import Auth from '../../layout/Auth/Container';
 
 function SecuredRoute({ authenticated, ...props }) {
-  console.log(authenticated);
   return (
     <Auth
       {...props}

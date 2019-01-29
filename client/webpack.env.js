@@ -11,39 +11,24 @@ const VARIABLES = {
   GAPI_CLIENT_ID:'334112269174-4c48ai8lgbsgjds7pm1q70d5233n97sg.apps.googleusercontent.com', 
 }
 
+
 const ENV_VARIABLES = {
   production: {
     'process.env.NODE_ENV': 'production',
     'app.env':{
       ...VARIABLES,
       MONITORING: true,
-      PG_INTERNAL_API_URL: paths.pgInternalApiUrl      
+      PG_INTERNAL_API_URL: paths.pgInternalApiUrl[process.env.NODE_ENV_API]      
     }    
-  },
-  staging:{
-    'process.env.NODE_ENV': 'staging',
-    'app.env':{
-      ...VARIABLES,
-      MONITORING: true,
-      PG_INTERNAL_API_URL: paths.pgInternalStagingApiUrl
-    }
   },
   development:{
     'process.env.NODE_ENV': 'development',
     'app.env':{
       ...VARIABLES,
       MONITORING: true,
-      PG_INTERNAL_API_URL: paths.pgInternalApiProxyUrl  
+      PG_INTERNAL_API_URL: paths.pgInternalApiUrl[process.env.NODE_ENV_API]
     }    
-  },
-  jsonServer: {
-    'process.env.NODE_ENV': 'jsonServer',
-    'app.env': {
-      ...VARIABLES,
-      MONITORING: true,
-      PG_INTERNAL_API_URL: paths.pgInternalApiLocalUrl 
-    }
-  }  
+  }, 
 }
 
 export default {

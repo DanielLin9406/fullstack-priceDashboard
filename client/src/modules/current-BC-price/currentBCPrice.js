@@ -55,8 +55,8 @@ export default (state = initialState, action) => {
 * export async packaged dispatch
 */
 
-export const asyncGetBCPrice = () => dispatch => {
-  return currentBCPriceApi.fetchList() 
+export const asyncGetBCPrice = ({user}) => dispatch => {
+  return currentBCPriceApi.fetchList(user.token) 
     .then(json => {
       dispatch({
         type: GET_BC_PRICE_SUCCESS,

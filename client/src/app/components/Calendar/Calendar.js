@@ -3,6 +3,8 @@ import React, { Component } from "react";
 import BigCalendar from 'react-big-calendar'
 import moment from 'moment';
 
+import getStashPromoId from '../../../shared/getStashPromoId';
+import Loading from '../Loading/Loading';
 import "./Calendar.scss";
 
 const localizer = BigCalendar.momentLocalizer(moment) 
@@ -33,33 +35,36 @@ class Calendar extends Component {
       events: [],
       date: new Date(),
       stashPromotionId: "",
+      selectEvent: ""
     }
   }
 
   static getDerivedStateFromProps(props, state) {
-    const keyArr = props.promotion.order.map((ele) => {
-      return Number(ele);
-    });
-    const propsStashId = (Math.max(...keyArr)+1).toString();
+    const propsStashId = getStashPromoId(props);
+    // console.log('state.stashPromotionId', state.stashPromotionId)
+    // console.log('propsStashId', propsStashId)
+    const list = props.promotion.queue;
+    const events = props.promotion.order.map((ele, index) => {
+      return {
+        id: index,
+        promotionId: list[ele].promotionId,
+        title: list[ele].name,
+        allDay: true,
+        start: moment(list[ele].startDate, 'YYYY/MM/DD').toDate(),
+        end: moment(list[ele].endDate, 'YYYY/MM/DD').toDate(),
+      }
+    })
     if (state.stashPromotionId !== propsStashId){
-      const list = props.promotion.queue;
-      const events = props.promotion.order.map((ele, index) => {
-        console.log('index', index);
-        return {
-          id: index,
-          promotionId: list[ele].promotionId,
-          title: list[ele].name,
-          allDay: true,
-          start: moment(list[ele].startDate, 'YYYY/MM/DD').toDate(),
-          end: moment(list[ele].endDate, 'YYYY/MM/DD').toDate(),
-        }
-      })
       return {
         order: props.promotion.order,
         queue: props.promotion.queue,
         stashPromotionId: propsStashId,
         events: events
       }
+    } else if (state.stashPromotionId === propsStashId){
+      return {
+        events: events
+      }      
     }
     return null;
   }
@@ -69,7 +74,7 @@ class Calendar extends Component {
       <section className="calendar-container">
         <h2>Calendar</h2>
         {this.props.isLoading ? (
-          "请求信息中......"
+          <Loading />
           ) : this.props.errorMsg ? ( 
             this.props.errorMsg 
           ) : (
@@ -100,14 +105,16 @@ class Calendar extends Component {
   
   componentDidUpdate(){
     // 由state變化觸發請求
-    console.log('state', this.state);   
+    // console.log('state', this.state);   
   }
 
   componentWillUnmount(){
 
   }
+
   onEventChange = (event, e) => {
     this.props.loadPromotion(event.promotionId);
+    // this.setState({ selectEvent: event.promotionId })    
   }
 }
 

@@ -1,5 +1,7 @@
 import { hot } from "react-hot-loader";
 import React, { Component } from "react";
+import PropTypes from 'prop-types';
+
 import formatNumber from '../../../shared/formatNumber';
 import getUpdatedPrice from '../../../shared/getUpdatedPrice';
 import testBundle from '../../../shared/testBundle';
@@ -11,7 +13,12 @@ class DiscountList extends Component {
     decoratorArr:[]
   }
 
-  initStateObj = () => {
+  static contextTypes = {
+    mapSku2Name: PropTypes.object,
+    currentPromotionId: PropTypes.string
+  } 
+
+  setUpgradeCheckbox = () => {
     let obj = {}
     this.getKeyArr(this.props.licenseRule.upgrade).forEach((ele) => {
       obj[ele] = false
@@ -56,11 +63,11 @@ class DiscountList extends Component {
   }
 
   componentDidUpdate(){
-    console.log('price', this.props.priceProps);
+    // console.log('price', this.props.priceProps);
   }
 
   componentDidMount(){
-    this.initStateObj(this.props.licenseRule.upgrade);
+    this.setUpgradeCheckbox(this.props.licenseRule.upgrade);
   }
 
   render(){
@@ -68,10 +75,10 @@ class DiscountList extends Component {
       <>
         {testBundle(this.props.sku) ? (
           // Bundle
-          this.getKeyArr(this.props.licenseRule.upgrade).map((ele, index) => {
+          this.getKeyArr(this.props.licenseRule.upgrade).sort((a, b) => parseInt(a) - parseInt(b)).map((ele, index) => {
             return (
               <li key={index} className="price-item">
-                <p className="price-item-user"><span>{ele}</span></p>
+                <p className="price-item-user"><span>{this.context.mapSku2Name[ele]}</span></p>
                 <p className="price-item-checkbox">
                   <input 
                     data-sku={ele} 
@@ -86,11 +93,11 @@ class DiscountList extends Component {
           })
         ) : (
           // Regular Product
-          this.props.licenseRule.predecessor.map((ele, index) => {
+          this.props.licenseRule.predecessor.sort((a, b) => parseInt(a) - parseInt(b)).map((ele, index) => {
             const deduct = this.props.license.calculateDeductible([ele])
             return (
               <li key={index} className="price-item">
-                <p className="price-item-user"><span>{ele}</span></p>
+                <p className="price-item-user"><span>{this.context.mapSku2Name[ele] || ele}</span></p>
                 <p className={this.props.priceProps.isModPrice ? "price-item-sale-price mod-price" : "price-item-sale-price" }><span>{getUpdatedPrice(this.props.priceProps, deduct)}</span></p>
                 <p className={this.props.priceProps.isModPrice ? "price-item-price mod-price" : "price-item-price" }><span>{formatNumber(this.props.priceProps).salePrice}</span></p>
                 {this.props.priceProps.isModPrice && (

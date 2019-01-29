@@ -13,19 +13,23 @@ const DragHandle = SortableHandle(() => (
 ));
 
 // const SortableItem = SortableElement(
-class Item extends React.Component{
+class Item extends Component{
     static contextTypes = {
       removePromotion: PropTypes.func,
       loadPromotion: PropTypes.func,
-      active: PropTypes.string
+      active: PropTypes.string,
+      user: PropTypes.object
     }    
 
     removePromotion = (event) => {
-      this.context.removePromotion(event.currentTarget.id)
+      const _id = event.currentTarget.id
+      const promotionId = event.currentTarget.dataset.promotionId;
+      const user = this.context.user;
+      this.context.removePromotion({ promotionId, _id, user})
     }
 
     loadPromotion = (event) => {
-      this.context.loadPromotion(event.currentTarget.id)
+      this.context.loadPromotion(event.currentTarget.dataset.promotionId)
     }
 
     render(){
@@ -37,15 +41,16 @@ class Item extends React.Component{
         {/* <DragHandle /> */}
         <button 
           className="ctrl-btn"
-          id={this.props.item.promotionId}
+          data-promotion-id={this.props.item.promotionId}
           onClick={this.loadPromotion}
         >
           <span className="promo-name">{this.props.item.name}</span>
-          <span className="promo-period">{this.props.item.startDate} - {this.props.item.endDate}</span>
+          <span className="promo-period">{this.props.item.startDate.split('T')[0]} - {this.props.item.endDate.split('T')[0]}</span>
         </button>
         <button 
           className='ctrl-btn close-btn'
-          id={this.props.item.promotionId}
+          data-promotion-id={this.props.item.promotionId}
+          id={this.props.item._id}
           onClick={this.removePromotion}
         >X</button>
       </li> 

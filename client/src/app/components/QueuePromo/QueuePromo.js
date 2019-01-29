@@ -2,21 +2,23 @@ import { hot } from "react-hot-loader";
 import React, { Component } from "react";
 import PropTypes from 'prop-types';
 
-import SortableList from './List';
+import SortableList from './QueuePromoList';
 
-import './QueuePriceRule.scss';
+import './QueuePromo.scss';
 
-class QueuePriceRule extends Component{
+class QueuePromo extends Component{
   static childContextTypes = {
     removePromotion: PropTypes.func,
     loadPromotion:  PropTypes.func,
-    active: PropTypes.string
+    active: PropTypes.string,
+    user: PropTypes.object
   }
   getChildContext() {
     return {
-      removePromotion: this.props.removePromotion,
+      removePromotion: this.props.asyncRemovePromotion,
       loadPromotion: this.props.loadPromotion,
-      active: this.props.promotion.active
+      active: this.props.promotion.active,
+      user: this.props.user
     }
   }
   onSortEnd = ({ oldIndex, newIndex, collection }, e) => {
@@ -39,4 +41,4 @@ class QueuePriceRule extends Component{
   }
 }
 
-export default hot(module)(QueuePriceRule)
+export default hot(module)(QueuePromo)

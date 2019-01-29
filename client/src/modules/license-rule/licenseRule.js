@@ -53,8 +53,8 @@ export default (state = initialState, action) => {
 /*
 * export async packaged dispatch
 */
-export const asyncGetLicenseRule = () => dispatch => {
-  return licenseRuleAPI.fetchList()   
+export const asyncGetLicenseRule = ({user}) => dispatch => {
+  return licenseRuleAPI.fetchList(user.token)   
     .then(json => {
       dispatch({
         type: GET_PG_LICENSE_SUCCESS,

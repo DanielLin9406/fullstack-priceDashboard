@@ -6,10 +6,14 @@ import { asyncGetBCPrice } from "../../../modules/current-BC-price/currentBCPric
 import { asyncGetLicenseRule } from "../../../modules/license-rule/licenseRule";
 import WrappedDashboard from "./Dashboard";
 
+const mapStateToProps = state => ({
+  user: state.auth.user
+})
+
 const mapDispatchToProps = dispatch =>
   bindActionCreators({ asyncGetPromotion, asyncGetBCPrice, asyncGetLicenseRule }, dispatch);
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(WrappedDashboard);

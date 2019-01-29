@@ -1,7 +1,7 @@
 import { hot } from "react-hot-loader";
 import React, { Component } from "react";
-import ReactLoading from 'react-loading';
 
+import Loading from '../Loading/Loading';
 import "./CurrentPromotion.scss";
 
 class CurrentPromotion extends Component {
@@ -15,7 +15,7 @@ class CurrentPromotion extends Component {
       <section className="current-promotion">
         <h2>Promotion Schedule on Live</h2>
         {this.props.isLoading ? (
-          "请求信息中......"
+          <Loading />
         ) : this.props.errorMsg ? (
           this.props.errorMsg
         ) : !this.props.promotion.onLive ? (
@@ -38,7 +38,7 @@ class CurrentPromotion extends Component {
 
   componentDidUpdate(){
     // console.log(getPermutations([1,2,3,4,5]));
-    console.log('promotion', this.props.promotion);
+    // console.log('promotion', this.props.promotion);
   }
 }
 

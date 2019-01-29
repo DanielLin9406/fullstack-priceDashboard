@@ -4,3 +4,4 @@ client/node_modules
 client/build/
 serverDist
 client/package-lock.json
+server/

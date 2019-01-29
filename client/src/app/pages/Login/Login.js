@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import ReactLoading from 'react-loading'
-;
+
+import Loading from '../../components/Loading/Loading';
 import './Login.scss';
 
 class Login extends Component {
@@ -25,9 +25,7 @@ class Login extends Component {
             </div>
           </div>
         ) || (
-          <div className="loading-container">
-            <ReactLoading type="spin" color='#ccc' height={50} width={50} /> 
-          </div>
+          <Loading />
         )}
       </section>
     )    

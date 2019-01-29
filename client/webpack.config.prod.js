@@ -6,6 +6,7 @@ import UglifyJSPlugin from "uglifyjs-webpack-plugin";
 import CleanWebpackPlugin from "clean-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import WebpackAssetsManifest from "webpack-assets-manifest";
+import OptimizeCSSAssetsPlugin from "optimize-css-assets-webpack-plugin";
 
 import commonConfig from "./webpack.config.common.js";
 import env from "./webpack.env";
@@ -21,7 +22,13 @@ const publicConfig = {
     path: paths.buildDir,
     filename: 'static/js/[name].[chunkhash].js',
     chunkFilename: 'static/js/[name].[chunkhash].js'
-  },  
+  },
+  optimization: {
+    minimizer: [
+      new UglifyJSPlugin(),
+      new OptimizeCSSAssetsPlugin({})
+    ]
+  }, 
   module: {
     rules: [
       {
@@ -32,7 +39,7 @@ const publicConfig = {
             loader: "css-loader",
             options: {
               sourceMap: true,
-              modules: true,
+              modules: false,
               localIdentName: "[local]-[hash:base64:5]"
             }
           },
@@ -50,13 +57,12 @@ const publicConfig = {
     ]
   },
   plugins: [
-    new CleanWebpackPlugin(["build/*.*"]),
-    new UglifyJSPlugin(),
+    new CleanWebpackPlugin(["build"]),
     new webpack.DefinePlugin(stringify(env.variables)),
     new MiniCssExtractPlugin({
       filename: 'static/css/[name].[hash].css',
       chunkFilename: 'static/css/[name].[hash].css',
-      allChunks: true
+      allChunks: false
     }),
     new WebpackAssetsManifest()
   ]

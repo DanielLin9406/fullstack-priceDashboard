@@ -1,5 +1,4 @@
-
-function promotionAPIHelper (json) {
+function getPromotionAPIHelper ({ json }) {
   let promotion = {
     queue:{},
     onLive:"",
@@ -15,11 +14,13 @@ function promotionAPIHelper (json) {
     Object.defineProperty(promotion["queue"], strIndex, {
       value: {},
       writable: true,
+      configurable:true,
       enumerable: true
     })
     Object.defineProperty(priceSet["items"], strIndex, {
       value: {},
       writable: true,
+      configurable:true,
       enumerable: true
     })        
 
@@ -30,12 +31,34 @@ function promotionAPIHelper (json) {
     }
 
     promotion["queue"][strIndex]["promotionId"] = strIndex;
-    promotion["queue"][strIndex]["startDate"] = ele.end_date;
+    promotion["queue"][strIndex]["startDate"] = ele.start_date;
     promotion["queue"][strIndex]["endDate"] = ele.end_date;
     promotion["queue"][strIndex]["name"] = ele.name;
+    promotion["queue"][strIndex]["_id"] = ele._id;
     
     priceSet["items"][strIndex] = ele.items
   })
   return { promotion, priceSet }
 }
-export {promotionAPIHelper}
+function updatePromotionAPIHelper ({ json, queue, items, stashPromotionId }) {
+  const _id = json.data._id;
+  const updated_queue = {
+    ...queue,
+    [stashPromotionId]:{
+      ...queue[stashPromotionId],
+      _id,
+    }
+  }
+  
+  const updated_items = {
+    ...items,
+    [stashPromotionId]: [...items[stashPromotionId].map((prdObj)=>{
+      let newPrdObj = prdObj;
+      newPrdObj["_id"] = _id;
+      return newPrdObj
+    })]
+  }
+  return { updated_queue, updated_items }
+}
+
+export { getPromotionAPIHelper, updatePromotionAPIHelper }

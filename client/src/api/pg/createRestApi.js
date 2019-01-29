@@ -11,10 +11,10 @@ export default uri => ({
       .bearer(token)
       .jsonBody(model)
       .acceptJson(),
-  update: (token, id, announcement) =>
+  update: (token, id, body) =>
     Request.put(`${host}/${uri}/${id}`)
       .bearer(token)
-      .jsonBody(announcement)
+      .jsonBody(body)
       .acceptJson(),
   remove: (token, id) =>
     Request.delete(`${host}/${uri}/${id}`)

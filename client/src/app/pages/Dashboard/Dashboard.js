@@ -2,15 +2,15 @@ import { hot } from "react-hot-loader";
 import React, { Component } from "react";
 import Calendar from '../../components/Calendar/Container';
 import CurrentPriceRule from '../../components/CurrentPriceRule/Container';
-import QueuePriceRule from "../../components/QueuedPriceRule/Container";
+import QueuePromo from "../../components/QueuePromo/Container";
 import CurrentPromotion from "../../components/CurrentPromotion/Container";
 import SetPriceRule from "../../components/SetPriceRule/Container";
 import UserSection from '../../components/UserSection/Container';
 
 class Dashboard extends Component {  
-  componentDidCatch(error, info) {
-    logError(error, { extra: info })
-  }
+  // componentDidCatch(error, info) {
+    // logError(error, { extra: info })
+  // }
 
   render() {
     return (
@@ -27,17 +27,18 @@ class Dashboard extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log('props', this.props);
+    // console.log('props', this.props);
+
   }
 
   loadPromotionData = () => {
-    this.props.asyncGetPromotion();
+    this.props.asyncGetPromotion({user: this.props.user});
   }
   loadBCPrice = () => {
-    this.props.asyncGetBCPrice();
+    this.props.asyncGetBCPrice({user: this.props.user});
   }
   loadPGLicense = () => {
-    this.props.asyncGetLicenseRule();    
+    this.props.asyncGetLicenseRule({user: this.props.user});    
   }
 }
 
@@ -48,7 +49,7 @@ const WrappedDashboard = ({...props}) => {
       <UserSection />
       <Calendar /> 
       <SetPriceRule />
-      <QueuePriceRule />
+      <QueuePromo />
       <CurrentPriceRule />
     </Dashboard>
   )

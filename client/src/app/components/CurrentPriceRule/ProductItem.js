@@ -53,7 +53,6 @@ class BCPriceItem extends Component{
           </li>
           <DiscountList
             sku={this.props.sku}
-            currentPromotionId={this.props.currentPromotionId}
             checked={this.state.checked}
             licenseRule={this.props.licenseRule}
             priceProps={this.props.priceProps}
@@ -75,7 +74,7 @@ class BCPriceItem extends Component{
   }
 
   componentDidUpdate(){
-
+    // console.log('this.props.licenseRule', this.props.licenseRule);
   }  
 }
 

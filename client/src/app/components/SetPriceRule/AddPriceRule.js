@@ -12,7 +12,10 @@ class AddPriceRule extends Component{
           <div className="item-container">
             <label htmlFor="">Product Name</label>
             <select name="productDetails" id="productDetails">
-              {this.props.bcPriceList.map((ele, index) => {
+              {this.props.bcPriceList.filter((prdObj)=>{
+                const reg = /(^L|^B)/i;
+                return reg.test(prdObj.sku);
+              }).map((ele, index) => {
                 return (
                   <option key={index} value={`${ele.sku}-${ele.name}-${ele.price}`}>{ele.name}</option>  
                 )

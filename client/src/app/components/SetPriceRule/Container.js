@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import { applyPromotion } from "../../../modules/scheduled-price/scheduledPrice";
+import { asyncApplyPromotion, asyncEditPromotion} from "../../../modules/scheduled-price/scheduledPrice";
 import SetPriceRule from './SetPriceRule';
 
 const mapStateToProps = state => ({
@@ -10,17 +10,20 @@ const mapStateToProps = state => ({
   promotion: state.scheduledPrice.promotion,
   priceSet: state.scheduledPrice.priceSet,
   postResponse: state.scheduledPrice.postResponse,
+  removedPromoId: state.scheduledPrice.removedPromoId,
 
   isLoading_currentBCPrice: state.currentBCPrice.isLoading,
   errMsg_currentBCPrice: state.currentBCPrice.errMsg,   
   bcPrice: state.currentBCPrice.priceList,
 
   isLoading_licenseRule: false,
-  errMsg_licenseRule: '',   
+  errMsg_licenseRule: '',
+  
+  user: state.auth.user
 });
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({ applyPromotion }, dispatch);
+  bindActionCreators({ asyncApplyPromotion, asyncEditPromotion }, dispatch);
 
 export default connect(
   mapStateToProps,

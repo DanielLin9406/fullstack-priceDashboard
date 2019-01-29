@@ -1,10 +1,11 @@
 import { hot } from "react-hot-loader";
 import React, { Component } from "react";
 
+import Loading from '../Loading/Loading';
 import ProductList from './ProductList';
-import { testExternalLoading, testExternalMsg } from '../../../shared/testExternalFetch';
+import { testExternalLoading } from '../../../shared/testExternalFetch';
 import getStashPromoId from '../../../shared/getStashPromoId';
-
+import buildMapSkuToName from '../../../shared/mapSku2Name';
 
 import './CurrentPriceRule.scss';
 
@@ -22,23 +23,39 @@ class CurrentPriceRule extends Component{
 
   static getDerivedStateFromProps(props, state) {  
     if (!testExternalLoading(props)){    
+      console.log('currentPromotionId', props.promotion.active);
+      console.log('isDefaultPrice', state.isDefaultPrice);
       if (state.isDefaultPrice) {
-        console.log(props.promotion);
-        // Init and Change active promotion
-        return {
-          ...state,
-          licenseRule: props.licenseRule,
-          bcPrice: props.bcPrice,
-          priceList: props.priceSet,
-          stashPromotionId: getStashPromoId(props),
-          isLoading: false,
-          isDefaultPrice: true,
-          currentPromotionId: props.promotion.active,
-          errMsg_scheduledPrice: props.errMsg_scheduledPrice,
-          errMsg_licenseRule: props.errMsg_licenseRule,        
+        console.log('here1')
+        if (props.promotion.active){
+          return {
+            ...state,
+            licenseRule: props.licenseRule,
+            bcPrice: props.bcPrice,
+            priceList: props.priceSet,
+            stashPromotionId: getStashPromoId(props),
+            isLoading: false,
+            isDefaultPrice: true,
+            currentPromotionId: props.promotion.active,
+            errMsg_scheduledPrice: props.errMsg_scheduledPrice,
+            errMsg_licenseRule: props.errMsg_licenseRule,        
+          }
+        } else if (!props.promotion.active){
+          return {
+            ...state,
+            licenseRule: props.licenseRule,
+            bcPrice: props.bcPrice,
+            priceList: props.priceSet,
+            stashPromotionId: getStashPromoId(props),
+            isLoading: false,
+            isDefaultPrice: true,
+            errMsg_scheduledPrice: props.errMsg_scheduledPrice,
+            errMsg_licenseRule: props.errMsg_licenseRule, 
+            currentPromotionId:""
+          }
         }
       } else if (!state.isDefaultPrice) {
-        // Set promotionId to ""
+        console.log('here2')
         return {
           ...state,
           isDefaultPrice: true,
@@ -48,6 +65,7 @@ class CurrentPriceRule extends Component{
     }
     return null
   }
+
   render(){
     return (
       <section className="current-price-rule">
@@ -55,7 +73,7 @@ class CurrentPriceRule extends Component{
         <div className="section-state">
           { this.state.currentPromotionId ? (
             <>
-              <div className="current">Promotion Name: <span>{this.props.promotion.queue[this.state.currentPromotionId].name}</span></div>
+              <div className="current">Promotion Name: <span>{this.props.promotion.queue[this.state.currentPromotionId] && this.props.promotion.queue[this.state.currentPromotionId].name}</span></div>
               <button className="load-default-btn" onClick={this.loadDefaultPriceList}>Load Default Price List</button>
             </>
             ) : (
@@ -66,7 +84,7 @@ class CurrentPriceRule extends Component{
         {
           this.state.isLoading 
           ? (
-            "请求信息中......"
+            <Loading />
           ) : this.state.errMsg_scheduledPrice 
           || this.state.errMsg_licenseRule ? (
             <>
@@ -78,8 +96,9 @@ class CurrentPriceRule extends Component{
               <ProductList 
                 currentPromotionId={this.state.currentPromotionId}
                 bcPrice={this.state.bcPrice}
+                mapSku2Name={buildMapSkuToName(this.state.bcPrice)}
                 licenseRule={this.state.licenseRule}
-                priceList={this.state.priceList.items[this.state.currentPromotionId]}
+                promoItem={this.state.priceList.items[this.state.currentPromotionId]}
               />
             </div>
           )

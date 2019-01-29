@@ -1,6 +1,6 @@
 import { hot } from "react-hot-loader";
 import React, { Component } from "react";
-import { Switch } from 'react-router-dom'
+import { Switch } from 'react-router-dom';
 import ConsoleRoute from './routes/ConsoleRoute/Container'
 import LoginRoute from './routes/LoginRoute/Container'
 import SecuredRoute from './routes/SecuredRoute/Container'

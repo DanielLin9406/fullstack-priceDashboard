@@ -1,13 +1,11 @@
 import { arrayMove } from 'react-sortable-hoc';
 import scheduledPriceAPI from '../../api/pg/scheduledPrice';
-import { initialState as authInitialState } from '../auth/auth';
-import { promotionAPIHelper } from './helper';
+import { getPromotionAPIHelper, updatePromotionAPIHelper } from './helper';
 /*
 * define action name
 */
 export const LOAD_PROMOTION = "promotion/LOAD_PROMOTION";
 export const SORT_PROMOTION = "promotion/SORT_PROMOTION";
-export const REMOVE_PROMOTION = "promotion/REMOVE_PROMOTION";
 
 /*
 * define async action name
@@ -15,8 +13,12 @@ export const REMOVE_PROMOTION = "promotion/REMOVE_PROMOTION";
 export const GET_PROMOTION_SUCCESS = "promotion/GET_PROMOTION_SUCCESS";
 export const GET_PROMOTION_FAIL = "promotion/GET_PROMOTION_FAIL";
 
+export const POST_PROMOTION_REQ = "promotion/POST_PROMOTION_REQ";
 export const POST_PROMOTION_SUCCESS = "promotion/POST_PROMOTION_SUCCESS";
 export const POST_PROMOTION_FAIL = "promotion/POST_PROMOTION_FAIL";
+
+export const REMOVE_PROMOTION = "promotion/REMOVE_PROMOTION";
+export const EDIT_PROMOTION = "promotion/EDIT_PROMOTION";
 
 export const ADD_PROMOTION_IN_QUEUE = "promotion/ADD_PROMOTION_IN_QUEUE";
 export const APPLY_PROMOTION_ONLIVE = "promotion/APPLY_PROMOTION_ONLIVE";
@@ -29,6 +31,7 @@ const initialState = {
   isLoading: true,
   errMsg: false,
   postLoading: true,
+  removedPromoId:"",
   postResponse: "",
   priceSet: {
     active: "",
@@ -50,6 +53,7 @@ export default (state = initialState, action) => {
     case GET_PROMOTION_SUCCESS:
       return {
         ...state,
+        removedPromoId:"",
         isLoading: false,
         errMsg: "",
         promotion: action.promotion, 
@@ -58,6 +62,7 @@ export default (state = initialState, action) => {
     case GET_PROMOTION_FAIL:
       return {
         ...state,
+        removedPromoId:"",
         isLoading: false,
         errMsg: "Error",
         promotion:{
@@ -70,6 +75,7 @@ export default (state = initialState, action) => {
     case LOAD_PROMOTION:
       return {
         ...state,
+        removedPromoId:"",
         promotion:{
           ...state.promotion,        
           active: action.promotionId
@@ -89,33 +95,70 @@ export default (state = initialState, action) => {
       }
     case REMOVE_PROMOTION:
       const prevOrder = state.promotion.order;
+
       const itemIndex = prevOrder.indexOf(action.promotionId);
       let nextOrder = prevOrder;
       if (itemIndex > -1){
-        nextOrder.splice(itemIndex)
+        nextOrder.splice(itemIndex, 1)
       }
+
+      delete state.promotion.queue[action.promotionId];
+      delete state.priceSet.items[action.promotionId];
+
       return {
         ...state,
+        isLoading:true,
+        removedPromoId: action.promotionId,
         promotion:{
           ...state.promotion,
-          order: nextOrder
-        }
+          active: state.promotion.active === action.promotionId ? '' : state.promotion.active,
+          order: nextOrder,
+          queue: state.promotion.queue,          
+        },
+        priceSet:{
+          ...state.priceSet,
+          active: state.promotion.active === action.promotionId ? '' : state.promotion.active,
+          items: state.priceSet.items          
+        }        
       }     
+    case POST_PROMOTION_REQ:
+      return {
+        ...state,
+        isLoading: true,   
+      } 
     case POST_PROMOTION_SUCCESS:
       return {
         ...state,
-        postLoading: false,
+        removedPromoId:'',
+        isLoading: false,
         postResponse: action.postResponse,        
       } 
     case POST_PROMOTION_FAIL:
       return {
         ...state,
-        postLoading: false,
+        isLoading: false,
         postResponse: action.postResponse, 
+      }
+    case EDIT_PROMOTION:
+      return {
+        ...state,
+        isLoading:true,
+        removedPromoId:"",
+        promotion:{
+          ...state.promotion,
+          order: action.order,
+          queue: action.queue,          
+        },
+        priceSet:{
+          ...state.priceSet,
+          items: action.items          
+        }
       }
     case ADD_PROMOTION_IN_QUEUE:
       return {
         ...state,
+        isLoading:true,
+        removedPromoId:"",
         promotion:{
           ...state.promotion,
           order: action.order,
@@ -129,6 +172,8 @@ export default (state = initialState, action) => {
     case APPLY_PROMOTION_ONLIVE:
       return {
         ...state,
+        isLoading:true,
+        removedPromoId:"",
         promotion:{
           ...state.promotion,
           order: action.order,
@@ -171,33 +216,20 @@ export const sortPromotion = (oldIndex, newIndex) => dispatch => {
   });
 }
 
-export const removePromotion = (promotionId) => dispatch => {
-  dispatch({
-    type: REMOVE_PROMOTION,
-    promotionId
-  });
-}
-
 /*
 * export async packaged dispatch
 */
 
-export const asyncGetPromotion = () => dispatch => {
-
-  return scheduledPriceAPI.fetchList()
+export const asyncGetPromotion = ({user}) => dispatch => {
+  return scheduledPriceAPI.fetchList(user.token)
     .then(json => {
-      const { promotion, priceSet } = promotionAPIHelper(json)
+      const { promotion, priceSet } = getPromotionAPIHelper({json})
       dispatch({
         type: GET_PROMOTION_SUCCESS,
         promotion: promotion,
         priceSet: priceSet
       });
-      return json   
-      // dispatch({
-      //   type: GET_PROMOTION_SUCCESS,
-      //   promotion: json.promotion,
-      //   priceSet: json.priceSet
-      // });         
+      return json           
     })
     .catch((error) => {
       dispatch({
@@ -207,74 +239,98 @@ export const asyncGetPromotion = () => dispatch => {
     })
 }
 
-
-export const applyPromotion = ({order, queue, items, stashPromotionId, param}) => dispatch => {
+export const asyncApplyPromotion = ({order, queue, items, stashPromotionId, param, user}) => async dispatch => { 
   let postBody = {
     name: queue[stashPromotionId].name,
     start_date: queue[stashPromotionId].startDate,
     end_date: queue[stashPromotionId].endDate,
-    items:[
-      items[stashPromotionId]
-    ],
+    items: items[stashPromotionId],
     apply_now: param === 'onLive'
-  }
-  // console.log('postBody', postBody);
-  // return scheduledPriceAPI.create(authInitialState.user.token, postBody)
-  //   .then(json => {
-  //     // TO DO test if 200
-  //     console.log('res', json)
-  //     if (param === 'onLive'){
-  //       dispatch({
-  //         type: APPLY_PROMOTION_ONLIVE,
-  //         order,
-  //         queue,
-  //         items,
-  //         stashPromotionId 
-  //       })         
-  //     } else {
-  //       dispatch({
-  //         type: ADD_PROMOTION_IN_QUEUE,
-  //         order,
-  //         queue,
-  //         items
-  //       })
-  //     }
-  //     dispatch({
-  //       type: POST_PROMOTION_SUCCESS,
-  //       postResponse: 200
-  //     })
-  //   })
-  //   .catch((error) => {
-  //     dispatch({
-  //       type: POST_PROMOTION_FAIL
-  //     });
-  //     return Promise.reject(new Error(error.message))         
-  //   })  
-
-  if (param === 'queue'){
-    dispatch({
-      type: ADD_PROMOTION_IN_QUEUE,
-      order,
-      queue,
-      items
-    })   
-    dispatch({
-      type: POST_PROMOTION_SUCCESS,
-      postResponse: 200
-    })   
-  } else {
-    dispatch({
-      type: APPLY_PROMOTION_ONLIVE,
-      order,
-      queue,
-      items,
-      stashPromotionId
+  } 
+  order.push(stashPromotionId); // very important => trigger next loop
+  return await scheduledPriceAPI.create(user.token, postBody)
+    .then(json => {
+      const { updated_queue, updated_items } = updatePromotionAPIHelper({ json, queue, items, stashPromotionId });
+      // TO DO test if 200
+      if (param === 'onLive'){
+        dispatch({
+          type: APPLY_PROMOTION_ONLIVE,
+          order,
+          queue: updated_queue,
+          items: updated_items,
+          stashPromotionId 
+        })         
+      } else {
+        dispatch({
+          type: ADD_PROMOTION_IN_QUEUE,
+          order,
+          queue: updated_queue,
+          items: updated_items,
+          stashPromotionId
+        })
+      }
+      dispatch({
+        type: POST_PROMOTION_SUCCESS,
+        postResponse: 200
+      })
     })
-    dispatch({
-      type: POST_PROMOTION_SUCCESS,
-      postResponse: 200
-    })      
-  }
+    .catch((error) => {
+      dispatch({
+        type: POST_PROMOTION_FAIL
+      });
+      return Promise.reject(new Error(error.message))         
+    })
+}
+
+export const asyncEditPromotion = ({order, queue, items, currentPromotionId, user}) => async dispatch => {
+  const _id = queue[currentPromotionId]._id;
+  let putBody = {
+    name: queue[currentPromotionId].name,
+    start_date: queue[currentPromotionId].startDate,
+    end_date: queue[currentPromotionId].endDate,
+    items: items[currentPromotionId],
+  }   
+  return await scheduledPriceAPI.update(user.token, _id, putBody)
+    .then((json) => {
+      dispatch({
+        type: EDIT_PROMOTION,
+        order,
+        queue,
+        items,
+        currentPromotionId 
+      });
+      dispatch({
+        type: POST_PROMOTION_SUCCESS,
+        postResponse: 200
+      })      
+    }).catch((error) => {
+      dispatch({
+        type: POST_PROMOTION_FAIL
+      });
+      return Promise.reject(new Error(error.message))    
+    })
+}
+
+
+export const asyncRemovePromotion = ({ promotionId, _id, user }) => async dispatch => {
+  return await scheduledPriceAPI.remove(user.token, _id)
+    .then((json) => {
+      dispatch({
+        type: REMOVE_PROMOTION,
+        promotionId
+      });
+      dispatch({
+        type: POST_PROMOTION_SUCCESS,
+        postResponse: 200
+      })      
+    }).catch((error) => {
+      dispatch({
+        type: POST_PROMOTION_FAIL
+      });
+      return Promise.reject(new Error(error.message))    
+    })
+}
+
 
   // return fetch("", {
   //     method: 'POST',
@@ -311,4 +367,3 @@ export const applyPromotion = ({order, queue, items, stashPromotionId, param}) =
   //     })
   //     return Promise.reject(new Error(error.message))      
   //   }) 
-}
