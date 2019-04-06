@@ -8,7 +8,7 @@ const VARIABLES = {
   MONITORING: false,
   ENVIRONMENT_NAME: ENV,
   VERSION: packageJSON.version,
-  GAPI_CLIENT_ID:'334112269174-4c48ai8lgbsgjds7pm1q70d5233n97sg.apps.googleusercontent.com', 
+  GAPI_CLIENT_ID:'980338893576-14grhjqtoieo92bhuf8hfs29ubufcig7.apps.googleusercontent.com', 
 }
 
 

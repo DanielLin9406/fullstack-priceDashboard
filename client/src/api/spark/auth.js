@@ -51,10 +51,10 @@ async function signInWithGoogle() {
   const googleAuth = await getGoogleAuth()
   const googleUser = await googleAuth.signIn().catch(noop)
   if (!googleUser) return
-  if (googleUser.getHostedDomain() !== 'positivegrid.com') {
-    googleAuth.signOut()
-    throw new Error('Please use @positivegrid.com to sign in.')
-  }
+  // if (googleUser.getHostedDomain() !== 'positivegrid.com') {
+  //   googleAuth.signOut()
+  //   throw new Error('Please use @positivegrid.com to sign in.')
+  // }
   return modelGoogleUser(googleUser)
 }
 

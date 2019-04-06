@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import SecuredRoute from "./SecuredRoute";
+import AuthedRoute from "./AuthedRoute";
 
 const mapStateToProps = state => ({
   authenticated: state.auth.authenticated
@@ -8,4 +8,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   null
-)(SecuredRoute);
+)(AuthedRoute);
