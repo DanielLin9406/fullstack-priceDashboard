@@ -1,10 +1,10 @@
 import React from "react";
-import RouteLayout from '../RouteLayout/Container';
+import RouteUnit from '../RouteUnit/Container';
 import { hot } from "react-hot-loader";
 
 const GeneralRoute = ({ ...props }) => {
   return (
-    <RouteLayout
+    <RouteUnit
       {...props}
       predicate={() => {return true}}
     />

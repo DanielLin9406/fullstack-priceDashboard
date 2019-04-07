@@ -105,6 +105,9 @@ const commonConfig = {
   resolve: {
     alias: {
       '@app/api': paths.apiDir,
+      '@app/const': paths.constDir,
+      '@app/layout': paths.layoutDir,
+      '@app/image': paths.imageDir,
       '@app/components':paths.componentsDir,
       bigCalendarStyle: path.join(__dirname, 'node_modules/react-big-calendar/lib/css/react-big-calendar.css'),
       dayPickerStyle: path.join(__dirname, 'node_modules/react-day-picker/lib/style.css')

@@ -1,18 +1,3 @@
-*{
-  padding:0;
-  margin:0;
-  &:focus{
-    outline: none;
-    box-shadow: none;
-  }  
-}
-html{
-  background:rgba(40, 40, 40, 0.8);
-}
-
-#root{
-}
-
 #app{
   display: flex;
   flex-direction: row;
@@ -20,6 +5,16 @@ html{
   align-items: baseline;
   justify-content: flex-start;
   max-width: 1280px;
+  margin:auto;
+}
+
+main{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: flex-start;
+  width: 100%;
   margin:auto;
 }
 

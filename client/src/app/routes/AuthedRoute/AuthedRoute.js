@@ -1,10 +1,10 @@
 import React from 'react'
-import RouteLayout from '../RouteLayout/Container';
+import RouteUnit from '../RouteUnit/Container';
 import { pagePaths } from '../../pages/pagesInfo'
 
 const AuthedRoute = ({ authenticated, ...props }) => {
   return (
-    <RouteLayout
+    <RouteUnit
       {...props}
       predicate={() => authenticated}
       fallbackPath={pagePaths.LOGIN}

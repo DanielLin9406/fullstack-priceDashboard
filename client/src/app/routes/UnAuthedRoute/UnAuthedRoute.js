@@ -1,10 +1,10 @@
 import React from 'react'
-import RouteLayout from '../RouteLayout/Container';
+import RouteUnit from '../RouteUnit/Container';
 import { pagePaths } from '../../pages/pagesInfo'
 
 const UnAuthedRoute = ({ path, unauthenticated, ...props }) => {
   return (
-    <RouteLayout
+    <RouteUnit
       {...props}
       path={path}
       predicate={() => unauthenticated}

@@ -6,17 +6,18 @@ import QueuePromo from "../../components/QueuePromo/Container";
 import CurrentPromotion from "../../components/CurrentPromotion/Container";
 import SetPriceRule from "../../components/SetPriceRule/Container";
 import UserSection from '../../components/UserSection/Container';
+import BaseLayout from '@app/layout/BaseLayout';
 
 class Dashboard extends Component {  
-  // componentDidCatch(error, info) {
-    // logError(error, { extra: info })
-  // }
-
   render() {
     return (
-      <>
+      <BaseLayout 
+        id="dashboard" 
+        title="Dashboard" 
+        description="Main dashboard"
+      >
         {this.props.children}
-      </>
+      </BaseLayout>
     );
   }
 
