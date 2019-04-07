@@ -1,6 +1,6 @@
 import React from 'react'
 import RouteUnit from '../RouteUnit/Container';
-import { pagePaths } from '../../pages/pagesInfo'
+import { pagePaths } from '@app/pages/pagesInfo'
 
 const UnAuthedRoute = ({ path, unauthenticated, ...props }) => {
   return (

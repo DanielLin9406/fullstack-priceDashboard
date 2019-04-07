@@ -109,6 +109,7 @@ const commonConfig = {
       '@app/layout': paths.layoutDir,
       '@app/image': paths.imageDir,
       '@app/components':paths.componentsDir,
+      '@app/pages': paths.pagesDir,
       bigCalendarStyle: path.join(__dirname, 'node_modules/react-big-calendar/lib/css/react-big-calendar.css'),
       dayPickerStyle: path.join(__dirname, 'node_modules/react-day-picker/lib/style.css')
     }
