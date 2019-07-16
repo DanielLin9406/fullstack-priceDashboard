@@ -21,11 +21,9 @@ export const paths = {
   buildDir: path.join(rootDir, 'build'),
   appHtml: path.join(rootDir, 'src/assets/templates/index.html'),
   servedUrl: '/',
-  pgInternalApiUrl:{
-    production: 'https://intrapi.positivegrid.com/v2',
-    stage: 'https://pg-beta-intrapi.herokuapp.com/v2',
+  API_URL: {
     apiDoc: 'http://localhost:7000/v2',
-    jsonserver: "http://localhost:8090",
+    jsonserver: 'http://localhost:8095'
   },
   webpackVisualizerHtml: 'report/webpack-visualizer.html'
-}
+};

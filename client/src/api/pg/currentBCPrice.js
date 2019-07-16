@@ -1,3 +1,3 @@
-import createRestApi from './createRestApi'
+import createRestApi from './createRestApi';
 
-export default createRestApi('price')
+export default createRestApi('price');

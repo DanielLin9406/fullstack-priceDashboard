@@ -1,6 +1,6 @@
-import React from 'react'
+import React from 'react';
 import RouteUnit from '../RouteUnit/Container';
-import { pagePaths } from '@app/pages/pagesInfo'
+import { paths } from '@app/pages';
 
 const UnAuthedRoute = ({ path, unauthenticated, ...props }) => {
   return (
@@ -8,9 +8,9 @@ const UnAuthedRoute = ({ path, unauthenticated, ...props }) => {
       {...props}
       path={path}
       predicate={() => unauthenticated}
-      fallbackPath={pagePaths.DASHBOARD}
+      fallbackPath={paths.DASHBOARD}
     />
-  )
-}
+  );
+};
 
 export default UnAuthedRoute;

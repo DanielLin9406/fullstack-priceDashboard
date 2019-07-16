@@ -1,30 +1,38 @@
-import React from 'react';
+import Loadable from '../components/Loadable/Loadable';
 
-import UnAuthedRoute from '../routes/UnAuthedRoute/Container'
-import AuthedRoute from '../routes/AuthedRoute/Container'
-import GeneralRoute from '../routes/GeneralRoute/Container';
-import { Switch } from 'react-router-dom';
-import { getAllPages } from './helper'
-import { pagesInfo } from './pagesInfo'
+const paths = {
+  INDEX: '/',
+  LOGIN: '/login',
+  DASHBOARD: '/dashboard'
+};
 
-export default () => (
-  <Switch>
-    {getAllPages(pagesInfo).filter(pageObj => pageObj.component !== undefined).map((pageObj, index) => {
-      switch(pageObj.authType){
-        case 'authed':
-          return (
-            <AuthedRoute key={index} path={pageObj.path} component={pageObj.component} />
-          )
-        case 'unAuthed':
-          return (
-            <UnAuthedRoute key={index} path={pageObj.path} component={pageObj.component} />
-          )
-        default:
-          return (
-            <GeneralRoute key={index} path={pageObj.path} component={pageObj.component} />
-          )
-      }
-    })}
-  </Switch>
-)
+const pagesInfo = [
+  {
+    path: paths.DASHBOARD,
+    component: Loadable({
+      loader: () =>
+        import(/* webpackChunkName: "dashboard" */ './Dashboard/Container'),
+      modules: ['dashboard']
+    }),
+    authType: 'authed'
+  },
+  {
+    path: paths.LOGIN,
+    component: Loadable({
+      loader: () => import(/* webpackChunkName: "login" */ './Login/Container'),
+      modules: ['login']
+    }),
+    authType: 'unAuthed'
+  },
+  {
+    path: paths.INDEX,
+    component: undefined,
+    predicate: () => {
+      return false;
+    },
+    fallbackPath: '/dashboard',
+    authType: 'general'
+  }
+];
 
+export { paths, pagesInfo };

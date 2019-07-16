@@ -1,17 +1,16 @@
-import { hot } from "react-hot-loader";
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
 import Loading from '../Loading/Loading';
-import "./CurrentPromotion.scss";
+import './CurrentPromotion.scss';
 
 class CurrentPromotion extends Component {
   onChangePromotion = () => {
     const onLive = this.props.promotion.onLive;
     this.props.loadPromotion(onLive);
-  }
+  };
 
-  render(){
-    return(
+  render() {
+    return (
       <section className="current-promotion">
         <h2>Promotion Schedule on Live</h2>
         {this.props.isLoading ? (
@@ -25,21 +24,39 @@ class CurrentPromotion extends Component {
         ) : (
           <div className="component-group-container">
             <p>
-              <span>{this.props.promotion.queue[this.props.promotion.onLive].name}</span>
-              <span>{this.props.promotion.queue[this.props.promotion.onLive].startDate}-</span>
-              <span>{this.props.promotion.queue[this.props.promotion.onLive].endDate}</span>
+              <span>
+                {this.props.promotion.queue[this.props.promotion.onLive].name}
+              </span>
+              <span>
+                {
+                  this.props.promotion.queue[this.props.promotion.onLive]
+                    .startDate
+                }
+                -
+              </span>
+              <span>
+                {
+                  this.props.promotion.queue[this.props.promotion.onLive]
+                    .endDate
+                }
+              </span>
             </p>
-            <button className="button show-default-promotion-button" onClick={this.onChangePromotion}>Load onLive Promotion Details</button>
+            <button
+              className="button show-default-promotion-button"
+              onClick={this.onChangePromotion}
+            >
+              Load onLive Promotion Details
+            </button>
           </div>
-        )}  
-    </section>
-    )
+        )}
+      </section>
+    );
   }
 
-  componentDidUpdate(){
+  componentDidUpdate() {
     // console.log(getPermutations([1,2,3,4,5]));
     // console.log('promotion', this.props.promotion);
   }
 }
 
-export default hot(module)(CurrentPromotion);
+export default CurrentPromotion;

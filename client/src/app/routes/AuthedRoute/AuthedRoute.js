@@ -1,15 +1,15 @@
-import React from 'react'
+import React from 'react';
 import RouteUnit from '../RouteUnit/Container';
-import { pagePaths } from '@app/pages/pagesInfo'
+import { paths } from '@app/pages';
 
 const AuthedRoute = ({ authenticated, ...props }) => {
   return (
     <RouteUnit
       {...props}
       predicate={() => authenticated}
-      fallbackPath={pagePaths.LOGIN}
+      fallbackPath={paths.LOGIN}
     />
-  )
-}
+  );
+};
 
 export default AuthedRoute;

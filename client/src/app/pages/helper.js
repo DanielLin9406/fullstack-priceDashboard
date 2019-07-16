@@ -1,9 +1,9 @@
 function getAllPages(routes = []) {
-  const allRoutes = [...routes]
+  const allRoutes = [...routes];
   for (let route of routes) {
-    if (route.routes) allRoutes.unshift(...getAllPages(route.routes))
+    if (route.routes) allRoutes.unshift(...getAllPages(route.routes));
   }
-  return allRoutes
+  return allRoutes;
 }
 
-export { getAllPages }
+export default getAllPages;

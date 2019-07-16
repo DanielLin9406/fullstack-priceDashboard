@@ -1,22 +1,27 @@
-import merge from "webpack-merge";
-import webpack from "webpack";
-import stringify from 'stringify-object-values'
-
-import UglifyJSPlugin from "uglifyjs-webpack-plugin";
-import CleanWebpackPlugin from "clean-webpack-plugin";
-import MiniCssExtractPlugin from "mini-css-extract-plugin";
-import WebpackAssetsManifest from "webpack-assets-manifest";
-import OptimizeCSSAssetsPlugin from "optimize-css-assets-webpack-plugin";
-
-import commonConfig from "./webpack.config.common.js";
-import env from "./webpack.env";
-import { paths } from "./webpack.const";
+import merge from 'webpack-merge';
+import webpack from 'webpack';
+import stringify from 'stringify-object-values';
+import UglifyJSPlugin from 'uglifyjs-webpack-plugin';
+import CleanWebpackPlugin from 'clean-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import WebpackAssetsManifest from 'webpack-assets-manifest';
+import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
+import commonConfig from './webpack.config.common.js';
+import env from './webpack.env';
+import { paths } from './webpack.const';
 
 const publicConfig = {
   mode: 'production',
   entry: {
-    index: [ paths.appJs ],
-    vendor: ["react", "react-dom", "react-redux", "redux", "react-router-dom", "lodash"]
+    index: [paths.appJs],
+    vendor: [
+      'react',
+      'react-dom',
+      'react-redux',
+      'redux',
+      'react-router-dom',
+      'lodash'
+    ]
   },
   output: {
     path: paths.buildDir,
@@ -24,11 +29,8 @@ const publicConfig = {
     chunkFilename: 'static/js/[name].[chunkhash].js'
   },
   optimization: {
-    minimizer: [
-      new UglifyJSPlugin(),
-      new OptimizeCSSAssetsPlugin({})
-    ]
-  }, 
+    minimizer: [new UglifyJSPlugin(), new OptimizeCSSAssetsPlugin({})]
+  },
   module: {
     rules: [
       {
@@ -36,28 +38,25 @@ const publicConfig = {
         use: [
           MiniCssExtractPlugin.loader,
           {
-            loader: "css-loader",
+            loader: 'css-loader',
             options: {
-              sourceMap: true,
-              modules: false,
-              localIdentName: "[local]-[hash:base64:5]"
+              modules: {
+                localIdentName: '[local]-[hash:base64:5]'
+              }
             }
           },
           {
-            loader: "postcss-loader"
+            loader: 'postcss-loader'
           },
           {
-            loader: "sass-loader",
-            options: {
-              sourceMap: true
-            }
+            loader: 'sass-loader'
           }
         ]
       }
     ]
   },
   plugins: [
-    new CleanWebpackPlugin(["build"]),
+    new CleanWebpackPlugin(['build']),
     new webpack.DefinePlugin(stringify(env.variables)),
     new MiniCssExtractPlugin({
       filename: 'static/css/[name].[hash].css',

@@ -1,119 +1,165 @@
-import { hot } from "react-hot-loader";
 import React, { Component } from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-import formatNumber from '../../../shared/formatNumber';
-import getUpdatedPrice from '../../../shared/getUpdatedPrice';
-import testBundle from '../../../shared/testBundle';
+import formatNumber from "../../../shared/formatNumber";
+import getUpdatedPrice from "../../../shared/getUpdatedPrice";
+import testBundle from "../../../shared/testBundle";
 import getDefaultPrice from "../../../shared/getDefaultPrice";
 
 class DiscountList extends Component {
   state = {
-    checked:{},
-    decoratorArr:[]
-  }
+    checked: {},
+    decoratorArr: []
+  };
 
   static contextTypes = {
     mapSku2Name: PropTypes.object,
     currentPromotionId: PropTypes.string
-  } 
+  };
 
   setUpgradeCheckbox = () => {
-    let obj = {}
-    this.getKeyArr(this.props.licenseRule.upgrade).forEach((ele) => {
-      obj[ele] = false
-    })
-    this.setState((state)=>({
+    let obj = {};
+    this.getKeyArr(this.props.licenseRule.upgrade).forEach(ele => {
+      obj[ele] = false;
+    });
+    this.setState(state => ({
       checked: obj
-    }))
-  }
+    }));
+  };
 
-  getKeyArr = (obj) => {
-    const skuArr = Object.keys(obj)
+  getKeyArr = obj => {
+    const skuArr = Object.keys(obj);
     return skuArr;
-  }
+  };
 
-  onChangeCheckBox = (event) => {
+  onChangeCheckBox = event => {
     const sku = event.currentTarget.dataset.sku;
-    this.setState((state) => ({
-      checked:{
+    this.setState(state => ({
+      checked: {
         ...state.checked,
         [sku]: !state.checked[sku]
       }
-    }))
+    }));
     this.calculateTotalDiscount(sku);
-  }
+  };
 
-  calculateTotalDiscount = (sku) => {
-    if (this.state.decoratorArr.indexOf(sku) === -1){
+  calculateTotalDiscount = sku => {
+    if (this.state.decoratorArr.indexOf(sku) === -1) {
       const decoratorArr = this.state.decoratorArr;
       decoratorArr.push(sku);
-      this.setState({
-        decoratorArr: decoratorArr
-      }, ()=> {
-        this.props.renderDiscountPrice(this.state.decoratorArr)
-      })
+      this.setState(
+        {
+          decoratorArr: decoratorArr
+        },
+        () => {
+          this.props.renderDiscountPrice(this.state.decoratorArr);
+        }
+      );
     } else {
-      this.setState({
-        decoratorArr: this.state.decoratorArr.filter((ele) => ele !== sku)
-      }, () => {
-        this.props.renderDiscountPrice(this.state.decoratorArr)
-      })      
-    } 
-  }
+      this.setState(
+        {
+          decoratorArr: this.state.decoratorArr.filter(ele => ele !== sku)
+        },
+        () => {
+          this.props.renderDiscountPrice(this.state.decoratorArr);
+        }
+      );
+    }
+  };
 
-  componentDidUpdate(){
+  componentDidUpdate() {
     // console.log('price', this.props.priceProps);
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.setUpgradeCheckbox(this.props.licenseRule.upgrade);
   }
 
-  render(){
+  render() {
     return (
       <>
-        {testBundle(this.props.sku) ? (
-          // Bundle
-          this.getKeyArr(this.props.licenseRule.upgrade).sort((a, b) => parseInt(a) - parseInt(b)).map((ele, index) => {
-            return (
-              <li key={index} className="price-item">
-                <p className="price-item-user"><span>{this.context.mapSku2Name[ele]}</span></p>
-                <p className="price-item-checkbox">
-                  <input 
-                    data-sku={ele} 
-                    onChange={this.onChangeCheckBox} 
-                    value={this.state.checked[ele]}
-                    type="checkbox"
-                  />
-                </p>
-                <p></p>
-              </li>
-            )
-          })
-        ) : (
-          // Regular Product
-          this.props.licenseRule.predecessor.sort((a, b) => parseInt(a) - parseInt(b)).map((ele, index) => {
-            const deduct = this.props.license.calculateDeductible([ele])
-            return (
-              <li key={index} className="price-item">
-                <p className="price-item-user"><span>{this.context.mapSku2Name[ele] || ele}</span></p>
-                <p className={this.props.priceProps.isModPrice ? "price-item-sale-price mod-price" : "price-item-sale-price" }><span>{getUpdatedPrice(this.props.priceProps, deduct)}</span></p>
-                <p className={this.props.priceProps.isModPrice ? "price-item-price mod-price" : "price-item-price" }><span>{formatNumber(this.props.priceProps).salePrice}</span></p>
-                {this.props.priceProps.isModPrice && (
-                  <>
-                  <p className="price-item-user"><span></span></p>
-                  <p className="price-item-default-sale-price"><span>def: {getDefaultPrice(this.props.priceProps, deduct)}</span></p>
-                  <p className="price-item-default-price"><span>def: {formatNumber(this.props.priceProps).defaultSalePrice}</span></p>
-                  </>
-                )}
-              </li>             
-            )
-          })
-        )}
+        {testBundle(this.props.sku)
+          ? // Bundle
+            this.getKeyArr(this.props.licenseRule.upgrade)
+              .sort((a, b) => parseInt(a) - parseInt(b))
+              .map((ele, index) => {
+                return (
+                  <li key={index} className="price-item">
+                    <p className="price-item-user">
+                      <span>{this.context.mapSku2Name[ele]}</span>
+                    </p>
+                    <p className="price-item-checkbox">
+                      <input
+                        data-sku={ele}
+                        onChange={this.onChangeCheckBox}
+                        value={this.state.checked[ele]}
+                        type="checkbox"
+                      />
+                    </p>
+                    <p />
+                  </li>
+                );
+              })
+          : // Regular Product
+            this.props.licenseRule.predecessor
+              .sort((a, b) => parseInt(a) - parseInt(b))
+              .map((ele, index) => {
+                const deduct = this.props.license.calculateDeductible([ele]);
+                return (
+                  <li key={index} className="price-item">
+                    <p className="price-item-user">
+                      <span>{this.context.mapSku2Name[ele] || ele}</span>
+                    </p>
+                    <p
+                      className={
+                        this.props.priceProps.isModPrice
+                          ? "price-item-sale-price mod-price"
+                          : "price-item-sale-price"
+                      }
+                    >
+                      <span>
+                        {getUpdatedPrice(this.props.priceProps, deduct)}
+                      </span>
+                    </p>
+                    <p
+                      className={
+                        this.props.priceProps.isModPrice
+                          ? "price-item-price mod-price"
+                          : "price-item-price"
+                      }
+                    >
+                      <span>
+                        {formatNumber(this.props.priceProps).salePrice}
+                      </span>
+                    </p>
+                    {this.props.priceProps.isModPrice && (
+                      <>
+                        <p className="price-item-user">
+                          <span />
+                        </p>
+                        <p className="price-item-default-sale-price">
+                          <span>
+                            def:{" "}
+                            {getDefaultPrice(this.props.priceProps, deduct)}
+                          </span>
+                        </p>
+                        <p className="price-item-default-price">
+                          <span>
+                            def:{" "}
+                            {
+                              formatNumber(this.props.priceProps)
+                                .defaultSalePrice
+                            }
+                          </span>
+                        </p>
+                      </>
+                    )}
+                  </li>
+                );
+              })}
       </>
-    )
+    );
   }
 }
 
-export default hot(module)(DiscountList);
+export default DiscountList;

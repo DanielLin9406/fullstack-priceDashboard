@@ -1,19 +1,21 @@
+import "dotenv/config";
 import path from "path";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import webpack from "webpack";
-import env from './webpack.env';
+import env from "./webpack.env";
 import { paths } from "./webpack.const";
 
 const babelOptions = {
   presets: [
     [
-      "@babel/preset-env",{
-        "modules": false,
+      "@babel/preset-env",
+      {
+        modules: false
       }
     ],
     "@babel/preset-react"
   ],
-  plugins:[
+  plugins: [
     "@babel/plugin-syntax-dynamic-import",
     "@babel/plugin-proposal-export-namespace-from",
     "@babel/plugin-proposal-class-properties",
@@ -23,7 +25,7 @@ const babelOptions = {
     "react-hot-loader/babel"
   ],
   cacheDirectory: true
-}
+};
 
 const commonConfig = {
   module: {
@@ -43,8 +45,8 @@ const commonConfig = {
           options: {
             limit: 8192,
             name: `[name].[ext]`,
-            outputPath: 'static/assets/images',
-            publicPath: 'static/assets/images'            
+            outputPath: "static/assets/images",
+            publicPath: "static/assets/images"
           }
         }
       },
@@ -55,8 +57,8 @@ const commonConfig = {
           options: {
             limit: 10000,
             name: `[name].[ext]`,
-            outputPath: 'static/assets/fonts',
-            publicPath: 'static/assets/fonts'            
+            outputPath: "static/assets/fonts",
+            publicPath: "static/assets/fonts"
           }
         }
       },
@@ -64,10 +66,10 @@ const commonConfig = {
         test: /\.svg$/,
         use: {
           loader: "svg-url-loader",
-          options:{
+          options: {
             name: `[name].[ext]`,
-            outputPath: 'static/assets/svg',
-            publicPath: 'static/assets/svg'             
+            outputPath: "static/assets/svg",
+            publicPath: "static/assets/svg"
           }
         }
       },
@@ -110,14 +112,20 @@ const commonConfig = {
   ],
   resolve: {
     alias: {
-      '@app/api': paths.apiDir,
-      '@app/const': paths.constDir,
-      '@app/layout': paths.layoutDir,
-      '@app/image': paths.imageDir,
-      '@app/components':paths.componentsDir,
-      '@app/pages': paths.pagesDir,
-      bigCalendarStyle: path.join(__dirname, 'node_modules/react-big-calendar/lib/css/react-big-calendar.css'),
-      dayPickerStyle: path.join(__dirname, 'node_modules/react-day-picker/lib/style.css')
+      "@app/api": paths.apiDir,
+      "@app/const": paths.constDir,
+      "@app/layout": paths.layoutDir,
+      "@app/image": paths.imageDir,
+      "@app/components": paths.componentsDir,
+      "@app/pages": paths.pagesDir,
+      bigCalendarStyle: path.join(
+        __dirname,
+        "node_modules/react-big-calendar/lib/css/react-big-calendar.css"
+      ),
+      dayPickerStyle: path.join(
+        __dirname,
+        "node_modules/react-day-picker/lib/style.css"
+      )
     }
   }
 };

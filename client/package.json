@@ -8,7 +8,7 @@
     "start:stage": "NODE_ENV=development NODE_ENV_API=stage npx webpack-dev-server --config webpack.js --color --progress --hot",
     "start:dev": "NODE_ENV=development NODE_ENV_API=apiDoc npx webpack-dev-server --config webpack.js --color --progress --hot",
     "start:jsonserver": "npm run mock & npm run mockDev",
-    "mock": "npx json-server mock/mock.js --watch --port 8090",
+    "mock": "npx json-server mock/mock.js --watch --port 8095",
     "mockDev": "NODE_ENV=development NODE_ENV_API=jsonserver npx webpack-dev-server --config webpack.js --color --progress --hot",
     "build:prod": "NODE_ENV=production NODE_ENV_API=prodution npx webpack --config webpack.js",
     "build:stage": "NODE_ENV=production NODE_ENV_API=stage npx webpack --config webpack.js",
@@ -22,10 +22,11 @@
     "@shinin/load-script": "^1.0.4",
     "@shinin/request": "^1.0.7",
     "date-fns": "^1.30.1",
+    "dotenv": "^8.0.0",
     "firebase": "^5.7.2",
     "history": "^4.7.2",
     "js-cookie": "^2.2.0",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.14",
     "moment": "^2.23.0",
     "moment-timezone": "^0.5.23",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
@@ -61,7 +62,7 @@
     "@babel/register": "^7.0.0",
     "babel-loader": "^8.0.0-beta.0",
     "clean-webpack-plugin": "^0.1.16",
-    "css-loader": "^0.28.7",
+    "css-loader": "^3.0.0",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "file-loader": "^2.0.0",
     "html-webpack-plugin": "^3.0.7",
@@ -76,24 +77,12 @@
     "sass-loader": "^6.0.6",
     "style-loader": "^0.18.2",
     "uglifyjs-webpack-plugin": "^1.0.0",
-    "url-loader": "^0.5.9",
+    "url-loader": "^2.0.1",
     "webpack": "^4.0.0",
     "webpack-assets-manifest": "^3.1.1",
     "webpack-cli": "^3.1.2",
     "webpack-dev-middleware": "^3.4.0",
     "webpack-dev-server": "^3.0.0",
     "webpack-merge": "^4.1.0"
-  },
-  "babel": {
-    "presets": [
-      [
-        "@babel/preset-env",
-        {
-          "targets": {
-            "node": "current"
-          }
-        }
-      ]
-    ]
   }
 }

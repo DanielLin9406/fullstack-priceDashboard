@@ -1,76 +1,78 @@
 @import '~bigCalendarStyle';
-.calendar-container{
+.calendar-container {
   display: flex;
   height: 800px;
 }
 
-.rbc-calendar{
+.rbc-calendar {
   width: 90%;
-  margin-bottom:5%;
-  background:#fff;
-  .rbc-toolbar{
+  margin-bottom: 5%;
+  background: #fff;
+  .rbc-toolbar {
     display: flex;
     flex-direction: column-reverse;
-    margin-top:1rem;
-    .rbc-toolbar-label{
-      margin-bottom:1rem;
+    margin-top: 1rem;
+    .rbc-toolbar-label {
+      margin-bottom: 1rem;
       font-size: 1rem;
       font-weight: bold;
     }
   }
-  .rbc-row-content{
+  .rbc-month-view {
+    .rbc-month-row {
+      overflow: initial !important;
+    }
     .rbc-row {
-      .rbc-row-segment{
-        .rbc-event{
-          background:#617a77;
+      .rbc-row-segment {
+        .rbc-event {
+          background: #617a77;
         }
-        .rbc-selected{
-          background:#008072
+        .rbc-selected {
+          background: #008072;
         }
       }
-      .rbc-date-cell{
-        a{
+      .rbc-date-cell {
+        a {
           font-size: 0.5rem;
         }
-        &.rbc-now{
-          a{
+        &.rbc-now {
+          a {
             font-size: 1rem;
           }
         }
       }
     }
   }
-  .rbc-row-bg{
-    .rbc-today{
+  .rbc-row-bg {
+    .rbc-today {
       position: relative;
-      background:transparent;
-      &:before{
-        content:'';
+      background: transparent;
+      &:before {
+        content: '';
         display: block;
-        position:absolute;
-        left:0;
-        top:0;
-        bottom:0;
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
         width: 100%;
         height: 100%;
-        margin:auto;
-        border-left:3px solid rgb(174, 222, 175);
-        border-right:3px solid rgb(174, 222, 175);
-        border-top:3px solid rgb(174, 222, 175);
-        border-bottom:3px solid rgb(174, 222, 175);
+        margin: auto;
+        border-left: 3px solid rgb(174, 222, 175);
+        border-right: 3px solid rgb(174, 222, 175);
+        border-top: 3px solid rgb(174, 222, 175);
+        border-bottom: 3px solid rgb(174, 222, 175);
       }
     }
   }
-  .rbc-month-view{
-    .rbc-month-header{
-      .rbc-header{
-        span{
-          color: #DDD;
+  .rbc-month-view {
+    .rbc-month-header {
+      .rbc-header {
+        span {
+          color: #ddd;
           font-size: 0.5rem;
-
         }
       }
-    }  
+    }
   }
 }
 

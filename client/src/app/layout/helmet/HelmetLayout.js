@@ -1,44 +1,45 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 import Helmet from 'react-helmet';
-import { seo } from '@app/const/const';
+import seo from '@app/const/const';
+import { any, string, shape } from 'prop-types';
 
+class HelmetLayout extends Component {
+  static propTypes = {
+    children: any,
+    location: any,
+    className: string,
+    id: string
+  };
 
-class BaseLayout extends Component {
-  getAttrs = (rest) => (
+  getAttrs = rest => ({
+    lang: 'en',
+    itemscope: undefined,
+    itemtype: `http://schema.org/${rest.schema || 'WebPage'}`
+  });
+
+  getTitle = rest =>
+    rest.title
+      ? rest.title + seo.defaultSep + seo.defaultTitle
+      : seo.defaultTitle;
+
+  getLinks = (a, pathname) => [
     {
-      lang: 'en',
-      itemscope: undefined,
-      itemtype: `http://schema.org/${rest.schema || 'WebPage'}`
-    }
-  )
-  
-  getTitle = (rest) => (
-    rest.title ? rest.title + seo.defaultSep + seo.defaultTitle : seo.defaultTitle
-  )
-
-  getLinks = (pathname) => (
-    [{
       rel: 'canonical',
-      href: seo.SITE_URL + pathname      
-    }]
-  )
+      href: seo.SITE_URL + pathname
+    }
+  ];
 
-  getMetaTags(
-    {
-      title,
-      description,
-      image,
-      contentType,
-      twitter,
-      noCrawl,
-      published,
-      updated,
-      category,
-      tags
-    },
-    pathname
-  ) {
+  getMetaTags({
+    title,
+    description,
+    image,
+    noCrawl,
+    published,
+    updated,
+    category,
+    tags
+  }) {
     const theTitle = title
       ? (title + seo.defaultSep + seo.defaultTitle).substring(0, 60)
       : seo.defaultTitle;
@@ -51,7 +52,7 @@ class BaseLayout extends Component {
       { itemprop: 'name', content: theTitle },
       { itemprop: 'description', content: theDescription },
       { itemprop: 'image', content: theImage },
-      { name: 'description', content: theDescription },
+      { name: 'description', content: theDescription }
       // { name: 'twitter:card', content: 'summary_large_image' },
       // { name: 'twitter:site', content: defaultTwitter },
       // { name: 'twitter:title', content: theTitle },
@@ -84,11 +85,11 @@ class BaseLayout extends Component {
     }
 
     return metaTags;
-  }  
+  }
 
-  render(){
+  render() {
     const { children, id, className, ...rest } = this.props;
-  
+
     return (
       <main id={id} className={className}>
         <Helmet
@@ -99,8 +100,8 @@ class BaseLayout extends Component {
         />
         {children}
       </main>
-    )
+    );
   }
 }
 
-export default withRouter(BaseLayout);
+export default withRouter(HelmetLayout);

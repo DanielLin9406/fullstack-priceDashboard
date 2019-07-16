@@ -1,39 +1,47 @@
-import { hot } from "react-hot-loader";
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-class AddPriceRule extends Component{
-  componentDidMount(){
+class AddPriceRule extends Component {
+  componentDidMount() {
     // console.log('', this.props.bcPriceList);
   }
-  render(){
+  render() {
     return (
       <div className="add-item-price-container">
         <form onSubmit={this.props.addItem}>
           <div className="item-container">
             <label htmlFor="">Product Name</label>
             <select name="productDetails" id="productDetails">
-              {this.props.bcPriceList.filter((prdObj)=>{
-                const reg = /(^L|^B)/i;
-                return reg.test(prdObj.sku);
-              }).map((ele, index) => {
-                return (
-                  <option key={index} value={`${ele.sku}-${ele.name}-${ele.price}`}>{ele.name}</option>  
-                )
-              })}
+              {this.props.bcPriceList
+                .filter(prdObj => {
+                  const reg = /(^L|^B)/i;
+                  return reg.test(prdObj.sku);
+                })
+                .map((ele, index) => {
+                  return (
+                    <option
+                      key={index}
+                      value={`${ele.sku}-${ele.name}-${ele.price}`}
+                    >
+                      {ele.name}
+                    </option>
+                  );
+                })}
             </select>
           </div>
           <div className="price-container">
             <label htmlFor="salePrice">SalePrice</label>
-            <input id="salePrice" name="salePrice" type="text"/>
+            <input id="salePrice" name="salePrice" type="text" />
           </div>
           <div className="add-item-container">
-            <button><span>+</span></button>
+            <button>
+              <span>+</span>
+            </button>
           </div>
         </form>
         <div>{this.errMsg}</div>
-      </div>      
-    )
+      </div>
+    );
   }
 }
 
-export default hot(module)(AddPriceRule)
+export default AddPriceRule;
