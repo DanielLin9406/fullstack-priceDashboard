@@ -8,7 +8,7 @@ import testBundle from '../../../shared/testBundle';
 
 import DiscountList from './DiscountList';
 
-class BCPriceItem extends Component {
+class PriceItem extends Component {
   constructor(props) {
     super(props);
     this.license = new License(props.licenseRule);
@@ -115,4 +115,4 @@ class BCPriceItem extends Component {
   }
 }
 
-export default BCPriceItem;
+export default PriceItem;
