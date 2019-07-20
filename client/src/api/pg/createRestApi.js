@@ -1,5 +1,6 @@
-import Request from '@shinin/request'
-import host from './host'
+import Request from '@shinin/request';
+import host from './host';
+import axios from 'axios';
 
 export default uri => ({
   fetchList: token =>
@@ -20,4 +21,33 @@ export default uri => ({
     Request.delete(`${host}/${uri}/${id}`)
       .bearer(token)
       .acceptJson()
-})
+});
+
+const createAxiosInstance = url => {
+  const instance = axios.create({
+    baseURL: `${host}`,
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+  return {
+    get: token => {
+      instance.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+      return instance.get(`${url}`);
+    },
+    post: (token, dataBody) => {
+      instance.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+      return instance.post(`${url}`, dataBody);
+    },
+    put: (token, id, dataBody) => {
+      instance.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+      return instance.put(`${url}/${id}`, dataBody);
+    },
+    delete: (token, id) => {
+      instance.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+      return instance.delete(`${url}/${id}`);
+    }
+  };
+};
+
+export { createAxiosInstance };
