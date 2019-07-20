@@ -4,7 +4,8 @@
   "description": "PositiveGrid Price Center Frontend",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint src/",
+    "lint:write": "eslint --debug src/ --fix",
     "start:stage": "NODE_ENV=development NODE_ENV_API=stage npx webpack-dev-server --config webpack.js --color --progress --hot",
     "start:dev": "NODE_ENV=development NODE_ENV_API=apiDoc npx webpack-dev-server --config webpack.js --color --progress --hot",
     "start:jsonserver": "npm run mock & npm run mockDev",
