@@ -1,7 +1,11 @@
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
-import { loadPromotion, sortPromotion, asyncRemovePromotion } from "../../../modules/scheduled-price/scheduledPrice";
+import {
+  loadPromotion,
+  sortPromotion,
+  asyncRemovePromotion
+} from '../../../modules/scheduled-price/scheduledPrice';
 import QueuePromo from './QueuePromo';
 
 const mapStateToProps = state => ({
@@ -12,7 +16,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({ loadPromotion, sortPromotion, asyncRemovePromotion }, dispatch);
+  bindActionCreators(
+    { loadPromotion, sortPromotion, asyncRemovePromotion },
+    dispatch
+  );
 
 export default connect(
   mapStateToProps,
