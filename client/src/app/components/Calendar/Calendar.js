@@ -1,16 +1,16 @@
-import React, { Component } from "react";
-import BigCalendar from "react-big-calendar";
-import moment from "moment";
+import React, { Component } from 'react';
+import BigCalendar from 'react-big-calendar';
+import moment from 'moment';
 
-import getStashPromoId from "../../../shared/getStashPromoId";
-import Loading from "../Loading/Loading";
-import "./Calendar.scss";
+import getStashPromoId from '../../../shared/getStashPromoId';
+import Loading from '../Loading/Loading';
+import './Calendar.scss';
 
 const localizer = BigCalendar.momentLocalizer(moment);
 
 let allViews = Object.keys(BigCalendar.Views)
   .filter(e => {
-    if (e === "MONTH") {
+    if (e === 'MONTH') {
       return true;
     } else {
       return false;
@@ -19,7 +19,7 @@ let allViews = Object.keys(BigCalendar.Views)
   .map(k => BigCalendar.Views[k]);
 
 let navigator = Object.keys(BigCalendar.Navigate).filter(e => {
-  if (e === "NEXT" || e === "PREVIOUS") {
+  if (e === 'NEXT' || e === 'PREVIOUS') {
     return true;
   } else {
     return false;
@@ -30,13 +30,13 @@ class Calendar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      active: "",
+      active: '',
       order: [],
       queue: {},
       events: [],
       date: new Date(),
-      stashPromotionId: "",
-      selectEvent: ""
+      stashPromotionId: '',
+      selectEvent: ''
     };
   }
 
@@ -51,8 +51,8 @@ class Calendar extends Component {
         promotionId: list[ele].promotionId,
         title: list[ele].name,
         allDay: true,
-        start: moment(list[ele].startDate, "YYYY/MM/DD").toDate(),
-        end: moment(list[ele].endDate, "YYYY/MM/DD").toDate()
+        start: moment(list[ele].startDate, 'YYYY/MM/DD').toDate(),
+        end: moment(list[ele].endDate, 'YYYY/MM/DD').toDate()
       };
     });
     if (state.stashPromotionId !== propsStashId) {
