@@ -85,5 +85,17 @@
     "webpack-dev-middleware": "^3.4.0",
     "webpack-dev-server": "^3.0.0",
     "webpack-merge": "^4.1.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/*.(js|scss)": [
+      "npm run prettier",
+      "npm run lint",
+      "git add"
+    ]
   }
 }
