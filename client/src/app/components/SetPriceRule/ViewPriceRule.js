@@ -1,9 +1,10 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
 class ViewPriceRule extends Component {
   componentDidUpdate() {
     // console.log('priceList', this.props.currentItemPriceList)
   }
+
   render() {
     return (
       <div className="item-price-list-container">
@@ -11,7 +12,7 @@ class ViewPriceRule extends Component {
           {this.props.currentItemPriceList
             ? this.props.currentItemPriceList.map((ele, index) => {
                 return (
-                  <li key={index} className="item-price-item">
+                  <li key={ele.name} className="item-price-item">
                     <div className="item-container">
                       <p>{ele.name}</p>
                     </div>
@@ -26,7 +27,7 @@ class ViewPriceRule extends Component {
                   </li>
                 );
               })
-            : ""}
+            : ''}
         </ul>
       </div>
     );

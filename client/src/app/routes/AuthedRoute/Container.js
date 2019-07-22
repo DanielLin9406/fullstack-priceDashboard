@@ -1,5 +1,5 @@
-import { connect } from "react-redux";
-import AuthedRoute from "./AuthedRoute";
+import { connect } from 'react-redux';
+import AuthedRoute from './AuthedRoute';
 
 const mapStateToProps = state => ({
   authenticated: state.auth.authenticated

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
+import Section from '../Section/Section';
 import SortableList from './QueuePromoList';
 
 import './QueuePromo.scss';
@@ -12,6 +12,7 @@ class QueuePromo extends Component {
     active: PropTypes.string,
     user: PropTypes.object
   };
+
   getChildContext() {
     return {
       removePromotion: this.props.asyncRemovePromotion,
@@ -20,12 +21,14 @@ class QueuePromo extends Component {
       user: this.props.user
     };
   }
-  onSortEnd = ({ oldIndex, newIndex, collection }, e) => {
+
+  onSortEnd = ({ oldIndex, newIndex }) => {
     this.props.sortPromotion(oldIndex, newIndex);
   };
+
   render() {
     return (
-      <section className="queue-price-rule">
+      <Section className="queue-price-rule">
         <h2>Schedule Queue</h2>
         <div className="component-group-container">
           <SortableList
@@ -35,7 +38,7 @@ class QueuePromo extends Component {
             errMsg={this.props.errMsg}
           />
         </div>
-      </section>
+      </Section>
     );
   }
 }

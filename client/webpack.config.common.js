@@ -3,7 +3,7 @@ import path from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import webpack from 'webpack';
 import env from './webpack.env';
-import { paths } from './webpack.const';
+import paths from './webpack.const';
 
 const babelOptions = {
   presets: [
@@ -44,7 +44,7 @@ const commonConfig = {
           loader: 'url-loader',
           options: {
             limit: 8192,
-            name: `[name].[ext]`,
+            name: '[name].[ext]',
             outputPath: 'static/assets/images',
             publicPath: 'static/assets/images'
           }
@@ -67,7 +67,7 @@ const commonConfig = {
         use: {
           loader: 'svg-url-loader',
           options: {
-            name: `[name].[ext]`,
+            name: '[name].[ext]',
             outputPath: 'static/assets/svg',
             publicPath: 'static/assets/svg'
           }

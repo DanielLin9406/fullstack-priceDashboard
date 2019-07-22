@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
-import ProductItem from "./ProductItem";
+import ProductItem from './ProductItem';
 
 class BCPriceList extends Component {
   static childContextTypes = {
@@ -22,15 +22,15 @@ class BCPriceList extends Component {
     // console.log('BCPriceList', this.props.bcPrice);
     // console.log('PrliceList', this.props.promoItem)
   }
+
   mapProductToPromotion = product => {
     if (!this.props.promoItem) return null;
     const List = this.props.promoItem
       .filter(promoItem => {
         if (product.sku === promoItem.sku) {
           return true;
-        } else {
-          return false;
         }
+        return false;
       })
       .map(ele3 => ele3);
     return List[0];
@@ -48,7 +48,7 @@ class BCPriceList extends Component {
                 salePrice: priceObj ? priceObj.sale_price : prdObj.sale_price,
                 defaultPrice: prdObj.price,
                 defaultSalePrice: prdObj.sale_price,
-                isModPrice: priceObj ? true : false
+                isModPrice: !!priceObj
               };
               return {
                 ...prdObj,
@@ -63,15 +63,14 @@ class BCPriceList extends Component {
                 return (
                   reg.test(prdObj.sku) && prdObj.updatedPriceObj.isModPrice
                 );
-              } else {
-                return reg.test(prdObj.sku);
               }
+              return reg.test(prdObj.sku);
             })
             .map((prdObj, index) => {
               // L1101
               return (
                 <li
-                  key={`item-${index}`}
+                  key={`item-${prdObj.name}`}
                   index={index}
                   className="product-item"
                 >

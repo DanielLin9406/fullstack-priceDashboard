@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
-import formatNumber from "../../../shared/formatNumber";
-import getUpdatedPrice from "../../../shared/getUpdatedPrice";
-import testBundle from "../../../shared/testBundle";
-import getDefaultPrice from "../../../shared/getDefaultPrice";
+import formatNumber from '../../../shared/formatNumber';
+import getUpdatedPrice from '../../../shared/getUpdatedPrice';
+import testBundle from '../../../shared/testBundle';
+import getDefaultPrice from '../../../shared/getDefaultPrice';
 
 class DiscountList extends Component {
   state = {
@@ -17,19 +17,25 @@ class DiscountList extends Component {
     currentPromotionId: PropTypes.string
   };
 
-  setUpgradeCheckbox = () => {
-    let obj = {};
-    this.getKeyArr(this.props.licenseRule.upgrade).forEach(ele => {
-      obj[ele] = false;
-    });
-    this.setState(state => ({
-      checked: obj
-    }));
-  };
+  componentDidMount() {
+    this.setUpgradeCheckbox(this.props.licenseRule.upgrade);
+  }
 
-  getKeyArr = obj => {
-    const skuArr = Object.keys(obj);
-    return skuArr;
+  componentDidUpdate() {
+    // console.log('price', this.props.priceProps);
+  }
+
+  calculateTotalDiscount = sku => {
+    let decoratorArr = this.state.decoratorArr;
+    if (decoratorArr.indexOf(sku) === -1) {
+      decoratorArr.push(sku);
+    } else {
+      decoratorArr = decoratorArr.filter(ele => ele !== sku);
+    }
+    this.props.renderDiscountPrice(decoratorArr);
+    this.setState(() => ({
+      decoratorArr
+    }));
   };
 
   onChangeCheckBox = event => {
@@ -43,37 +49,20 @@ class DiscountList extends Component {
     this.calculateTotalDiscount(sku);
   };
 
-  calculateTotalDiscount = sku => {
-    if (this.state.decoratorArr.indexOf(sku) === -1) {
-      const decoratorArr = this.state.decoratorArr;
-      decoratorArr.push(sku);
-      this.setState(
-        {
-          decoratorArr: decoratorArr
-        },
-        () => {
-          this.props.renderDiscountPrice(this.state.decoratorArr);
-        }
-      );
-    } else {
-      this.setState(
-        {
-          decoratorArr: this.state.decoratorArr.filter(ele => ele !== sku)
-        },
-        () => {
-          this.props.renderDiscountPrice(this.state.decoratorArr);
-        }
-      );
-    }
+  getKeyArr = obj => {
+    const skuArr = Object.keys(obj);
+    return skuArr;
   };
 
-  componentDidUpdate() {
-    // console.log('price', this.props.priceProps);
-  }
-
-  componentDidMount() {
-    this.setUpgradeCheckbox(this.props.licenseRule.upgrade);
-  }
+  setUpgradeCheckbox = () => {
+    const obj = {};
+    this.getKeyArr(this.props.licenseRule.upgrade).forEach(ele => {
+      obj[ele] = false;
+    });
+    this.setState(() => ({
+      checked: obj
+    }));
+  };
 
   render() {
     return (
@@ -82,9 +71,9 @@ class DiscountList extends Component {
           ? // Bundle
             this.getKeyArr(this.props.licenseRule.upgrade)
               .sort((a, b) => parseInt(a) - parseInt(b))
-              .map((ele, index) => {
+              .map(ele => {
                 return (
-                  <li key={index} className="price-item">
+                  <li key={ele} className="price-item">
                     <p className="price-item-user">
                       <span>{this.context.mapSku2Name[ele]}</span>
                     </p>
@@ -103,18 +92,18 @@ class DiscountList extends Component {
           : // Regular Product
             this.props.licenseRule.predecessor
               .sort((a, b) => parseInt(a) - parseInt(b))
-              .map((ele, index) => {
+              .map(ele => {
                 const deduct = this.props.license.calculateDeductible([ele]);
                 return (
-                  <li key={index} className="price-item">
+                  <li key={ele} className="price-item">
                     <p className="price-item-user">
                       <span>{this.context.mapSku2Name[ele] || ele}</span>
                     </p>
                     <p
                       className={
                         this.props.priceProps.isModPrice
-                          ? "price-item-sale-price mod-price"
-                          : "price-item-sale-price"
+                          ? 'price-item-sale-price mod-price'
+                          : 'price-item-sale-price'
                       }
                     >
                       <span>
@@ -124,8 +113,8 @@ class DiscountList extends Component {
                     <p
                       className={
                         this.props.priceProps.isModPrice
-                          ? "price-item-price mod-price"
-                          : "price-item-price"
+                          ? 'price-item-price mod-price'
+                          : 'price-item-price'
                       }
                     >
                       <span>
@@ -139,13 +128,13 @@ class DiscountList extends Component {
                         </p>
                         <p className="price-item-default-sale-price">
                           <span>
-                            def:{" "}
+                            def:{' '}
                             {getDefaultPrice(this.props.priceProps, deduct)}
                           </span>
                         </p>
                         <p className="price-item-default-price">
                           <span>
-                            def:{" "}
+                            def:{' '}
                             {
                               formatNumber(this.props.priceProps)
                                 .defaultSalePrice

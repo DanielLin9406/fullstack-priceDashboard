@@ -4,22 +4,23 @@ class AddPriceRule extends Component {
   componentDidMount() {
     // console.log('', this.props.bcPriceList);
   }
+
   render() {
     return (
       <div className="add-item-price-container">
         <form onSubmit={this.props.addItem}>
           <div className="item-container">
-            <label htmlFor="">Product Name</label>
+            <label htmlFor="productDetails">Product Name</label>
             <select name="productDetails" id="productDetails">
               {this.props.bcPriceList
                 .filter(prdObj => {
                   const reg = /(^L|^B)/i;
                   return reg.test(prdObj.sku);
                 })
-                .map((ele, index) => {
+                .map(ele => {
                   return (
                     <option
-                      key={index}
+                      key={ele.sku}
                       value={`${ele.sku}-${ele.name}-${ele.price}`}
                     >
                       {ele.name}

@@ -5,9 +5,10 @@ import Routes from './routes';
 import './App.scss';
 
 class App extends Component {
-  componentDidCatch(error, info) {
+  componentDidCatch() {
     // logError(error, { extra: info })
   }
+
   render() {
     return (
       <div id="app">

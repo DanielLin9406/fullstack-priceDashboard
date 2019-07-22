@@ -2,7 +2,7 @@ import path from 'path';
 
 const rootDir = path.join(__dirname, './');
 
-export const paths = {
+export default {
   rootDir,
   srcDir: path.join(rootDir, 'src'),
   apiDir: path.join(rootDir, 'src/api'),

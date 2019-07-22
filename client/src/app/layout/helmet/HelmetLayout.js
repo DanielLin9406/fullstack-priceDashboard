@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 import Helmet from 'react-helmet';
 import seo from '@app/const/const';
-import { any, string, shape } from 'prop-types';
+import { any, string } from 'prop-types';
 
 class HelmetLayout extends Component {
   static propTypes = {

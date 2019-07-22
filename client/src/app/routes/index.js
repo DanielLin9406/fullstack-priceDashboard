@@ -13,7 +13,6 @@ export default () => (
     {getAllPages(pagesInfo)
       // .filter(pageObj => pageObj.component !== undefined)
       .map(pageObj => {
-        console.log(pageObj);
         switch (pageObj.authType) {
           case 'authed':
             return <AuthedRoute exact key={pageObj.path} {...pageObj} />;

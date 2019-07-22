@@ -40,6 +40,8 @@ export default (state = initialState, action) => {
           ...state.priceList
         }
       };
+    default:
+      break;
   }
   return state;
 };

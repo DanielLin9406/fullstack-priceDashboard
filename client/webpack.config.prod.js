@@ -6,9 +6,9 @@ import CleanWebpackPlugin from 'clean-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import WebpackAssetsManifest from 'webpack-assets-manifest';
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
-import commonConfig from './webpack.config.common.js';
+import commonConfig from './webpack.config.common';
 import env from './webpack.env';
-import { paths } from './webpack.const';
+import paths from './webpack.const';
 
 const publicConfig = {
   mode: 'production',

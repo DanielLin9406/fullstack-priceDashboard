@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import License from '../../../shared/license';
-
-import getPermutations from '../../../shared/getPermutations';
+// import getPermutations from '../../../shared/getPermutations';
 import formatNumber from '../../../shared/formatNumber';
 import getUpdatedPrice from '../../../shared/getUpdatedPrice';
 import testBundle from '../../../shared/testBundle';
@@ -16,6 +15,10 @@ class PriceItem extends Component {
       checked: [],
       deduct: 0
     };
+  }
+
+  componentDidUpdate() {
+    // console.log('this.props.licenseRule', this.props.licenseRule);
   }
 
   renderDiscountPrice = decoratorArr => {
@@ -108,10 +111,6 @@ class PriceItem extends Component {
         )}
       </>
     );
-  }
-
-  componentDidUpdate() {
-    // console.log('this.props.licenseRule', this.props.licenseRule);
   }
 }
 

@@ -68,6 +68,11 @@ export default (state = initialState, action) => {
 /*
  * export async packaged dispatch
  */
+// Instant invoke
+export const reloadAuth = () => async dispatch => {
+  const user = await authApi.reloadAuthentication();
+  dispatch({ type: 'RELOAD_AUTH', payload: user });
+};
 
 export const initAuth = () => async dispatch => {
   const user = await authApi.initAuthentication();
@@ -76,12 +81,6 @@ export const initAuth = () => async dispatch => {
   let expiresIn = user.expiryDate - Date.now() - tenMins;
   if (expiresIn < 0) expiresIn = 0;
   setTimeout(() => reloadAuth(dispatch), expiresIn);
-};
-
-// Instant invoke
-export const reloadAuth = () => async dispatch => {
-  const user = await authApi.reloadAuthentication();
-  dispatch({ type: 'RELOAD_AUTH', payload: user });
 };
 
 // For event click

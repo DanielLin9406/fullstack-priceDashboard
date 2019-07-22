@@ -40,6 +40,8 @@ export default (state = initialState, action) => {
           ...state.rule
         }
       };
+    default:
+      break;
   }
   return state;
 };

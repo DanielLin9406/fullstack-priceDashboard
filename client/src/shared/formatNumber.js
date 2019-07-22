@@ -1,13 +1,13 @@
-const formatNumber = (priceObj) => {
-  let obj = {};
-  Object.keys(priceObj).forEach((ele) => {
-    if (typeof priceObj[ele] === 'number'){
-      obj[ele] = `$${priceObj[ele]}`
+const formatNumber = priceObj => {
+  const obj = {};
+  Object.keys(priceObj).forEach(ele => {
+    if (typeof priceObj[ele] === 'number') {
+      obj[ele] = `$${priceObj[ele]}`;
     } else {
-      obj[ele] = `${priceObj[ele]}`
+      obj[ele] = `${priceObj[ele]}`;
     }
-  })
-  return obj;    
-}
+  });
+  return obj;
+};
 
 export default formatNumber;

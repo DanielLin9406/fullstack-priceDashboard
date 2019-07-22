@@ -6,6 +6,9 @@
   "scripts": {
     "lint": "eslint src/",
     "lint:write": "eslint --debug src/ --fix",
+    "styleLint": "stylelint src/",
+    "styleLint:write": "stylelint --debug src/ --fix",
+    "prettier": "prettier --write src/",
     "start:stage": "NODE_ENV=development NODE_ENV_API=stage npx webpack-dev-server --config webpack.js --color --progress --hot",
     "start:dev": "NODE_ENV=development NODE_ENV_API=apiDoc npx webpack-dev-server --config webpack.js --color --progress --hot",
     "start:jsonserver": "npm run mock & npm run mockDev",
@@ -41,6 +44,7 @@
     "react-hot-loader": "^4.0.0",
     "react-loadable": "^5.5.0",
     "react-loading": "^2.0.3",
+    "react-loading-overlay": "^1.0.1",
     "react-moment": "^0.8.4",
     "react-redux": "^5.1.1",
     "react-router": "^4.3.1",
@@ -49,7 +53,8 @@
     "redux": "^3.7.2",
     "redux-saga": "^0.16.2",
     "redux-thunk": "^2.2.0",
-    "stringify-object-values": "^0.1.0"
+    "stringify-object-values": "^0.1.0",
+    "styled-components": "^4.3.2"
   },
   "devDependencies": {
     "@babel/core": "^7.2.0",
@@ -62,6 +67,7 @@
     "@babel/preset-env": "^7.2.0",
     "@babel/preset-react": "^7.0.0",
     "@babel/register": "^7.0.0",
+    "babel-eslint": "^10.0.2",
     "babel-loader": "^8.0.0-beta.0",
     "clean-webpack-plugin": "^0.1.16",
     "css-loader": "^3.0.0",
@@ -70,6 +76,7 @@
     "eslint-config-jest-enzyme": "^7.0.2",
     "eslint-config-prettier": "^4.3.0",
     "eslint-plugin-babel": "^5.3.0",
+    "eslint-plugin-css-modules": "^2.11.0",
     "eslint-plugin-import": "^2.17.3",
     "eslint-plugin-jest": "^22.6.4",
     "eslint-plugin-jsx-a11y": "^6.2.1",
@@ -81,13 +88,15 @@
     "husky": "^3.0.1",
     "json-loader": "^0.5.7",
     "json-server": "^0.12.1",
-    "lint-staged": "^9.2.0",
+    "lint-staged": "^8.2.1",
     "mini-css-extract-plugin": "^0.4.4",
     "mockjs": "^1.0.1-beta3",
     "node-sass": "^4.0.0",
     "postcss-cssnext": "^3.1.0",
     "postcss-loader": "^2.0.6",
     "postcss-preset-env": "^3.0.2",
+    "prettier": "^1.18.2",
+    "prettier-eslint-cli": "^4.7.1",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.18.2",
     "uglifyjs-webpack-plugin": "^1.0.0",
@@ -105,7 +114,7 @@
     }
   },
   "lint-staged": {
-    "src/*.js": [
+    "src/*.(js|jsx)": [
       "npm run prettier",
       "npm run lint",
       "git add"

@@ -96,11 +96,11 @@ export default (state = initialState, action) => {
           )
         }
       };
-    case REMOVE_PROMOTION:
+    case REMOVE_PROMOTION: {
       const prevOrder = state.promotion.order;
 
       const itemIndex = prevOrder.indexOf(action.promotionId);
-      let nextOrder = prevOrder;
+      const nextOrder = prevOrder;
       if (itemIndex > -1) {
         nextOrder.splice(itemIndex, 1);
       }
@@ -130,6 +130,7 @@ export default (state = initialState, action) => {
           items: state.priceSet.items
         }
       };
+    }
     case POST_PROMOTION_REQ:
       return {
         ...state,
@@ -236,8 +237,8 @@ export const asyncGetPromotion = ({ user }) => dispatch => {
       const { promotion, priceSet } = getPromotionAPIHelper({ json });
       dispatch({
         type: GET_PROMOTION_SUCCESS,
-        promotion: promotion,
-        priceSet: priceSet
+        promotion,
+        priceSet
       });
       return json;
     })
@@ -257,7 +258,7 @@ export const asyncApplyPromotion = ({
   param,
   user
 }) => async dispatch => {
-  let postBody = {
+  const postBody = {
     name: queue[stashPromotionId].name,
     start_date: queue[stashPromotionId].startDate,
     end_date: queue[stashPromotionId].endDate,
@@ -265,10 +266,10 @@ export const asyncApplyPromotion = ({
     apply_now: param === 'onLive'
   };
   order.push(stashPromotionId); // very important => trigger next loop
-  return await scheduledPriceAPI
+  await scheduledPriceAPI
     .create(user.token, postBody)
     .then(json => {
-      const { updated_queue, updated_items } = updatePromotionAPIHelper({
+      const { updatedQueue, updatedItems } = updatePromotionAPIHelper({
         json,
         queue,
         items,
@@ -279,16 +280,16 @@ export const asyncApplyPromotion = ({
         dispatch({
           type: APPLY_PROMOTION_ONLIVE,
           order,
-          queue: updated_queue,
-          items: updated_items,
+          queue: updatedQueue,
+          items: updatedItems,
           stashPromotionId
         });
       } else {
         dispatch({
           type: ADD_PROMOTION_IN_QUEUE,
           order,
-          queue: updated_queue,
-          items: updated_items,
+          queue: updatedQueue,
+          items: updatedItems,
           stashPromotionId
         });
       }
@@ -313,15 +314,15 @@ export const asyncEditPromotion = ({
   user
 }) => async dispatch => {
   const _id = queue[currentPromotionId]._id;
-  let putBody = {
+  const putBody = {
     name: queue[currentPromotionId].name,
     start_date: queue[currentPromotionId].startDate,
     end_date: queue[currentPromotionId].endDate,
     items: items[currentPromotionId]
   };
-  return await scheduledPriceAPI
+  await scheduledPriceAPI
     .update(user.token, _id, putBody)
-    .then(json => {
+    .then(() => {
       dispatch({
         type: EDIT_PROMOTION,
         order,
@@ -347,9 +348,9 @@ export const asyncRemovePromotion = ({
   _id,
   user
 }) => async dispatch => {
-  return await scheduledPriceAPI
+  await scheduledPriceAPI
     .remove(user.token, _id)
-    .then(json => {
+    .then(() => {
       dispatch({
         type: REMOVE_PROMOTION,
         promotionId

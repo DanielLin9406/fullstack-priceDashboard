@@ -2,7 +2,7 @@ import merge from 'webpack-merge';
 import path from 'path';
 import webpack from 'webpack';
 import stringify from 'stringify-object-values';
-import commonConfig from './webpack.config.common.js';
+import commonConfig from './webpack.config.common';
 import env from './webpack.env';
 
 const devConfig = {

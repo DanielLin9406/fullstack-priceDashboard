@@ -1,15 +1,15 @@
-.login-section{
-  margin-top:200px;
-  .group-container{
-    .component-group-container{
+.login-section {
+  margin-top: 200px;
+  .group-container {
+    .component-group-container {
       display: flex;
       justify-content: center;
-      .sign-in-btn{ 
+      .sign-in-btn {
         font-size: 1.5rem;
-        background:#F42E65;
-        color:#fff;
-        border:none;
-        padding:8px 20px;
+        background: #f42e65;
+        color: #fff;
+        border: none;
+        padding: 8px 20px;
         border-radius: 5px;
       }
     }

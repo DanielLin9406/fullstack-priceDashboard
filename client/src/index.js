@@ -3,8 +3,8 @@ import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import { Provider } from 'react-redux';
 import { Frontload } from 'react-frontload';
-import createStore from './store';
 import { BrowserRouter } from 'react-router-dom';
+import createStore from './store';
 import App from './app/App';
 import './index.scss';
 
@@ -14,7 +14,7 @@ const Application = (
   <AppContainer>
     <Provider store={store}>
       <BrowserRouter>
-        <Frontload noServerRender={true}>
+        <Frontload noServerRender>
           <App />
         </Frontload>
       </BrowserRouter>

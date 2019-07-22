@@ -1,13 +1,14 @@
-*{
-  padding:0;
-  margin:0;
-  &:focus{
+* {
+  padding: 0;
+  margin: 0;
+  &:focus {
     outline: none;
     box-shadow: none;
-  }  
+  }
 }
-html{
-  background:rgba(40, 40, 40, 0.8);
+html {
+  background: rgba(40, 40, 40, 0.8);
 }
 
-#root{}
+#root {
+}

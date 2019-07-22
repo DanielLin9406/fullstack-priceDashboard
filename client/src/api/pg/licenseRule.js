@@ -1,3 +1,3 @@
-import createRestApi from './createRestApi'
+import createRestApi from './createRestApi';
 
-export default createRestApi('upgrade-rules')
+export default createRestApi('upgrade-rules');

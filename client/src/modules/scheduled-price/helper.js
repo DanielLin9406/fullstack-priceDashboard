@@ -1,23 +1,23 @@
 function getPromotionAPIHelper({ json }) {
-  let promotion = {
+  const promotion = {
     queue: {},
     onLive: '',
     active: '',
     order: []
   };
-  let priceSet = {
+  const priceSet = {
     items: {},
     active: ''
   };
   json.data.forEach((ele, index) => {
     const strIndex = index.toString();
-    Object.defineProperty(promotion['queue'], strIndex, {
+    Object.defineProperty(promotion.queue, strIndex, {
       value: {},
       writable: true,
       configurable: true,
       enumerable: true
     });
-    Object.defineProperty(priceSet['items'], strIndex, {
+    Object.defineProperty(priceSet.items, strIndex, {
       value: {},
       writable: true,
       configurable: true,
@@ -25,24 +25,24 @@ function getPromotionAPIHelper({ json }) {
     });
 
     if (ele.on_live !== strIndex) {
-      promotion['order'].push(strIndex);
+      promotion.order.push(strIndex);
     } else {
-      promotion['onLive'] = ele.on_live;
+      promotion.onLive = ele.on_live;
     }
 
-    promotion['queue'][strIndex]['promotionId'] = strIndex;
-    promotion['queue'][strIndex]['startDate'] = ele.start_date;
-    promotion['queue'][strIndex]['endDate'] = ele.end_date;
-    promotion['queue'][strIndex]['name'] = ele.name;
-    promotion['queue'][strIndex]['_id'] = ele._id;
+    promotion.queue[strIndex].promotionId = strIndex;
+    promotion.queue[strIndex].startDate = ele.start_date;
+    promotion.queue[strIndex].endDate = ele.end_date;
+    promotion.queue[strIndex].name = ele.name;
+    promotion.queue[strIndex]._id = ele._id;
 
-    priceSet['items'][strIndex] = ele.items;
+    priceSet.items[strIndex] = ele.items;
   });
   return { promotion, priceSet };
 }
 function updatePromotionAPIHelper({ json, queue, items, stashPromotionId }) {
   const _id = json.data._id;
-  const updated_queue = {
+  const updatedQueue = {
     ...queue,
     [stashPromotionId]: {
       ...queue[stashPromotionId],
@@ -50,17 +50,17 @@ function updatePromotionAPIHelper({ json, queue, items, stashPromotionId }) {
     }
   };
 
-  const updated_items = {
+  const updatedItems = {
     ...items,
     [stashPromotionId]: [
       ...items[stashPromotionId].map(prdObj => {
-        let newPrdObj = prdObj;
-        newPrdObj['_id'] = _id;
+        const newPrdObj = prdObj;
+        newPrdObj._id = _id;
         return newPrdObj;
       })
     ]
   };
-  return { updated_queue, updated_items };
+  return { updatedQueue, updatedItems };
 }
 
 export { getPromotionAPIHelper, updatePromotionAPIHelper };

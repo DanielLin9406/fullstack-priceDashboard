@@ -14,15 +14,7 @@ module.exports = {
     'plugin:css-modules/recommended'
   ],
   // 插件基本上就是我们想要使用的 linting 规则
-  plugins: [
-    'babel',
-    'import',
-    'jsx-a11y',
-    'react',
-    'css-modules',
-    'pug',
-    'prettier'
-  ],
+  plugins: ['babel', 'import', 'jsx-a11y', 'react', 'css-modules', 'prettier'],
   // 默认情况下，ESLint 使用 Espree，但因为我们使用了 babel，我们还需要使用 Babel-ESLint
   parser: 'babel-eslint',
   // 如果我们将 Espree 的默认解析器更改为 babel-eslint，需要指定 parserOptions
@@ -65,6 +57,11 @@ module.exports = {
     'react/jsx-filename-extension': ['error', { extensions: ['.js'] }], // airbnb is using .jsx
     'prefer-destructuring': 'off',
     'react/button-has-type': 'off',
+    'react/jsx-indent': 'off',
+    'no-console': 'off',
+    indent: 'off',
+    'no-restricted-properties': 'off',
+    'react/jsx-indent-props': 'off',
     'react/prefer-stateless-function': 'off',
     'react/destructuring-assignment': 'off',
     'react/no-find-dom-node': 'off', // I don't know
@@ -77,19 +74,20 @@ module.exports = {
     'import/no-unresolved': 'off',
     'import/no-extraneous-dependencies': 'off',
     'import/no-dynamic-require': 'off',
+    'jsx-a11y/label-has-associated-control': 'off',
     'jsx-a11y/label-has-for': 'off',
     'jsx-a11y/anchor-is-valid': [
       'error',
       { components: ['Link'], specialLink: ['to'] }
     ],
-    'jsx-a11y/label-has-for': [
-      2,
-      {
-        required: {
-          every: ['id']
-        }
-      }
-    ], // for nested label htmlFor error
+    // 'jsx-a11y/label-has-for': [
+    //   2,
+    //   {
+    //     required: {
+    //       every: ['id']
+    //     }
+    //   }
+    // ], // for nested label htmlFor error
     'prettier/prettier': ['error']
   }
 };

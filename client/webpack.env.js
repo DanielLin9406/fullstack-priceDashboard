@@ -1,10 +1,9 @@
 import packageJSON from './package.json';
-import { paths } from './webpack.const';
+import paths from './webpack.const';
 
 const ENV = process.env.NODE_ENV || 'development';
 const VARIABLES = {
   DEBUGGING: false,
-  MONITORING: false,
   MONITORING: true,
   ENVIRONMENT_NAME: ENV,
   VERSION: packageJSON.version,

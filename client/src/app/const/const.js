@@ -1,4 +1,5 @@
 import logo from '@app/image/data.png';
+
 const SITE_URL =
   process.env.NODE_ENV === 'development'
     ? 'http://localhost:3000'

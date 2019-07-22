@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import UnAuthedRoute from './UnAuthedRoute';
 import { paths } from '@app/pages';
+import UnAuthedRoute from './UnAuthedRoute';
 
 const mapStateToProps = state => ({
   unauthenticated: !state.auth.authenticated
