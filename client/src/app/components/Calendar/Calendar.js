@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import BigCalendar from 'react-big-calendar';
 import moment from 'moment';
-import getStashPromoId from '../../../shared/getStashPromoId';
-import Loading from '../Loading/Loading';
+import Section, { SectionHeader } from '@app/dump/Section';
+import getStashPromoId from '@app/shared/getStashPromoId';
+import Loading from '@app/components/Loading/Loading';
 import './Calendar.scss';
-import Section from '../Section/Section';
 
 const localizer = BigCalendar.momentLocalizer(moment);
 
@@ -96,7 +96,7 @@ class Calendar extends Component {
     if (errorMsg) return errorMsg;
     return (
       <Section className="calendar-container">
-        <h2>Calendar</h2>
+        <SectionHeader>Calendar</SectionHeader>
         <BigCalendar
           localizer={localizer}
           events={this.state.events}

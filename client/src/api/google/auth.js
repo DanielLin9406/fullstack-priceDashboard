@@ -1,6 +1,6 @@
 import loadScript from '@shinin/load-script';
 import noop from 'lodash/noop';
-import promisify from '../../shared/promisify';
+import promisify from '@app/shared/promisify';
 
 const GAPI_URL = 'https://apis.google.com/js/platform.js';
 const GAPI_CLIENT_ID = app.env.GAPI_CLIENT_ID;

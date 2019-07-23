@@ -1,6 +1,6 @@
 import React from 'react';
 import { paths } from '@app/pages';
-import RouteUnit from '../RouteUnit/Container';
+import RouteUnit from '@app/routes/RouteUnit/Container';
 
 const AuthedRoute = ({ authenticated, ...props }) => {
   return (

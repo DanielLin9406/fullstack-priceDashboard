@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import Header from '../../components/Header/Container';
+import Header from '@app/components/Header/Container';
 
 const Body = styled.div``;
 

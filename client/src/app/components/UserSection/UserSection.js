@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import SectionContainer from '../Section/Section';
+import Section, { SectionHeader } from '@app/dump/Section';
 
 import './UserSection.scss';
 
@@ -20,8 +20,8 @@ import './UserSection.scss';
 class UserSection extends Component {
   render() {
     return (
-      <SectionContainer className="user-section">
-        <h2>User Section</h2>
+      <Section className="user-section">
+        <SectionHeader>User Section</SectionHeader>
         <div className="component-group-container">
           <div className="user-avatar-con">
             <div className="user-avatar">
@@ -35,7 +35,7 @@ class UserSection extends Component {
             Logout
           </button>
         </div>
-      </SectionContainer>
+      </Section>
     );
   }
 }

@@ -1,8 +1,6 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-
-import { initAuth, reloadAuth, handleLogin } from '../../../modules/auth/auth';
-// import { paths } from '../pagesInfo';
+import { initAuth, reloadAuth, handleLogin } from '@app/modules/auth/auth';
 import Login from './Login';
 
 const mapStateToProps = state => ({
@@ -17,6 +15,5 @@ const ConnectedLogin = connect(
   mapStateToProps,
   mapDispatchToProps
 )(Login);
-// ConnectedLogin.defaultProps = { path: paths.LOGIN }
 
 export default ConnectedLogin;

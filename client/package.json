@@ -6,8 +6,6 @@
   "scripts": {
     "lint": "eslint src/",
     "lint:write": "eslint --debug src/ --fix",
-    "styleLint": "stylelint src/",
-    "styleLint:write": "stylelint --debug src/ --fix",
     "prettier": "prettier --write src/",
     "start:stage": "NODE_ENV=development NODE_ENV_API=stage npx webpack-dev-server --config webpack.js --color --progress --hot",
     "start:dev": "NODE_ENV=development NODE_ENV_API=apiDoc npx webpack-dev-server --config webpack.js --color --progress --hot",

@@ -1,12 +1,11 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-
-import UnAuthedRoute from './UnAuthedRoute/Container';
-import AuthedRoute from './AuthedRoute/Container';
-import BaseRoute from './BaseRoute/Container';
-import NotFound from '../pages/404';
-import getAllPages from '../pages/helper';
-import { pagesInfo } from '../pages';
+import UnAuthedRoute from '@app/routes/UnAuthedRoute/Container';
+import AuthedRoute from '@app/routes/AuthedRoute/Container';
+import BaseRoute from '@app/routes/BaseRoute/Container';
+import NotFound from '@app/pages/404';
+import getAllPages from '@app/pages/helper';
+import { pagesInfo } from '@app/pages';
 
 export default () => (
   <Switch>

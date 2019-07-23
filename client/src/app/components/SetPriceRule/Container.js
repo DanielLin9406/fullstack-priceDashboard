@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import {
   asyncApplyPromotion,
   asyncEditPromotion
-} from '../../../modules/scheduled-price/scheduledPrice';
+} from '@app/modules/scheduled-price/scheduledPrice';
 import SetPriceRule from './SetPriceRule';
 
 const mapStateToProps = state => ({

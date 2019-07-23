@@ -1,4 +1,4 @@
-import authApi from '../../api/google/auth';
+import authApi from '@app/api/google/auth';
 
 /*
  * define action name

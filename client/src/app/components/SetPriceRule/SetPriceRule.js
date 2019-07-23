@@ -4,14 +4,13 @@ import { DateUtils } from 'react-day-picker';
 import dateFnsFormat from 'date-fns/format';
 import dateFnsParse from 'date-fns/parse';
 import moment from 'moment';
+import Section, { SectionBody, SectionHeader } from '@app/dump/Section';
+import getStashPromoId from '@app/shared/getStashPromoId';
+import { testExternalLoading } from '@app/shared/testExternalFetch';
 
-import getStashPromoId from '../../../shared/getStashPromoId';
-import { testExternalLoading } from '../../../shared/testExternalFetch';
-
-// import Loading from '../Loading/Loading';
+// import Loading from '@app/components/Loading/Loading';
 import ViewPriceRule from './ViewPriceRule';
 import AddPriceRule from './AddPriceRule';
-import Section, { SectionBody } from '../Section/Section';
 
 import './SetPriceRule.scss';
 
@@ -318,6 +317,10 @@ class SetPriceRule extends Component {
     });
   };
 
+  renderSectionHeader = () =>
+    (this.state.editingStash && 'Set New Promotion') ||
+    'Edit Existing Promotion';
+
   render() {
     const {
       isLoading,
@@ -335,9 +338,7 @@ class SetPriceRule extends Component {
     }
     return (
       <Section className="set-price-rule">
-        {(this.state.editingStash && <h2>Set New Promotion</h2>) || (
-          <h2>Edit Existing Promotion</h2>
-        )}
+        <SectionHeader>{this.renderSectionHeader()}</SectionHeader>
         <SectionBody isLoading={isLoading}>
           <div className="component-group-container">
             {!isLoading && !currentPromotionId && (

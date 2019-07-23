@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Section from '../Section/Section';
+import Section, { SectionHeader } from '@app/dump/Section';
 import SortableList from './QueuePromoList';
 
 import './QueuePromo.scss';
@@ -29,7 +29,7 @@ class QueuePromo extends Component {
   render() {
     return (
       <Section className="queue-price-rule">
-        <h2>Schedule Queue</h2>
+        <SectionHeader>Schedule Queue</SectionHeader>
         <div className="component-group-container">
           <SortableList
             onSortEnd={this.onSortEnd}

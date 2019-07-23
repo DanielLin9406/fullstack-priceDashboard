@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import HelmetLayout from '@app/layout/helmet/HelmetLayout';
-import Section, { SectionBody } from '../../components/Section/Section';
+import Section, { SectionBody } from '@app/dump/Section';
 import './Login.scss';
 
 class Login extends Component {

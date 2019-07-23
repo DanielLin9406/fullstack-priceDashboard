@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import License from '../../../shared/license';
-// import getPermutations from '../../../shared/getPermutations';
-import formatNumber from '../../../shared/formatNumber';
-import getUpdatedPrice from '../../../shared/getUpdatedPrice';
-import testBundle from '../../../shared/testBundle';
+import License from '@app/shared/license';
+// import getPermutations from '@app/shared/getPermutations';
+import PriceList, { PriceListHeader } from '@app/dump/PriceList';
+import PriceItem, { PriceItemText } from '@app/dump/PriceItem';
+import formatNumber from '@app/shared/formatNumber';
+import getUpdatedPrice from '@app/shared/getUpdatedPrice';
+import testBundle from '@app/shared/testBundle';
+import PriceItemWrap from './PriceItemWrap';
 
-import DiscountList from './DiscountList';
-
-class PriceItem extends Component {
+export default class PriceListWrap extends Component {
   constructor(props) {
     super(props);
     this.license = new License(props.licenseRule);
@@ -35,18 +36,14 @@ class PriceItem extends Component {
   render() {
     return (
       <>
-        <ul className="price-list">
-          <li className="price-item item-title">
-            <p>
-              <span>User License</span>
-            </p>
-            <p>
-              <span>Sale Price</span>
-            </p>
-            <p>
-              <span>Price</span>
-            </p>
-          </li>
+        <PriceListHeader>{this.props.name}</PriceListHeader>
+        <PriceList>
+          <PriceItem.Header className="price-item item-title">
+            <PriceItemText.Header>User License</PriceItemText.Header>
+            <PriceItemText.Header>Sale Price</PriceItemText.Header>
+            <PriceItemText.Header>Price</PriceItemText.Header>
+          </PriceItem.Header>
+
           <li className="price-item">
             <p className="price-item-user">
               <span>Guest</span>
@@ -87,7 +84,8 @@ class PriceItem extends Component {
               </>
             )}
           </li>
-          <DiscountList
+
+          <PriceItemWrap
             sku={this.props.sku}
             checked={this.state.checked}
             licenseRule={this.props.licenseRule}
@@ -95,7 +93,7 @@ class PriceItem extends Component {
             license={this.license}
             renderDiscountPrice={this.renderDiscountPrice}
           />
-        </ul>
+        </PriceList>
         {testBundle(this.props.sku) ? (
           <div className="discount-price-con">
             <span className="name">Discount price</span>
@@ -113,5 +111,3 @@ class PriceItem extends Component {
     );
   }
 }
-
-export default PriceItem;

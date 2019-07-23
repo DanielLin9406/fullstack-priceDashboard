@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import Section, { SectionBody } from '../Section/Section';
+import Section, { SectionBody, SectionHeader } from '@app/dump/Section';
+import Panel from '@app/dump/Panel';
 import './CurrentPromotion.scss';
 
 class CurrentPromotion extends Component {
@@ -13,45 +14,40 @@ class CurrentPromotion extends Component {
     this.props.loadPromotion(onLive);
   };
 
+  renderPromotion = () => {
+    return !this.props.promotion.onLive ? (
+      <>There is no promotion on live</>
+    ) : (
+      <>
+        <p>
+          <span>
+            {this.props.promotion.queue[this.props.promotion.onLive].name}
+          </span>
+          <span>
+            {this.props.promotion.queue[this.props.promotion.onLive].startDate}-
+          </span>
+          <span>
+            {this.props.promotion.queue[this.props.promotion.onLive].endDate}
+          </span>
+        </p>
+        <button
+          className="button show-default-promotion-button"
+          onClick={this.onChangePromotion}
+        >
+          Load onLive Promotion Details
+        </button>
+      </>
+    );
+  };
+
   render() {
     const { isLoading, errorMsg } = this.props;
     if (errorMsg) return <div>{errorMsg}</div>;
     return (
       <Section className="current-promotion">
-        <h2>Promotion Schedule on Live</h2>
+        <SectionHeader>Promotion Schedule on Live</SectionHeader>
         <SectionBody isLoading={isLoading}>
-          {!this.props.promotion.onLive ? (
-            <div className="component-group-container">
-              There is no promotion on live
-            </div>
-          ) : (
-            <div className="component-group-container">
-              <p>
-                <span>
-                  {this.props.promotion.queue[this.props.promotion.onLive].name}
-                </span>
-                <span>
-                  {
-                    this.props.promotion.queue[this.props.promotion.onLive]
-                      .startDate
-                  }
-                  -
-                </span>
-                <span>
-                  {
-                    this.props.promotion.queue[this.props.promotion.onLive]
-                      .endDate
-                  }
-                </span>
-              </p>
-              <button
-                className="button show-default-promotion-button"
-                onClick={this.onChangePromotion}
-              >
-                Load onLive Promotion Details
-              </button>
-            </div>
-          )}
+          <Panel>{this.renderPromotion()}</Panel>
         </SectionBody>
       </Section>
     );

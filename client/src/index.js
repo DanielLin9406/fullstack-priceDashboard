@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { Frontload } from 'react-frontload';
 import { BrowserRouter } from 'react-router-dom';
 import createStore from './store';
-import App from './app/App';
+import App from './app/app';
 import './index.scss';
 
 const { store } = createStore();
@@ -24,3 +24,11 @@ const Application = (
 
 // If we're not running on the server, just render like normal
 render(Application, root);
+
+// Remain State while reload
+// if (module.hot) {
+//   module.hot.accept('./app/app', () => {
+//     const NextApp = require('./app/app').default;
+//     render(NextApp);
+//   });
+// }

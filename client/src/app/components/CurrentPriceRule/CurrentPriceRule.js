@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
-// import Loading from '../Loading/Loading';
-import ProductList from './ProductList';
-import { testExternalLoading } from '../../../shared/testExternalFetch';
-import getStashPromoId from '../../../shared/getStashPromoId';
-import buildMapSkuToName from '../../../shared/mapSku2Name';
-import Section, { SectionBody } from '../Section/Section';
+import Section, {
+  SectionBody,
+  SectionHeader,
+  SectionSubHeader
+} from '@app/dump/Section';
+import { GreenButton } from '@app/dump/Button';
+import Panel from '@app/dump/Panel';
+import { testExternalLoading } from '@app/shared/testExternalFetch';
+import getStashPromoId from '@app/shared/getStashPromoId';
+import buildMapSkuToName from '@app/shared/mapSku2Name';
+import ProductListWrap from './ProductListWrap';
 import './CurrentPriceRule.scss';
 
-class CurrentPriceRule extends Component {
+export default class CurrentPriceRule extends Component {
   state = {
     licenseRule: {},
     bcPrice: {},
@@ -21,8 +26,6 @@ class CurrentPriceRule extends Component {
 
   static getDerivedStateFromProps(props, state) {
     if (!testExternalLoading(props)) {
-      // console.log('currentPromotionId', props.promotion.active);
-      // console.log('isDefaultPrice', state.isDefaultPrice);
       if (state.isDefaultPrice) {
         if (props.promotion.active) {
           return {
@@ -75,6 +78,28 @@ class CurrentPriceRule extends Component {
     this.props.loadDefaultPromotion();
   };
 
+  renderSubHeader = () => {
+    return this.state.currentPromotionId ? (
+      <>
+        <div className="current">
+          Promotion Name:
+          <span>
+            {this.props.promotion.queue[this.state.currentPromotionId] &&
+              this.props.promotion.queue[this.state.currentPromotionId].name}
+          </span>
+        </div>
+        <GreenButton
+          className="load-default-btn"
+          onClick={this.loadDefaultPriceList}
+        >
+          Load Default Price List
+        </GreenButton>
+      </>
+    ) : (
+      <div className="current">Default BC Price List</div>
+    );
+  };
+
   render() {
     const { isLoading, errMsgScheduledPrice, errMsgLicenseRule } = this.state;
     if (errMsgScheduledPrice || errMsgLicenseRule) {
@@ -87,33 +112,12 @@ class CurrentPriceRule extends Component {
     }
     return (
       <Section className="current-price-rule">
-        <h2>Selected Promotion Price List</h2>
-        <div className="section-state">
-          {this.state.currentPromotionId ? (
-            <>
-              <div className="current">
-                Promotion Name:{' '}
-                <span>
-                  {this.props.promotion.queue[this.state.currentPromotionId] &&
-                    this.props.promotion.queue[this.state.currentPromotionId]
-                      .name}
-                </span>
-              </div>
-              <button
-                className="load-default-btn"
-                onClick={this.loadDefaultPriceList}
-              >
-                Load Default Price List
-              </button>
-            </>
-          ) : (
-            <div className="current">Default BC Price List</div>
-          )}
-        </div>
-        {this.state.isLoading || (
-          <SectionBody isLoading={isLoading}>
-            <div className="component-group-container">
-              <ProductList
+        <SectionHeader>Selected Promotion Price List</SectionHeader>
+        <SectionSubHeader>{this.renderSubHeader()}</SectionSubHeader>
+        <SectionBody isLoading={isLoading}>
+          <Panel>
+            {this.state.isLoading || (
+              <ProductListWrap
                 currentPromotionId={this.state.currentPromotionId}
                 bcPrice={this.state.bcPrice}
                 mapSku2Name={buildMapSkuToName(this.state.bcPrice)}
@@ -122,12 +126,10 @@ class CurrentPriceRule extends Component {
                   this.state.priceList.items[this.state.currentPromotionId]
                 }
               />
-            </div>
-          </SectionBody>
-        )}
+            )}
+          </Panel>
+        </SectionBody>
       </Section>
     );
   }
 }
-
-export default CurrentPriceRule;

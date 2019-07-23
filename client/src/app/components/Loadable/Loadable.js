@@ -1,5 +1,5 @@
 import L from 'react-loadable';
-import Loading from '../Loading/Loading';
+import Loading from '@app/components/Loading/Loading';
 
 const Loadable = opts =>
   L({

@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import formatNumber from '../../../shared/formatNumber';
-import getUpdatedPrice from '../../../shared/getUpdatedPrice';
-import testBundle from '../../../shared/testBundle';
-import getDefaultPrice from '../../../shared/getDefaultPrice';
+import formatNumber from '@app/shared/formatNumber';
+import getUpdatedPrice from '@app/shared/getUpdatedPrice';
+import testBundle from '@app/shared/testBundle';
+import getDefaultPrice from '@app/shared/getDefaultPrice';
 
-class DiscountList extends Component {
+export default class PriceItemWrap extends Component {
   state = {
     checked: {},
     decoratorArr: []
@@ -150,5 +150,3 @@ class DiscountList extends Component {
     );
   }
 }
-
-export default DiscountList;
