@@ -11,7 +11,6 @@ class Dashboard extends Component {
   componentDidMount() {
     this.loadPromotionData();
     this.loadBCPrice();
-    this.loadPGLicense();
   }
 
   loadPromotionData = () => {
@@ -20,10 +19,6 @@ class Dashboard extends Component {
 
   loadBCPrice = () => {
     this.props.asyncGetBCPrice({ user: this.props.user });
-  };
-
-  loadPGLicense = () => {
-    this.props.asyncGetLicenseRule({ user: this.props.user });
   };
 
   render() {

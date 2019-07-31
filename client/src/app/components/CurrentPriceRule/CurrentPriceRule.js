@@ -6,64 +6,69 @@ import Section, {
 } from '@app/dump/Section';
 import { GreenButton } from '@app/dump/Button';
 import Panel from '@app/dump/Panel';
-import { testExternalLoading } from '@app/shared/testExternalFetch';
-import getStashPromoId from '@app/shared/getStashPromoId';
-import buildMapSkuToName from '@app/shared/mapSku2Name';
+import { testFetchLoading } from '@app/shared/testFetch';
+import { getStashPromoId } from '@app/shared/productHelper';
 import ProductListWrap from './ProductListWrap';
 import './CurrentPriceRule.scss';
 
 export default class CurrentPriceRule extends Component {
   state = {
     licenseRule: {},
-    bcPrice: {},
+    bcPrice: [],
+    priceList: {},
     stashPromotionId: '',
     currentPromotionId: '',
     isLoading: true,
     isDefaultPrice: true,
-    errMsgScheduledPrice: '',
-    errMsgLicenseRule: ''
+    errMsg: []
   };
 
   static getDerivedStateFromProps(props, state) {
-    if (!testExternalLoading(props)) {
-      if (state.isDefaultPrice) {
-        if (props.promotion.active) {
-          return {
-            ...state,
-            licenseRule: props.licenseRule,
-            bcPrice: props.bcPrice,
-            priceList: props.priceSet,
-            stashPromotionId: getStashPromoId(props),
-            isLoading: false,
-            isDefaultPrice: true,
-            currentPromotionId: props.promotion.active,
-            errMsgScheduledPrice: props.errMsgScheduledPrice,
-            errMsgLicenseRule: props.errMsgLicenseRule
-          };
-        }
-        if (!props.promotion.active) {
-          return {
-            ...state,
-            licenseRule: props.licenseRule,
-            bcPrice: props.bcPrice,
-            priceList: props.priceSet,
-            stashPromotionId: getStashPromoId(props),
-            isLoading: false,
-            isDefaultPrice: true,
-            errMsgScheduledPrice: props.errMsgScheduledPrice,
-            errMsgLicenseRule: props.errMsgLicenseRule,
-            currentPromotionId: ''
-          };
-        }
-      } else if (!state.isDefaultPrice) {
+    if (testFetchLoading(props.loading)) return null;
+
+    if (state.isDefaultPrice) {
+      if (props.promotion.active) {
+        console.log(props.bcPrice);
         return {
           ...state,
+          licenseRule: props.licenseRule,
+          bcPrice: props.bcPrice,
+          priceList: props.priceSet,
+          stashPromotionId: getStashPromoId(props),
+          isLoading: false,
           isDefaultPrice: true,
+          currentPromotionId: props.promotion.active,
+          errMsg: props.errMsg
+        };
+      }
+      if (!props.promotion.active) {
+        return {
+          ...state,
+          licenseRule: props.licenseRule,
+          bcPrice: props.bcPrice,
+          priceList: props.priceSet,
+          stashPromotionId: getStashPromoId(props),
+          isLoading: false,
+          isDefaultPrice: true,
+          errMsg: props.errMsg,
           currentPromotionId: ''
         };
       }
+    } else if (!state.isDefaultPrice) {
+      return {
+        ...state,
+        isDefaultPrice: true,
+        currentPromotionId: ''
+      };
     }
-    return null;
+  }
+
+  loadPGLicense = () => {
+    this.props.asyncGetLicenseRule({ user: this.props.user });
+  };
+
+  componentDidMount() {
+    this.loadPGLicense();
   }
 
   componentDidUpdate() {
@@ -78,55 +83,50 @@ export default class CurrentPriceRule extends Component {
     this.props.loadDefaultPromotion();
   };
 
-  renderSubHeader = () => {
-    return this.state.currentPromotionId ? (
+  renderSubHeader = ({ currentPromotionId, promotion }) => {
+    const queue = promotion.queue;
+    const name = queue[currentPromotionId] && queue[currentPromotionId].name;
+    return currentPromotionId ? (
       <>
-        <div className="current">
-          Promotion Name:
-          <span>
-            {this.props.promotion.queue[this.state.currentPromotionId] &&
-              this.props.promotion.queue[this.state.currentPromotionId].name}
-          </span>
-        </div>
-        <GreenButton
-          className="load-default-btn"
-          onClick={this.loadDefaultPriceList}
-        >
+        <>
+          Promotion Name:<span>{name}</span>
+        </>
+        <GreenButton onClick={this.loadDefaultPriceList}>
           Load Default Price List
         </GreenButton>
       </>
     ) : (
-      <div className="current">Default BC Price List</div>
+      <>Default BC Price List</>
     );
   };
 
   render() {
-    const { isLoading, errMsgScheduledPrice, errMsgLicenseRule } = this.state;
-    if (errMsgScheduledPrice || errMsgLicenseRule) {
-      return (
-        <div>
-          {errMsgScheduledPrice}
-          {errMsgLicenseRule}
-        </div>
-      );
-    }
+    const {
+      isLoading,
+      errMsg,
+      currentPromotionId,
+      priceList,
+      licenseRule,
+      bcPrice
+    } = this.state;
+    const { promotion } = this.props;
     return (
       <Section className="current-price-rule">
         <SectionHeader>Selected Promotion Price List</SectionHeader>
-        <SectionSubHeader>{this.renderSubHeader()}</SectionSubHeader>
-        <SectionBody isLoading={isLoading}>
+        <SectionSubHeader>
+          {this.renderSubHeader({
+            currentPromotionId,
+            promotion
+          })}
+        </SectionSubHeader>
+        <SectionBody isLoading={isLoading} errMsg={errMsg}>
           <Panel>
-            {this.state.isLoading || (
-              <ProductListWrap
-                currentPromotionId={this.state.currentPromotionId}
-                bcPrice={this.state.bcPrice}
-                mapSku2Name={buildMapSkuToName(this.state.bcPrice)}
-                licenseRule={this.state.licenseRule}
-                promoItem={
-                  this.state.priceList.items[this.state.currentPromotionId]
-                }
-              />
-            )}
+            <ProductListWrap
+              currentPromotionId={currentPromotionId}
+              bcPrice={bcPrice}
+              licenseRule={licenseRule}
+              promoItem={priceList}
+            />
           </Panel>
         </SectionBody>
       </Section>

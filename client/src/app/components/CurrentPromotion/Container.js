@@ -7,7 +7,8 @@ import CurrentPromotion from './CurrentPromotion';
 const mapStateToProps = state => ({
   promotion: state.scheduledPrice.promotion,
   isLoading: state.scheduledPrice.isLoading,
-  errMsg: state.scheduledPrice.errMsg
+  loading: [state.scheduledPrice.isLoading],
+  errMsg: [state.scheduledPrice.errMsg]
 });
 
 const mapDispatchToProps = dispatch =>

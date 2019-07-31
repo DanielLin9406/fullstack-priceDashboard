@@ -22,7 +22,7 @@ class Login extends Component {
           {
             <div className="group-container">
               <h2>Sign in to Price Dashboard</h2>
-              <SectionBody isLoading={!initialized}>
+              <SectionBody isLoading={!initialized} errMsg={[]}>
                 <div className="component-group-container">
                   <button
                     className="sign-in-btn"

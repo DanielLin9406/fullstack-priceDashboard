@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import Loading from '@app/components/Loading/Loading';
+import renderErrMsg from '@app/shared/renderHelper';
+import { testExternalErrMsg } from '@app/shared/testFetch';
 
 const SectionContainer = styled.section`
   flex: 0 0 30%;
@@ -18,6 +20,7 @@ const SectionBodyContainer = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
+  display: inherit;
 `;
 
 const SectionHeaderContainer = styled.h2`
@@ -44,19 +47,26 @@ const Section = ({ className, children }) => (
   <SectionContainer className={className}>{children}</SectionContainer>
 );
 
-const SectionHeader = ({ children }) => (
-  <SectionHeaderContainer>{children}</SectionHeaderContainer>
-);
+const SectionHeader = ({ children }) => {
+  if (typeof children === 'function') {
+    return <SectionHeaderContainer>{children()}</SectionHeaderContainer>;
+  }
+  return <SectionHeaderContainer>{children}</SectionHeaderContainer>;
+};
 
 const SectionSubHeader = ({ children }) => (
   <SectionSubHeaderContainer>{children}</SectionSubHeaderContainer>
 );
 
-const SectionBody = ({ isLoading, children, className }) => (
-  <SectionBodyContainer className={className}>
-    <Loading active={isLoading}>{children}</Loading>
-  </SectionBodyContainer>
-);
+const SectionBody = ({ isLoading, errMsg, children, className }) => {
+  return (
+    <SectionBodyContainer className={className}>
+      <Loading active={isLoading}>
+        {isLoading || renderErrMsg(errMsg) || children}
+      </Loading>
+    </SectionBodyContainer>
+  );
+};
 
 export default Section;
 export { SectionBody, SectionHeader, SectionSubHeader };

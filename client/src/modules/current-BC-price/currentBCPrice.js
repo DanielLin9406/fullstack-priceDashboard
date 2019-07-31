@@ -15,8 +15,8 @@ export const GET_BC_PRICE_FAIL = 'priceList/GET_BC_PRICE_FAIL';
  */
 const initialState = {
   isLoading: true,
-  errMsg: false,
-  priceList: {}
+  errMsg: undefined,
+  priceList: []
 };
 
 /*
@@ -28,7 +28,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        errMsg: '',
+        errMsg: undefined,
         priceList: action.priceList
       };
     case GET_BC_PRICE_FAIL:

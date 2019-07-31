@@ -1,46 +1,47 @@
 import React, { Component } from 'react';
+import Form, { FormCol, FormCtrlCol } from '@app/dump/Form';
+import { CrossRedButton } from '@app/dump/Button';
 
 class AddPriceRule extends Component {
   componentDidMount() {
     // console.log('', this.props.bcPriceList);
   }
 
+  getPriceList = () => {
+    return this.props.bcPriceList.filter(prdObj => {
+      const reg = /(^L|^B)/i;
+      return reg.test(prdObj.sku);
+    });
+  };
+
+  renderOptionList = () => {
+    return this.getPriceList().map(ele => (
+      <option key={ele.sku} value={`${ele.sku}-${ele.name}-${ele.price}`}>
+        {ele.name}
+      </option>
+    ));
+  };
+
   render() {
     return (
-      <div className="add-item-price-container">
-        <form onSubmit={this.props.addItem}>
-          <div className="item-container">
-            <label htmlFor="productDetails">Product Name</label>
-            <select name="productDetails" id="productDetails">
-              {this.props.bcPriceList
-                .filter(prdObj => {
-                  const reg = /(^L|^B)/i;
-                  return reg.test(prdObj.sku);
-                })
-                .map(ele => {
-                  return (
-                    <option
-                      key={ele.sku}
-                      value={`${ele.sku}-${ele.name}-${ele.price}`}
-                    >
-                      {ele.name}
-                    </option>
-                  );
-                })}
-            </select>
-          </div>
-          <div className="price-container">
-            <label htmlFor="salePrice">SalePrice</label>
-            <input id="salePrice" name="salePrice" type="text" />
-          </div>
-          <div className="add-item-container">
-            <button>
-              <span>+</span>
-            </button>
-          </div>
-        </form>
+      <>
+        <Form onSubmit={this.props.addItem}>
+          <FormCol>
+            <FormCol.Label htmlFor="productDetails">Product Name</FormCol.Label>
+            <FormCol.Select name="productDetails" id="productDetails">
+              {this.renderOptionList}
+            </FormCol.Select>
+          </FormCol>
+          <FormCol>
+            <FormCol.Label htmlFor="salePrice">SalePrice</FormCol.Label>
+            <FormCol.Input id="salePrice" name="salePrice" />
+          </FormCol>
+          <FormCtrlCol>
+            <CrossRedButton>+</CrossRedButton>
+          </FormCtrlCol>
+        </Form>
         <div>{this.errMsg}</div>
-      </div>
+      </>
     );
   }
 }

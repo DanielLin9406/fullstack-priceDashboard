@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Section, { SectionHeader } from '@app/dump/Section';
-import SortableList from './QueuePromoList';
+import { testFetchLoading } from '@app/shared/testFetch';
+import Section, { SectionBody, SectionHeader } from '@app/dump/Section';
+import Panel from '@app/dump/Panel';
+import QueuePromoList from './QueuePromoList';
 
-import './QueuePromo.scss';
-
-class QueuePromo extends Component {
+export default class QueuePromo extends Component {
   static childContextTypes = {
     removePromotion: PropTypes.func,
     loadPromotion: PropTypes.func,
@@ -27,20 +27,18 @@ class QueuePromo extends Component {
   };
 
   render() {
+    const { loading, errMsg, promotion } = this.props;
+    const isLoading = testFetchLoading(loading);
+
     return (
       <Section className="queue-price-rule">
         <SectionHeader>Schedule Queue</SectionHeader>
-        <div className="component-group-container">
-          <SortableList
-            onSortEnd={this.onSortEnd}
-            items={this.props.promotion}
-            isLoading={this.props.isLoading}
-            errMsg={this.props.errMsg}
-          />
-        </div>
+        <SectionBody isLoading={isLoading} errMsg={errMsg}>
+          <Panel>
+            <QueuePromoList onSortEnd={this.onSortEnd} items={promotion} />
+          </Panel>
+        </SectionBody>
       </Section>
     );
   }
 }
-
-export default QueuePromo;

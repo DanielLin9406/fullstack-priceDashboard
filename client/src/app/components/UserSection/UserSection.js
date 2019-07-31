@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import Section, { SectionHeader } from '@app/dump/Section';
+import Section, { SectionHeader, SectionBody } from '@app/dump/Section';
+import { UserSectionPanel } from '@app/dump/Panel';
 
 import './UserSection.scss';
 
@@ -22,19 +23,21 @@ class UserSection extends Component {
     return (
       <Section className="user-section">
         <SectionHeader>User Section</SectionHeader>
-        <div className="component-group-container">
-          <div className="user-avatar-con">
-            <div className="user-avatar">
-              <p>{this.props.user.name.charAt(0)}</p>
+        <SectionBody isLoading={false} errMsg={[]}>
+          <UserSectionPanel>
+            <div className="user-avatar-con">
+              <div className="user-avatar">
+                <p>{this.props.user.name.charAt(0)}</p>
+              </div>
             </div>
-          </div>
-          <div className="user-name">
-            <p>{this.props.user.name}</p>
-          </div>
-          <button className="logout-btn" onClick={this.props.handleLogout()}>
-            Logout
-          </button>
-        </div>
+            <div className="user-name">
+              <p>{this.props.user.name}</p>
+            </div>
+            <button className="logout-btn" onClick={this.props.handleLogout()}>
+              Logout
+            </button>
+          </UserSectionPanel>
+        </SectionBody>
       </Section>
     );
   }

@@ -117,5 +117,19 @@
       "npm run lint",
       "git add"
     ]
-  }
+  },
+  "sort-imports": [
+    "error",
+    {
+      "ignoreCase": false,
+      "ignoreDeclarationSort": false,
+      "ignoreMemberSort": true,
+      "memberSyntaxSortOrder": [
+        "none",
+        "all",
+        "multiple",
+        "single"
+      ]
+    }
+  ]
 }

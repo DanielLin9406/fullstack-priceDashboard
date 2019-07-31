@@ -8,21 +8,16 @@ import {
 import SetPriceRule from './SetPriceRule';
 
 const mapStateToProps = state => ({
-  isLoading_scheduledPrice: state.scheduledPrice.isLoading,
-  errMsgScheduledPrice: state.scheduledPrice.errMsg,
   promotion: state.scheduledPrice.promotion,
   priceSet: state.scheduledPrice.priceSet,
   postResponse: state.scheduledPrice.postResponse,
   removedPromoId: state.scheduledPrice.removedPromoId,
-
-  isLoading_currentBCPrice: state.currentBCPrice.isLoading,
-  errMsg_currentBCPrice: state.currentBCPrice.errMsg,
   bcPrice: state.currentBCPrice.priceList,
+  user: state.auth.user,
 
-  isLoading_licenseRule: false,
-  errMsgLicenseRule: '',
+  loading: [state.scheduledPrice.isLoading, state.currentBCPrice.isLoading],
 
-  user: state.auth.user
+  errMsg: [state.scheduledPrice.errMsg, state.currentBCPrice.errMsg]
 });
 
 const mapDispatchToProps = dispatch =>

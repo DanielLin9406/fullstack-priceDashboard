@@ -1,57 +1,43 @@
 import React, { Component } from 'react';
 import Section, { SectionBody, SectionHeader } from '@app/dump/Section';
 import Panel from '@app/dump/Panel';
+import Button from '@app/dump/Button';
+import TextList, { TextItem } from '@app/dump/TextList';
+import testFetchLoading from '@app/shared/testHelper';
 import './CurrentPromotion.scss';
 
-class CurrentPromotion extends Component {
-  componentDidUpdate() {
-    // console.log(getPermutations([1,2,3,4,5]));
-    // console.log('promotion', this.props.promotion);
-  }
+const CurrentPromotion = props => {
+  const { loading, errMsg, promotion } = props;
+  const isLoading = testFetchLoading(loading);
 
-  onChangePromotion = () => {
-    const onLive = this.props.promotion.onLive;
-    this.props.loadPromotion(onLive);
+  const onChangePromotion = () => {
+    const { onLive } = promotion;
+    props.loadPromotion(onLive);
   };
 
-  renderPromotion = () => {
-    return !this.props.promotion.onLive ? (
-      <>There is no promotion on live</>
-    ) : (
-      <>
-        <p>
-          <span>
-            {this.props.promotion.queue[this.props.promotion.onLive].name}
-          </span>
-          <span>
-            {this.props.promotion.queue[this.props.promotion.onLive].startDate}-
-          </span>
-          <span>
-            {this.props.promotion.queue[this.props.promotion.onLive].endDate}
-          </span>
-        </p>
-        <button
-          className="button show-default-promotion-button"
-          onClick={this.onChangePromotion}
-        >
-          Load onLive Promotion Details
-        </button>
-      </>
-    );
-  };
-
-  render() {
-    const { isLoading, errorMsg } = this.props;
-    if (errorMsg) return <div>{errorMsg}</div>;
-    return (
-      <Section className="current-promotion">
-        <SectionHeader>Promotion Schedule on Live</SectionHeader>
-        <SectionBody isLoading={isLoading}>
-          <Panel>{this.renderPromotion()}</Panel>
-        </SectionBody>
-      </Section>
-    );
-  }
-}
+  return (
+    <Section className="current-promotion">
+      <SectionHeader>Promotion Schedule on Live</SectionHeader>
+      <SectionBody isLoading={isLoading} errMsg={errMsg}>
+        <Panel>
+          {(promotion.onLive && (
+            <>
+              <TextList>
+                <TextItem>{promotion.queue[promotion.onLive].name}</TextItem>
+                <TextItem>
+                  {promotion.queue[promotion.onLive].startDate}-
+                </TextItem>
+                <TextItem>{promotion.queue[promotion.onLive].endDate}</TextItem>
+              </TextList>
+              <Button onClick={onChangePromotion}>
+                Load onLive Promotion Details
+              </Button>
+            </>
+          )) || <>There is no promotion on live</>}
+        </Panel>
+      </SectionBody>
+    </Section>
+  );
+};
 
 export default CurrentPromotion;

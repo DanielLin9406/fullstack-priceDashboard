@@ -1,4 +1,4 @@
-class License {
+export default class License {
   constructor(rule) {
     this._rule = rule;
   }
@@ -54,5 +54,3 @@ class License {
     return deductible;
   }
 }
-
-export default License;

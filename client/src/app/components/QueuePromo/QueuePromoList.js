@@ -1,88 +1,75 @@
 import React, { Component } from 'react';
-import { SortableContainer } from 'react-sortable-hoc';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faBars } from '@fortawesome/free-solid-svg-icons';
+import {
+  SortableContainer,
+  SortableElement,
+  SortableHandle
+} from 'react-sortable-hoc';
 import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { ForkButton, FlatButton } from '@app/dump/Button';
+import { PromoNameSpan, PromoPeriodSpan, QueueSpan } from '@app/dump/Span';
+import QueueList, { QueueItem } from '@app/dump/QueueList';
 
-// const DragHandle = SortableHandle(() => (
-//   <span>
-//     <FontAwesomeIcon icon={faBars} />
-//   </span>
-// ));
-
-// const SortableItem = SortableElement(
-class Item extends Component {
-  static contextTypes = {
-    removePromotion: PropTypes.func,
-    loadPromotion: PropTypes.func,
-    active: PropTypes.string,
-    user: PropTypes.object
-  };
-
-  removePromotion = event => {
-    const _id = event.currentTarget.id;
-    const promotionId = event.currentTarget.dataset.promotionId;
-    const user = this.context.user;
-    this.context.removePromotion({ promotionId, _id, user });
-  };
-
-  loadPromotion = event => {
-    this.context.loadPromotion(event.currentTarget.dataset.promotionId);
-  };
-
-  render() {
-    return (
-      <li
-        className={
-          this.context.active === this.props.item.promotionId
-            ? 'queue-promotion-item active'
-            : 'queue-promotion-item'
-        }
-      >
-        {/* <DragHandle /> */}
-        <button
-          className="ctrl-btn"
-          data-promotion-id={this.props.item.promotionId}
-          onClick={this.loadPromotion}
-        >
-          <span className="promo-name">{this.props.item.name}</span>
-          <span className="promo-period">
-            {this.props.item.startDate.split('T')[0]} -{' '}
-            {this.props.item.endDate.split('T')[0]}
-          </span>
-        </button>
-        <button
-          className="ctrl-btn close-btn"
-          data-promotion-id={this.props.item.promotionId}
-          id={this.props.item._id}
-          onClick={this.removePromotion}
-        >
-          X
-        </button>
-      </li>
-    );
-  }
-}
-// )
-
-const SortableList = SortableContainer(({ items, isLoading, errorMsg }) => (
-  <>
-    <div className="queue-promotion">
-      {isLoading
-        ? '请求信息中......'
-        : errorMsg || (
-            <ul className="queue-promotion-list">
-              {items.order.map((ele, index) => (
-                <Item
-                  key={`item-${ele}`}
-                  index={index}
-                  item={items.queue[ele]}
-                />
-              ))}
-            </ul>
-          )}
-    </div>
-  </>
+const DragHandle = SortableHandle(() => (
+  <QueueSpan>
+    <FontAwesomeIcon icon={faBars} />
+  </QueueSpan>
 ));
 
-export default SortableList;
+const SortableItem = SortableElement(
+  class Item extends Component {
+    static contextTypes = {
+      removePromotion: PropTypes.func,
+      loadPromotion: PropTypes.func,
+      active: PropTypes.string,
+      user: PropTypes.object
+    };
+
+    removePromotion = event => {
+      const _id = event.currentTarget.id;
+      const promotionId = event.currentTarget.dataset.promotionId;
+      const user = this.context.user;
+      this.context.removePromotion({ promotionId, _id, user });
+    };
+
+    loadPromotion = event => {
+      this.context.loadPromotion(event.currentTarget.dataset.promotionId);
+    };
+
+    render() {
+      const { item } = this.props;
+      return (
+        <QueueItem active={this.context.active === item.promotionId}>
+          <DragHandle />
+          <FlatButton
+            data-promotion-id={item.promotionId}
+            onClick={this.loadPromotion}
+          >
+            <PromoNameSpan>{item.name}</PromoNameSpan>
+            <PromoPeriodSpan>
+              {item.startDate.split('T')[0]} - {item.endDate.split('T')[0]}
+            </PromoPeriodSpan>
+          </FlatButton>
+          <ForkButton
+            data-promotion-id={item.promotionId}
+            id={item._id}
+            onClick={this.removePromotion}
+          >
+            X
+          </ForkButton>
+        </QueueItem>
+      );
+    }
+  }
+);
+
+const QueuePromoList = SortableContainer(({ items }) => (
+  <QueueList>
+    {items.order.map((ele, index) => (
+      <SortableItem key={`item-${ele}`} index={index} item={items.queue[ele]} />
+    ))}
+  </QueueList>
+));
+
+export default QueuePromoList;

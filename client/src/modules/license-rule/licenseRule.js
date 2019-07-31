@@ -15,7 +15,7 @@ export const GET_PG_LICENSE_FAIL = 'license/GET_PG_LICENSE_FAIL';
  */
 const initialState = {
   isLoading: true,
-  errMsg: false,
+  errMsg: undefined,
   rule: {}
 };
 
@@ -28,7 +28,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        errMsg: '',
+        errMsg: undefined,
         rule: action.rule
       };
     case GET_PG_LICENSE_FAIL:
@@ -53,24 +53,38 @@ export default (state = initialState, action) => {
 /*
  * export async packaged dispatch
  */
-export const asyncGetLicenseRule = ({ user }) => dispatch => {
-  return licenseRuleAPI
-    .fetchList(user.token)
-    .then(json => {
-      dispatch({
-        type: GET_PG_LICENSE_SUCCESS,
-        rule: json.data.rule
-      });
-      return json.data.rule;
-      // dispatch({
-      //   type: GET_PG_LICENSE_SUCCESS,
-      //   rule: json.rule
-      // });
-    })
-    .catch(error => {
-      dispatch({
-        type: GET_PG_LICENSE_FAIL
-      });
-      return Promise.reject(new Error(error.message));
+export const asyncGetLicenseRule = ({ user }) => async dispatch => {
+  try {
+    const res = await licenseRuleAPI.get(user.token);
+    const json = res.data;
+    dispatch({
+      type: GET_PG_LICENSE_SUCCESS,
+      rule: json.data.rule
     });
+  } catch (error) {
+    dispatch({
+      type: GET_PG_LICENSE_FAIL
+    });
+    return Promise.reject(new Error(error.message));
+  }
+
+  // return licenseRuleAPI
+  //   .fetchList(user.token)
+  //   .then(json => {
+  //     dispatch({
+  //       type: GET_PG_LICENSE_SUCCESS,
+  //       rule: json.data.rule
+  //     });
+  //     return json.data.rule;
+  //     // dispatch({
+  //     //   type: GET_PG_LICENSE_SUCCESS,
+  //     //   rule: json.rule
+  //     // });
+  //   })
+  //   .catch(error => {
+  //     dispatch({
+  //       type: GET_PG_LICENSE_FAIL
+  //     });
+  //     return Promise.reject(new Error(error.message));
+  //   });
 };

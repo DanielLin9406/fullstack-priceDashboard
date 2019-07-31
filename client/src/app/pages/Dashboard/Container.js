@@ -3,7 +3,6 @@ import { bindActionCreators } from 'redux';
 
 import { asyncGetPromotion } from '@app/modules/scheduled-price/scheduledPrice';
 import { asyncGetBCPrice } from '@app/modules/current-BC-price/currentBCPrice';
-import { asyncGetLicenseRule } from '@app/modules/license-rule/licenseRule';
 import WrappedDashboard from './Dashboard';
 
 const mapStateToProps = state => ({
@@ -11,10 +10,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    { asyncGetPromotion, asyncGetBCPrice, asyncGetLicenseRule },
-    dispatch
-  );
+  bindActionCreators({ asyncGetPromotion, asyncGetBCPrice }, dispatch);
 
 export default connect(
   mapStateToProps,

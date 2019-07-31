@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import BigCalendar from 'react-big-calendar';
 import moment from 'moment';
-import Section, { SectionHeader } from '@app/dump/Section';
-import getStashPromoId from '@app/shared/getStashPromoId';
-import Loading from '@app/components/Loading/Loading';
+import Section, { SectionHeader, SectionBody } from '@app/dump/Section';
+import Panel from '@app/dump/Panel';
+import { getStashPromoId } from '@app/shared/productHelper';
 import './Calendar.scss';
 
 const localizer = BigCalendar.momentLocalizer(moment);
@@ -40,11 +40,10 @@ class Calendar extends Component {
 
   static getDerivedStateFromProps(props, state) {
     const propsStashId = getStashPromoId(props);
-    // console.log('state.stashPromotionId', state.stashPromotionId)
-    // console.log('propsStashId', propsStashId)
     const list = props.promotion.queue;
     const events = props.promotion.order.map((ele, index) => {
       return {
+        ...state,
         id: index,
         promotionId: list[ele].promotionId,
         title: list[ele].name,
@@ -55,6 +54,7 @@ class Calendar extends Component {
     });
     if (state.stashPromotionId !== propsStashId) {
       return {
+        ...state,
         order: props.promotion.order,
         queue: props.promotion.queue,
         stashPromotionId: propsStashId,
@@ -63,49 +63,42 @@ class Calendar extends Component {
     }
     if (state.stashPromotionId === propsStashId) {
       return {
+        ...state,
         events
       };
     }
     return null;
   }
 
-  // getSnapshotBeforeUpdate(props, state){
-  //   return null
-  // }
+  componentDidMount() {}
 
-  componentDidMount() {
-    // 請求異步加載數據+綁定事件監聽
-    // console.log('state', this.state);
-  }
-
-  componentDidUpdate() {
-    // 由state變化觸發請求
-    // console.log('state', this.state);
-  }
+  componentDidUpdate() {}
 
   componentWillUnmount() {}
 
   onEventChange = event => {
     this.props.loadPromotion(event.promotionId);
-    // this.setState({ selectEvent: event.promotionId })
   };
 
   render() {
-    const { loading, errorMsg } = this.props;
-    if (loading) return <Loading />;
-    if (errorMsg) return errorMsg;
+    const { isLoading, errMsg } = this.props;
+    const { events } = this.state;
     return (
       <Section className="calendar-container">
         <SectionHeader>Calendar</SectionHeader>
-        <BigCalendar
-          localizer={localizer}
-          events={this.state.events}
-          onSelectEvent={this.onEventChange}
-          startAccessor="start"
-          endAccessor="end"
-          views={allViews}
-          navigate={navigator}
-        />
+        <SectionBody isLoading={isLoading} errMsg={errMsg}>
+          <Panel>
+            <BigCalendar
+              localizer={localizer}
+              events={events}
+              onSelectEvent={this.onEventChange}
+              startAccessor="start"
+              endAccessor="end"
+              views={allViews}
+              navigate={navigator}
+            />
+          </Panel>
+        </SectionBody>
       </Section>
     );
   }

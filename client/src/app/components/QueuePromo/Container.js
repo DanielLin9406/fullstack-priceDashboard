@@ -11,7 +11,8 @@ import QueuePromo from './QueuePromo';
 const mapStateToProps = state => ({
   promotion: state.scheduledPrice.promotion,
   isLoading: state.scheduledPrice.isLoading,
-  errMsg: state.scheduledPrice.errMsg,
+  loading: [state.scheduledPrice.isLoading],
+  errMsg: [state.scheduledPrice.errMsg],
   user: state.auth.user
 });
 

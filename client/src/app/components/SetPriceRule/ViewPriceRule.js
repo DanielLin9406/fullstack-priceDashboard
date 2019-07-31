@@ -1,37 +1,30 @@
 import React, { Component } from 'react';
+import SetList, {
+  SetItem,
+  SetItemCol,
+  SetItemCtrlCol
+} from '@app/dump/SetList';
+import { ForkButton } from '@app/dump/Button';
 
-class ViewPriceRule extends Component {
+export default class ViewPriceRule extends Component {
   componentDidUpdate() {
     // console.log('priceList', this.props.currentItemPriceList)
   }
 
-  render() {
-    return (
-      <div className="item-price-list-container">
-        <ul className="item-price-list">
-          {this.props.currentItemPriceList
-            ? this.props.currentItemPriceList.map((ele, index) => {
-                return (
-                  <li key={ele.name} className="item-price-item">
-                    <div className="item-container">
-                      <p>{ele.name}</p>
-                    </div>
-                    <div className="price-container">
-                      <p>${ele.sale_price}</p>
-                    </div>
-                    <div className="remove-container">
-                      <button data-index={index} onClick={this.props.rmItem}>
-                        X
-                      </button>
-                    </div>
-                  </li>
-                );
-              })
-            : ''}
-        </ul>
-      </div>
-    );
-  }
+  render = () => (
+    <SetList>
+      {this.props.currentItemPriceList &&
+        this.props.currentItemPriceList.map((ele, index) => (
+          <SetItem key={ele.name}>
+            <SetItemCol>{ele.name}</SetItemCol>
+            <SetItemCol>${ele.sale_price}</SetItemCol>
+            <SetItemCtrlCol>
+              <ForkButton data-index={index} onClick={this.props.rmItem}>
+                X
+              </ForkButton>
+            </SetItemCtrlCol>
+          </SetItem>
+        ))}
+    </SetList>
+  );
 }
-
-export default ViewPriceRule;

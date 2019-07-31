@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-// import { ProductList } from '@app/dump/List';
 import ProductList, { ProductItem } from '@app/dump/ProductList';
+import buildMapSkuToName from '@app/shared/productHelper';
 import PriceListWrap from './PriceListWrap';
 
 export default class ProductListWrap extends Component {
@@ -12,21 +12,19 @@ export default class ProductListWrap extends Component {
 
   getChildContext() {
     return {
-      mapSku2Name: this.props.mapSku2Name,
+      mapSku2Name: buildMapSkuToName(this.props.bcPrice),
       currentPromotionId: this.props.currentPromotionId
     };
   }
 
   componentDidMount() {}
 
-  componentDidUpdate() {
-    // console.log('Wrap', this.props.bcPrice);
-    // console.log('PrliceList', this.props.promoItem)
-  }
+  componentDidUpdate() {}
 
   mapProductToPromotion = product => {
-    if (!this.props.promoItem) return null;
-    const List = this.props.promoItem
+    if (!this.props.promoItem.items || !this.props.currentPromotionId)
+      return null;
+    const List = this.props.promoItem.items[this.props.currentPromotionId]
       .filter(promoItem => {
         if (product.sku === promoItem.sku) {
           return true;
@@ -69,22 +67,16 @@ export default class ProductListWrap extends Component {
 
     return (
       <ProductList>
-        {this.getProductList(bcPrice).map((prdObj, index) => {
-          return (
-            <ProductItem
-              key={`item-${prdObj.name}`}
-              index={index}
-              className="product-item"
-            >
-              <PriceListWrap
-                licenseRule={this.props.licenseRule[prdObj.sku]}
-                name={prdObj.name}
-                sku={prdObj.sku}
-                priceProps={prdObj.updatedPriceObj}
-              />
-            </ProductItem>
-          );
-        })}
+        {this.getProductList(bcPrice).map((prdObj, index) => (
+          <ProductItem key={`item-${prdObj.name}`}>
+            <PriceListWrap
+              licenseRule={this.props.licenseRule[prdObj.sku]}
+              name={prdObj.name}
+              sku={prdObj.sku}
+              priceProps={prdObj.updatedPriceObj}
+            />
+          </ProductItem>
+        ))}
       </ProductList>
     );
   }

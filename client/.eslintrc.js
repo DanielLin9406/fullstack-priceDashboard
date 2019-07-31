@@ -89,5 +89,14 @@ module.exports = {
     //   }
     // ], // for nested label htmlFor error
     'prettier/prettier': ['error']
+    // 'sort-imports': [
+    //   'error',
+    //   {
+    //     ignoreCase: false,
+    //     ignoreDeclarationSort: false,
+    //     ignoreMemberSort: false,
+    //     memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single']
+    //   }
+    // ]
   }
 };

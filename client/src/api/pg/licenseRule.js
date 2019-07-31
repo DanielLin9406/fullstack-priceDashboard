@@ -1,3 +1,3 @@
-import createRestApi from './createRestApi';
+import { createAxiosInstance } from './createRestApi';
 
-export default createRestApi('upgrade-rules');
+export default createAxiosInstance('upgrade-rules');

@@ -1,5 +1,7 @@
 import { arrayMove } from 'react-sortable-hoc';
-import scheduledPriceAPI from '@app/api/pg/scheduledPrice';
+import scheduledPriceAPI, {
+  schedulePriceAXIOSAPI
+} from '@app/api/pg/scheduledPrice';
 import { getPromotionAPIHelper, updatePromotionAPIHelper } from './helper';
 /*
  * define action name
@@ -28,7 +30,7 @@ export const APPLY_PROMOTION_ONLIVE = 'promotion/APPLY_PROMOTION_ONLIVE';
  */
 const initialState = {
   isLoading: true,
-  errMsg: false,
+  errMsg: undefined,
   postLoading: true,
   removedPromoId: '',
   postResponse: '',
@@ -54,7 +56,7 @@ export default (state = initialState, action) => {
         ...state,
         removedPromoId: '',
         isLoading: false,
-        errMsg: '',
+        errMsg: undefined,
         promotion: action.promotion,
         priceSet: action.priceSet
       };
@@ -230,24 +232,39 @@ export const sortPromotion = (oldIndex, newIndex) => dispatch => {
  * export async packaged dispatch
  */
 
-export const asyncGetPromotion = ({ user }) => dispatch => {
-  return scheduledPriceAPI
-    .fetchList(user.token)
-    .then(json => {
-      const { promotion, priceSet } = getPromotionAPIHelper({ json });
-      dispatch({
-        type: GET_PROMOTION_SUCCESS,
-        promotion,
-        priceSet
-      });
-      return json;
-    })
-    .catch(error => {
-      dispatch({
-        type: GET_PROMOTION_FAIL
-      });
-      return Promise.reject(new Error(error.message));
+export const asyncGetPromotion = ({ user }) => async dispatch => {
+  try {
+    const res = await schedulePriceAXIOSAPI.get(user.token);
+    const json = res.data;
+    const { promotion, priceSet } = getPromotionAPIHelper({ json });
+    dispatch({
+      type: GET_PROMOTION_SUCCESS,
+      promotion,
+      priceSet
     });
+  } catch (error) {
+    dispatch({
+      type: GET_PROMOTION_FAIL
+    });
+    return Promise.reject(new Error(error.message));
+  }
+  // return scheduledPriceAPI
+  //   .fetchList(user.token)
+  //   .then(json => {
+  //     const { promotion, priceSet } = getPromotionAPIHelper({ json });
+  //     dispatch({
+  //       type: GET_PROMOTION_SUCCESS,
+  //       promotion,
+  //       priceSet
+  //     });
+  //     return json;
+  //   })
+  //   .catch(error => {
+  //     dispatch({
+  //       type: GET_PROMOTION_FAIL
+  //     });
+  //     return Promise.reject(new Error(error.message));
+  //   });
 };
 
 export const asyncApplyPromotion = ({

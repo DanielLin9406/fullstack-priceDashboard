@@ -3,6 +3,7 @@ import { string } from 'prop-types';
 import styled from 'styled-components';
 
 const PanelContainer = styled.div`
+  width: 100%;
   padding-top: 1rem;
   padding-bottom: 1rem;
   margin-top: 0rem;
@@ -11,22 +12,36 @@ const PanelContainer = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   position: relative;
-  justify-content: center;
+  justify-content: ${props => props.jC};
 `;
 
 PanelContainer.propTypes = {
-  marginBottom: string
+  marginBottom: string,
+  jC: string
 };
 
 PanelContainer.defaultProps = {
-  marginBottom: '0rem'
+  marginBottom: '0rem',
+  jC: 'center'
 };
 
-const CurrentPromotionPanelContainer = styled(PanelContainer).attrs({
-  marginBottom: '0rem'
+const CurrentPromotionContainer = styled(PanelContainer).attrs({
+  marginBottom: '0rem',
+  jC: 'center'
+})``;
+
+const UserSectionContainer = styled(PanelContainer).attrs({
+  marginBottom: '0rem',
+  jC: 'space-around'
 })``;
 
 const Panel = ({ children }) => <PanelContainer>{children}</PanelContainer>;
+const UserSectionPanel = ({ children }) => (
+  <UserSectionContainer>{children}</UserSectionContainer>
+);
+const CurrentPromotionPanel = ({ children }) => (
+  <CurrentPromotionContainer>{children}</CurrentPromotionContainer>
+);
 
 export default Panel;
-export { CurrentPromotionPanelContainer };
+export { UserSectionPanel, CurrentPromotionPanel };
