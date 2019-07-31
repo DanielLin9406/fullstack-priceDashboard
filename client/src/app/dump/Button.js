@@ -4,7 +4,6 @@ import { string } from 'prop-types';
 
 const Button = styled.button`
   padding: 10px;
-  margin-left: 5%;
   border: none;
   border-radius: 5px;
   color: #fff;
@@ -59,6 +58,7 @@ const ForkButtonContainer = styled.button`
   background: transparent;
   font-size: 1rem;
   border: none;
+  cursor: pointer;
 `;
 
 const ForkButton = ({ children }, props) => (

@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { loadDefaultPromotion } from '@app/modules/scheduled-price/scheduledPrice';
-import { asyncGetLicenseRule } from '@app/modules/license-rule/licenseRule';
+import { loadDefaultPromotion } from '@app/modules/scheduledPrice/scheduledPrice';
+import { asyncGetLicenseRule } from '@app/modules/licenseRule/licenseRule';
 import CurrentPriceRule from './CurrentPriceRule';
 
 const mapStateToProps = state => ({

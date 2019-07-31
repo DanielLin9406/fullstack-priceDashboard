@@ -6,7 +6,6 @@ import { Frontload } from 'react-frontload';
 import { BrowserRouter } from 'react-router-dom';
 import createStore from './store';
 import App from './app/app';
-import './index.scss';
 
 const { store } = createStore();
 const root = document.querySelector('#root');

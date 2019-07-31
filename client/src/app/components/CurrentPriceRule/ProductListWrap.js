@@ -22,8 +22,9 @@ export default class ProductListWrap extends Component {
   componentDidUpdate() {}
 
   mapProductToPromotion = product => {
-    if (!this.props.promoItem.items || !this.props.currentPromotionId)
+    if (!this.props.promoItem.items || !this.props.currentPromotionId) {
       return null;
+    }
     const List = this.props.promoItem.items[this.props.currentPromotionId]
       .filter(promoItem => {
         if (product.sku === promoItem.sku) {
@@ -67,7 +68,7 @@ export default class ProductListWrap extends Component {
 
     return (
       <ProductList>
-        {this.getProductList(bcPrice).map((prdObj, index) => (
+        {this.getProductList(bcPrice).map(prdObj => (
           <ProductItem key={`item-${prdObj.name}`}>
             <PriceListWrap
               licenseRule={this.props.licenseRule[prdObj.sku]}

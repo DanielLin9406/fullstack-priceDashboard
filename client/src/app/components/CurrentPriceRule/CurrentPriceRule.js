@@ -9,7 +9,6 @@ import Panel from '@app/dump/Panel';
 import { testFetchLoading } from '@app/shared/testFetch';
 import { getStashPromoId } from '@app/shared/productHelper';
 import ProductListWrap from './ProductListWrap';
-import './CurrentPriceRule.scss';
 
 export default class CurrentPriceRule extends Component {
   state = {
@@ -63,10 +62,6 @@ export default class CurrentPriceRule extends Component {
     }
   }
 
-  loadPGLicense = () => {
-    this.props.asyncGetLicenseRule({ user: this.props.user });
-  };
-
   componentDidMount() {
     this.loadPGLicense();
   }
@@ -75,6 +70,10 @@ export default class CurrentPriceRule extends Component {
     // 由state變化觸發請求
     // console.log('state', this.state);
   }
+
+  loadPGLicense = () => {
+    this.props.asyncGetLicenseRule({ user: this.props.user });
+  };
 
   loadDefaultPriceList = () => {
     this.setState({

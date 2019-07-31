@@ -1,7 +1,5 @@
 import { arrayMove } from 'react-sortable-hoc';
-import scheduledPriceAPI, {
-  schedulePriceAXIOSAPI
-} from '@app/api/pg/scheduledPrice';
+import scheduledPriceAPI from '@app/api/pg/scheduledPrice';
 import { getPromotionAPIHelper, updatePromotionAPIHelper } from './helper';
 /*
  * define action name
@@ -234,7 +232,7 @@ export const sortPromotion = (oldIndex, newIndex) => dispatch => {
 
 export const asyncGetPromotion = ({ user }) => async dispatch => {
   try {
-    const res = await schedulePriceAXIOSAPI.get(user.token);
+    const res = await scheduledPriceAPI.get(user.token);
     const json = res.data;
     const { promotion, priceSet } = getPromotionAPIHelper({ json });
     dispatch({
@@ -283,17 +281,17 @@ export const asyncApplyPromotion = ({
     apply_now: param === 'onLive'
   };
   order.push(stashPromotionId); // very important => trigger next loop
-  await scheduledPriceAPI
-    .create(user.token, postBody)
-    .then(json => {
-      const { updatedQueue, updatedItems } = updatePromotionAPIHelper({
-        json,
-        queue,
-        items,
-        stashPromotionId
-      });
-      // TO DO test if 200
-      if (param === 'onLive') {
+  try {
+    const res = await scheduledPriceAPI.post(user.token, postBody);
+    const json = res.data;
+    const { updatedQueue, updatedItems } = updatePromotionAPIHelper({
+      json,
+      queue,
+      items,
+      stashPromotionId
+    });
+    switch (param) {
+      case 'onLive':
         dispatch({
           type: APPLY_PROMOTION_ONLIVE,
           order,
@@ -301,7 +299,8 @@ export const asyncApplyPromotion = ({
           items: updatedItems,
           stashPromotionId
         });
-      } else {
+        break;
+      case 'queue':
         dispatch({
           type: ADD_PROMOTION_IN_QUEUE,
           order,
@@ -309,18 +308,64 @@ export const asyncApplyPromotion = ({
           items: updatedItems,
           stashPromotionId
         });
-      }
-      dispatch({
-        type: POST_PROMOTION_SUCCESS,
-        postResponse: 200
-      });
-    })
-    .catch(error => {
-      dispatch({
-        type: POST_PROMOTION_FAIL
-      });
-      return Promise.reject(new Error(error.message));
+        break;
+      default:
+        break;
+    }
+    dispatch({
+      type: POST_PROMOTION_SUCCESS,
+      postResponse: 200
     });
+  } catch (error) {
+    dispatch({
+      type: POST_PROMOTION_FAIL
+    });
+    return Promise.reject(new Error(error.message));
+  }
+
+  // await scheduledPriceAPI
+  //   .create(user.token, postBody)
+  //   .then(json => {
+  //     const { updatedQueue, updatedItems } = updatePromotionAPIHelper({
+  //       json,
+  //       queue,
+  //       items,
+  //       stashPromotionId
+  //     });
+  //     // TODO test if 200
+  //     switch (param) {
+  //       case 'onLive':
+  //         dispatch({
+  //           type: APPLY_PROMOTION_ONLIVE,
+  //           order,
+  //           queue: updatedQueue,
+  //           items: updatedItems,
+  //           stashPromotionId
+  //         });
+  //         break;
+  //       case 'queue':
+  //         dispatch({
+  //           type: ADD_PROMOTION_IN_QUEUE,
+  //           order,
+  //           queue: updatedQueue,
+  //           items: updatedItems,
+  //           stashPromotionId
+  //         });
+  //         break;
+  //       default:
+  //         break;
+  //     }
+  //     dispatch({
+  //       type: POST_PROMOTION_SUCCESS,
+  //       postResponse: 200
+  //     });
+  //   })
+  //   .catch(error => {
+  //     dispatch({
+  //       type: POST_PROMOTION_FAIL
+  //     });
+  //     return Promise.reject(new Error(error.message));
+  //   });
 };
 
 export const asyncEditPromotion = ({
@@ -337,27 +382,48 @@ export const asyncEditPromotion = ({
     end_date: queue[currentPromotionId].endDate,
     items: items[currentPromotionId]
   };
-  await scheduledPriceAPI
-    .update(user.token, _id, putBody)
-    .then(() => {
-      dispatch({
-        type: EDIT_PROMOTION,
-        order,
-        queue,
-        items,
-        currentPromotionId
-      });
-      dispatch({
-        type: POST_PROMOTION_SUCCESS,
-        postResponse: 200
-      });
-    })
-    .catch(error => {
-      dispatch({
-        type: POST_PROMOTION_FAIL
-      });
-      return Promise.reject(new Error(error.message));
+  try {
+    const res = await scheduledPriceAPI.put(user.token, _id, putBody);
+    const json = res.data;
+    dispatch({
+      type: EDIT_PROMOTION,
+      order,
+      queue,
+      items,
+      currentPromotionId
     });
+    dispatch({
+      type: POST_PROMOTION_SUCCESS,
+      postResponse: 200
+    });
+  } catch (error) {
+    dispatch({
+      type: POST_PROMOTION_FAIL
+    });
+    return Promise.reject(new Error(error.message));
+  }
+
+  // await scheduledPriceAPI
+  //   .update(user.token, _id, putBody)
+  //   .then(() => {
+  //     dispatch({
+  //       type: EDIT_PROMOTION,
+  //       order,
+  //       queue,
+  //       items,
+  //       currentPromotionId
+  //     });
+  //     dispatch({
+  //       type: POST_PROMOTION_SUCCESS,
+  //       postResponse: 200
+  //     });
+  //   })
+  //   .catch(error => {
+  //     dispatch({
+  //       type: POST_PROMOTION_FAIL
+  //     });
+  //     return Promise.reject(new Error(error.message));
+  //   });
 };
 
 export const asyncRemovePromotion = ({
@@ -365,58 +431,39 @@ export const asyncRemovePromotion = ({
   _id,
   user
 }) => async dispatch => {
-  await scheduledPriceAPI
-    .remove(user.token, _id)
-    .then(() => {
-      dispatch({
-        type: REMOVE_PROMOTION,
-        promotionId
-      });
-      dispatch({
-        type: POST_PROMOTION_SUCCESS,
-        postResponse: 200
-      });
-    })
-    .catch(error => {
-      dispatch({
-        type: POST_PROMOTION_FAIL
-      });
-      return Promise.reject(new Error(error.message));
+  try {
+    const res = await scheduledPriceAPI.delete(user.token, _id);
+    const json = res.data;
+    dispatch({
+      type: REMOVE_PROMOTION,
+      promotionId
     });
+    dispatch({
+      type: POST_PROMOTION_SUCCESS,
+      postResponse: 200
+    });
+  } catch (error) {
+    dispatch({
+      type: POST_PROMOTION_FAIL
+    });
+    return Promise.reject(new Error(error.message));
+  }
+  // await scheduledPriceAPI
+  //   .remove(user.token, _id)
+  //   .then(() => {
+  //     dispatch({
+  //       type: REMOVE_PROMOTION,
+  //       promotionId
+  //     });
+  //     dispatch({
+  //       type: POST_PROMOTION_SUCCESS,
+  //       postResponse: 200
+  //     });
+  //   })
+  //   .catch(error => {
+  //     dispatch({
+  //       type: POST_PROMOTION_FAIL
+  //     });
+  //     return Promise.reject(new Error(error.message));
+  //   });
 };
-
-// return fetch("", {
-//     method: 'POST',
-//     headers: {
-//       'Accept': 'application/json',
-//       'Content-Type': 'application/json'
-//     },
-//     body: JSON.stringify({})
-//   }).then(response => {
-//     if (response.ok){
-//       dispatch({
-//         type: POST_PROMOTION_SUCCESS,
-//         postResponse: response
-//       })
-//       return response.json()
-//     }
-//     dispatch({
-//       type: POST_PROMOTION_FAIL,
-//       postResponse: response
-//     })
-//     return Promise.reject(new Error('error'))
-//   }).then(json => {
-//     dispatch({
-//       type: ADD_PROMOTION_IN_QUEUE,
-//       order,
-//       queue,
-//       items
-//     })
-//     return json
-//   }).catch((error) => {
-//     dispatch({
-//       type: POST_PROMOTION_FAIL,
-//       postResponse: error
-//     })
-//     return Promise.reject(new Error(error.message))
-//   })

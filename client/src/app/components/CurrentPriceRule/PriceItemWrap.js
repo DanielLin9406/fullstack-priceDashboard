@@ -2,9 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import PriceItem, { PriceItemText } from '@app/dump/PriceItem';
 import formatNumber from '@app/shared/numberHelper';
-import { getUpdatedPrice, getDefaultPrice } from '@app/shared/productHelper';
+import {
+  getUpdatedPrice,
+  getDefaultPrice,
+  getSortedItem
+} from '@app/shared/productHelper';
 import testBundle from '@app/shared/testHelper';
-import { getSortedItem } from '@app/shared/productHelper';
 // TODO: Error control!
 // State Management:
 
@@ -108,7 +111,7 @@ export default class PriceItemWrap extends Component {
                     value={this.state.checked[ele]}
                     type="checkbox"
                     className="price-item-checkbox"
-                  ></PriceItemText.Checkbox>
+                  />
                 </PriceItem>
               );
             })

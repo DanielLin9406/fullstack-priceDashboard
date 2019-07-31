@@ -136,7 +136,8 @@ export default class SetPriceRule extends Component {
   };
 
   addProductIntoList = event => {
-    const data = new FormData(event.currentTarget);
+    const unCtrlTarget = event.target;
+    const data = new FormData(unCtrlTarget);
     const [sku, name, price] = data.get('productDetails').split('-');
     const key = this.state.currentPromotionId;
     const currentItems = this.state.items[key];
@@ -163,8 +164,8 @@ export default class SetPriceRule extends Component {
 
   removeProductFromList = event => {
     event.preventDefault();
-    event.persist();
-    const itemIndex = event.currentTarget.dataset.index;
+    const unCtrlCurrentTarget = event.currentTarget;
+    const itemIndex = unCtrlCurrentTarget.dataset.index;
     this.setState(state => {
       const key = state.currentPromotionId;
       return {
@@ -210,7 +211,7 @@ export default class SetPriceRule extends Component {
 
   handleAddItemToList = event => {
     event.preventDefault();
-    event.persist();
+    // event.persist();
     this.addProductIntoList(event);
     this.setState(state => {
       const key = state.currentPromotionId;
@@ -230,6 +231,7 @@ export default class SetPriceRule extends Component {
   handlePromoName = event => {
     event.preventDefault();
     event.persist();
+    const unCtrlCurrentTarget = event.currentTarget;
     this.setState(state => {
       const key = state.currentPromotionId;
       return {
@@ -238,7 +240,7 @@ export default class SetPriceRule extends Component {
           ...state.queue,
           [key]: {
             ...state.queue[key],
-            name: event.currentTarget.value
+            name: unCtrlCurrentTarget.value
           }
         }
       };

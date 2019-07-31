@@ -1,6 +1,6 @@
-import scheduledPrice from './scheduled-price/scheduledPrice';
-import licenseRule from './license-rule/licenseRule';
-import currentBCPrice from './current-BC-price/currentBCPrice';
+import scheduledPrice from './scheduledPrice/scheduledPrice';
+import licenseRule from './licenseRule/licenseRule';
+import currentBCPrice from './currentBCPrice/currentBCPrice';
 import auth from './auth/auth';
 
 export default function combineReducers(state = {}, action) {

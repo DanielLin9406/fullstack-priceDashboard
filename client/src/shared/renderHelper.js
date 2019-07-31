@@ -1,3 +1,4 @@
+import React from 'react';
 import { testExternalErrMsg } from './testFetch';
 
 const renderErrMsg = errMsg => {

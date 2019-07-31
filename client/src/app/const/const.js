@@ -7,7 +7,7 @@ const SITE_URL =
 
 const seo = {
   SITE_URL,
-  defaultTitle: "Daniel's Website",
+  defaultTitle: 'Price Center',
   defaultDescription:
     'This is a really awesome website where we can render on the server. Supa cool.',
   defaultImage: `${SITE_URL}${logo}`,

@@ -15,6 +15,7 @@ const PromoPeriodSpan = styled(FlatSpan)`
 `;
 
 const QueueSpan = styled.span`
+  cursor: pointer;
   margin-left: 0.5rem;
 `;
 

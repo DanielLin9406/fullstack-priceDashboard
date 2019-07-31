@@ -11,7 +11,7 @@ const SelectContainer = styled.select`
 `;
 
 const Select = ({ children, ...props }) => {
-  return <SelectContainer>{children()}</SelectContainer>;
+  return <SelectContainer {...props}>{children()}</SelectContainer>;
 };
 
 export default Select;

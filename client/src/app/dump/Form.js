@@ -27,7 +27,7 @@ const FormSelect = styled(Select)``;
 
 FormCol.Label = FormLabel;
 FormCol.Select = FormSelect;
-FormCol.Input = Input;
+FormCol.Input = styled(Input).attrs({ type: 'text' })``;
 
 export default Form;
 export { FormCol, FormCtrlCol };

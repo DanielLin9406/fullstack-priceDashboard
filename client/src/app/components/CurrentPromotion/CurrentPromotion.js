@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Section, { SectionBody, SectionHeader } from '@app/dump/Section';
 import Panel from '@app/dump/Panel';
 import Button from '@app/dump/Button';

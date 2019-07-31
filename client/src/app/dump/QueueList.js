@@ -10,6 +10,8 @@ const QueueList = styled.ul`
 const QueueItemContainer = styled.li`
   list-style: none;
   width: 90%;
+  box-sizing: border-box;
+  padding: 0 1rem;
   margin: auto;
   background: #fff;
   display: flex;
@@ -27,9 +29,9 @@ const ActiveQueueItemContainer = styled(QueueItemContainer)`
     display: block;
     position: absolute;
     left: 0;
-    right: 0;
     top: 0;
     bottom: 0;
+    width: 2px;
     margin: auto;
     border-left: 5px solid #008072;
   }

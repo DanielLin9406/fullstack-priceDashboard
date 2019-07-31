@@ -35,7 +35,11 @@ export default class QueuePromo extends Component {
         <SectionHeader>Schedule Queue</SectionHeader>
         <SectionBody isLoading={isLoading} errMsg={errMsg}>
           <Panel>
-            <QueuePromoList onSortEnd={this.onSortEnd} items={promotion} />
+            <QueuePromoList
+              onSortEnd={this.onSortEnd}
+              useDragHandle
+              items={promotion}
+            />
           </Panel>
         </SectionBody>
       </Section>

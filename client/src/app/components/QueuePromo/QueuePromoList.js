@@ -1,21 +1,21 @@
 import React, { Component } from 'react';
 import {
   SortableContainer,
-  SortableElement,
-  SortableHandle
+  SortableElement
+  // SortableHandle
 } from 'react-sortable-hoc';
 import PropTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { ForkButton, FlatButton } from '@app/dump/Button';
 import { PromoNameSpan, PromoPeriodSpan, QueueSpan } from '@app/dump/Span';
 import QueueList, { QueueItem } from '@app/dump/QueueList';
 
-const DragHandle = SortableHandle(() => (
-  <QueueSpan>
-    <FontAwesomeIcon icon={faBars} />
-  </QueueSpan>
-));
+// const DragHandle = SortableHandle(() => (
+//   <QueueSpan>
+//     <FontAwesomeIcon icon={faBars} />
+//   </QueueSpan>
+// ));
 
 const SortableItem = SortableElement(
   class Item extends Component {
@@ -40,25 +40,27 @@ const SortableItem = SortableElement(
     render() {
       const { item } = this.props;
       return (
-        <QueueItem active={this.context.active === item.promotionId}>
-          <DragHandle />
-          <FlatButton
-            data-promotion-id={item.promotionId}
-            onClick={this.loadPromotion}
-          >
-            <PromoNameSpan>{item.name}</PromoNameSpan>
-            <PromoPeriodSpan>
-              {item.startDate.split('T')[0]} - {item.endDate.split('T')[0]}
-            </PromoPeriodSpan>
-          </FlatButton>
-          <ForkButton
-            data-promotion-id={item.promotionId}
-            id={item._id}
-            onClick={this.removePromotion}
-          >
-            X
-          </ForkButton>
-        </QueueItem>
+        <>
+          <QueueItem active={this.context.active === item.promotionId}>
+            {/* <DragHandle /> */}
+            <FlatButton
+              data-promotion-id={item.promotionId}
+              onClick={this.loadPromotion}
+            >
+              <PromoNameSpan>{item.name}</PromoNameSpan>
+              <PromoPeriodSpan>
+                {item.startDate.split('T')[0]} - {item.endDate.split('T')[0]}
+              </PromoPeriodSpan>
+            </FlatButton>
+            <ForkButton
+              data-promotion-id={item.promotionId}
+              id={item._id}
+              onClick={this.removePromotion}
+            >
+              X
+            </ForkButton>
+          </QueueItem>
+        </>
       );
     }
   }
