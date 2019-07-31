@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import Section, { SectionHeader, SectionBody } from '@app/dump/Section';
 import { UserSectionPanel } from '@app/dump/Panel';
-
-import './UserSection.scss';
+import { TextButton } from '@app/dump/Button';
+import UserAvatar, { UserName } from '@app/dump/User';
 
 // const COLORS = [
 //   '#0c4245',
@@ -18,29 +18,19 @@ import './UserSection.scss';
 // const randomColorByText = text =>
 //   COLORS[parseInt(text.charCodeAt(text.length - 1), 10) % COLORS.length];
 
-class UserSection extends Component {
+export default class UserSection extends Component {
   render() {
     return (
       <Section className="user-section">
         <SectionHeader>User Section</SectionHeader>
         <SectionBody isLoading={false} errMsg={[]}>
           <UserSectionPanel>
-            <div className="user-avatar-con">
-              <div className="user-avatar">
-                <p>{this.props.user.name.charAt(0)}</p>
-              </div>
-            </div>
-            <div className="user-name">
-              <p>{this.props.user.name}</p>
-            </div>
-            <button className="logout-btn" onClick={this.props.handleLogout()}>
-              Logout
-            </button>
+            <UserAvatar>{this.props.user.name.charAt(0)}</UserAvatar>
+            <UserName>{this.props.user.name}</UserName>
+            <TextButton onClick={this.props.handleLogout()}>Logout</TextButton>
           </UserSectionPanel>
         </SectionBody>
       </Section>
     );
   }
 }
-
-export default UserSection;

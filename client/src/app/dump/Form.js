@@ -14,6 +14,8 @@ const Form = styled.form`
 const FormCol = styled.div`
   flex: 0 0 38%;
   max-width: 38%;
+  display: flex;
+  flex-direction: column;
 `;
 
 const FormCtrlCol = styled.div`

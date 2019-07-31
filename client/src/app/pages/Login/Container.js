@@ -5,7 +5,7 @@ import Login from './Login';
 
 const mapStateToProps = state => ({
   initialized: state.auth.initialized,
-  error: state.auth.error
+  errMsg: [state.auth.error]
 });
 
 const mapDispatchToProps = dispatch =>

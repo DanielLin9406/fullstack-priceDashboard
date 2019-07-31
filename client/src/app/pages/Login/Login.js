@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import HelmetLayout from '@app/layout/helmet/HelmetLayout';
-import Section, { SectionBody } from '@app/dump/Section';
-import './Login.scss';
+import Section, { SectionBody, SectionHeader } from '@app/dump/Section';
+import { RedButton } from '@app/dump/Button';
+import Panel from '@app/dump/Panel';
 
-class Login extends Component {
+export default class Login extends Component {
   componentDidMount() {
     if (!this.props.initialized) {
       this.props.initAuth();
@@ -11,34 +12,18 @@ class Login extends Component {
   }
 
   render() {
-    const { initialized } = this.props;
+    const { initialized, errMsg } = this.props;
     return (
-      <HelmetLayout
-        id="login"
-        title="Login"
-        description="We need to log in to stuff."
-      >
+      <HelmetLayout id="login" title="Login" description="We need to log in.">
         <Section className="login-section">
-          {
-            <div className="group-container">
-              <h2>Sign in to Price Dashboard</h2>
-              <SectionBody isLoading={!initialized} errMsg={[]}>
-                <div className="component-group-container">
-                  <button
-                    className="sign-in-btn"
-                    onClick={this.props.handleLogin()}
-                  >
-                    Sign in
-                  </button>
-                  <div>{this.props.error}</div>
-                </div>
-              </SectionBody>
-            </div>
-          }
+          <SectionHeader>Sign in to Price Dashboard</SectionHeader>
+          <SectionBody isLoading={!initialized} errMsg={errMsg}>
+            <Panel>
+              <RedButton onClick={this.props.handleLogin()}>Sign in</RedButton>
+            </Panel>
+          </SectionBody>
         </Section>
       </HelmetLayout>
     );
   }
 }
-
-export default Login;

@@ -4,7 +4,6 @@ import Panel from '@app/dump/Panel';
 import Button from '@app/dump/Button';
 import TextList, { TextItem } from '@app/dump/TextList';
 import testFetchLoading from '@app/shared/testHelper';
-import './CurrentPromotion.scss';
 
 const CurrentPromotion = props => {
   const { loading, errMsg, promotion } = props;

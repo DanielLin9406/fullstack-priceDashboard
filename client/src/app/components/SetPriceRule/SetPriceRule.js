@@ -4,9 +4,13 @@ import moment from 'moment';
 import Section, { SectionBody, SectionHeader } from '@app/dump/Section';
 import Panel from '@app/dump/Panel';
 import { RedButton, GreenButton } from '@app/dump/Button';
-import RowGroup, { ColGroupDate, Col, Row } from '@app/dump/RowCol';
+import RowGroup, {
+  ColGroupDate,
+  Col,
+  Row,
+  RowFloatGroup
+} from '@app/dump/RowCol';
 import { getStashPromoId } from '@app/shared/productHelper';
-import renderErrMsg from '@app/shared/renderHelper';
 import { testFetchLoading } from '@app/shared/testFetch';
 import {
   testProductInItem,
@@ -341,7 +345,7 @@ export default class SetPriceRule extends Component {
                     </Col>
                   </ColGroupDate>
                 </RowGroup>
-                <RowGroup className="row-group-container">
+                <RowGroup>
                   <Row className="add-item-price-container">
                     <AddPriceRule
                       addItem={this.handleAddItemToList}
@@ -360,7 +364,7 @@ export default class SetPriceRule extends Component {
                   </Row>
                 </RowGroup>
 
-                <RowGroup className="row-group-container apply-schedule-button-container">
+                <RowGroup>
                   <Col>
                     <RedButton
                       onClick={event => {
@@ -378,11 +382,11 @@ export default class SetPriceRule extends Component {
             )) || <>No promotion schedule has been selected</>}
 
             {this.state.editingStash || (
-              <RowGroup className="row-group-container add-edit-new-promotion-container">
+              <RowFloatGroup>
                 <GreenButton onClick={event => this.onLoadPromotion(event)}>
                   Add New Promotion
                 </GreenButton>
-              </RowGroup>
+              </RowFloatGroup>
             )}
           </Panel>
         </SectionBody>

@@ -10,6 +10,17 @@ const RowGroup = styled.div`
   box-sizing: border-box;
 `;
 
+const RowFloatGroup = styled(RowGroup)`
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -90px;
+  margin: auto;
+  background: #f7f7f7;
+  padding: 10px;
+  border-radius: 4px;
+`;
+
 const RowLabel = styled(RowLabelBase)``;
 
 const ColGroup = styled.div`
@@ -76,4 +87,4 @@ Col.Label = RowLabel;
 Col.Input = ColInput;
 
 export default RowGroup;
-export { ColGroup, ColGroupDate, Col, Row, ColInput };
+export { ColGroup, ColGroupDate, Col, Row, ColInput, RowFloatGroup };

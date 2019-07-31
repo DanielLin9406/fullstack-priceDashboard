@@ -28,23 +28,15 @@ class Dashboard extends Component {
         title="Dashboard"
         description="Main dashboard"
       >
-        {this.props.children}
+        <CurrentPromotion />
+        <UserSection />
+        <Calendar />
+        <SetPriceRule />
+        <QueuePromo />
+        <CurrentPriceRule />
       </HelmetLayout>
     );
   }
 }
 
-const WrappedDashboard = ({ ...props }) => {
-  return (
-    <Dashboard {...props}>
-      <CurrentPromotion />
-      <UserSection />
-      <Calendar />
-      <SetPriceRule />
-      <QueuePromo />
-      <CurrentPriceRule />
-    </Dashboard>
-  );
-};
-
-export default WrappedDashboard;
+export default Dashboard;

@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 
 import { asyncGetPromotion } from '@app/modules/scheduledPrice/scheduledPrice';
 import { asyncGetBCPrice } from '@app/modules/currentBCPrice/currentBCPrice';
-import WrappedDashboard from './Dashboard';
+import Dashboard from './Dashboard';
 
 const mapStateToProps = state => ({
   user: state.auth.user
@@ -15,4 +15,4 @@ const mapDispatchToProps = dispatch =>
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(WrappedDashboard);
+)(Dashboard);

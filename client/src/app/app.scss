@@ -47,6 +47,7 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 }
 
 .user-section {
@@ -75,6 +76,9 @@ main {
   flex: 0 0 73%;
 }
 
+.login-section {
+  margin-top: 200px;
+}
 // .loading-container {
 //   text-align: center;
 //   margin-top: 1rem;

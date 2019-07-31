@@ -44,6 +44,12 @@ const CrossButtonContainer = styled.button`
   }
 `;
 
+const TextButton = styled.button`
+  background: transparent;
+  border: none;
+  text-decoration: underline;
+`;
+
 const CrossRedButtonContainer = styled(CrossButtonContainer).attrs({
   fillColor: '#f42e65'
 })``;
@@ -74,4 +80,11 @@ const FlatButton = styled.button`
 `;
 
 export default Button;
-export { GreenButton, RedButton, CrossRedButton, ForkButton, FlatButton };
+export {
+  GreenButton,
+  RedButton,
+  CrossRedButton,
+  ForkButton,
+  FlatButton,
+  TextButton
+};
