@@ -366,7 +366,25 @@ export default class SetPriceRule extends Component {
 
                 <RowGroup>
                   <Col>
-                    <RedButton
+                    {(this.state.editingStash && (
+                      <RedButton
+                        onClick={event => {
+                          return this.handleApplyPromo(event, 'queue');
+                        }}
+                      >
+                        Add schedule to queue
+                      </RedButton>
+                    )) || (
+                      <RedButton
+                        onClick={event => {
+                          return this.handleUpdatePromo(event, '');
+                        }}
+                      >
+                        Update schedule
+                      </RedButton>
+                    )}
+
+                    {/* <RedButton
                       onClick={event => {
                         const params = this.state.editingStash && 'queue';
                         return this.handleApplyPromo(event, params);
@@ -374,7 +392,7 @@ export default class SetPriceRule extends Component {
                     >
                       {(this.state.editingStash && 'Add schedule to queue') ||
                         'Update schedule'}
-                    </RedButton>
+                    </RedButton> */}
                     {/* <button className="apply-btn-now" onClick={(event) => this.handleApplyPromo(event, 'onLive')}>Apply schedule rule now</button> */}
                   </Col>
                 </RowGroup>

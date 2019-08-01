@@ -10,7 +10,7 @@
     "start:stage": "NODE_ENV=development NODE_ENV_API=stage npx webpack-dev-server --config webpack.js --color --progress --hot",
     "start:dev": "NODE_ENV=development NODE_ENV_API=apiDoc npx webpack-dev-server --config webpack.js --color --progress --hot",
     "start:jsonserver": "npm run mock & npm run mockDev",
-    "mock": "npx json-server mock/mock.js --watch --port 8095",
+    "mock": "npx json-server mock/db.json --watch --port 8095 --middlewares mock/middleware.js",
     "mockDev": "NODE_ENV=development NODE_ENV_API=jsonserver npx webpack-dev-server --config webpack.js --color --progress --hot",
     "build:prod": "NODE_ENV=production NODE_ENV_API=prodution npx webpack --config webpack.js",
     "build:stage": "NODE_ENV=production NODE_ENV_API=stage npx webpack --config webpack.js",
@@ -30,6 +30,7 @@
     "history": "^4.7.2",
     "js-cookie": "^2.2.0",
     "lodash": "^4.17.14",
+    "lowdb": "^1.0.0",
     "moment": "^2.23.0",
     "moment-timezone": "^0.5.23",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
@@ -117,19 +118,5 @@
       "npm run lint",
       "git add"
     ]
-  },
-  "sort-imports": [
-    "error",
-    {
-      "ignoreCase": false,
-      "ignoreDeclarationSort": false,
-      "ignoreMemberSort": true,
-      "memberSyntaxSortOrder": [
-        "none",
-        "all",
-        "multiple",
-        "single"
-      ]
-    }
-  ]
+  }
 }

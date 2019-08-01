@@ -9,18 +9,16 @@ import { pagesInfo } from '@app/pages';
 
 export default () => (
   <Switch>
-    {getAllPages(pagesInfo)
-      // .filter(pageObj => pageObj.component !== undefined)
-      .map(pageObj => {
-        switch (pageObj.authType) {
-          case 'authed':
-            return <AuthedRoute exact key={pageObj.path} {...pageObj} />;
-          case 'unAuthed':
-            return <UnAuthedRoute exact key={pageObj.path} {...pageObj} />;
-          default:
-            return <BaseRoute exact key={pageObj.path} {...pageObj} />;
-        }
-      })}
+    {getAllPages(pagesInfo).map(pageObj => {
+      switch (pageObj.authType) {
+        case 'authed':
+          return <AuthedRoute exact key={pageObj.path} {...pageObj} />;
+        case 'unAuthed':
+          return <UnAuthedRoute exact key={pageObj.path} {...pageObj} />;
+        default:
+          return <BaseRoute exact key={pageObj.path} {...pageObj} />;
+      }
+    })}
     <Route component={NotFound} />
   </Switch>
 );

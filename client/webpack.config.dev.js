@@ -58,7 +58,7 @@ const devConfig = {
   devServer: {
     port: 8080,
     historyApiFallback: true,
-    host: '0.0.0.0',
+    host: 'localhost',
     hot: true,
     proxy: {
       '/promotions': 'http://localhost:8095',
