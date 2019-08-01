@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 
 import { loadDefaultPromotion } from '@app/modules/scheduledPrice/scheduledPrice';
 import { asyncGetLicenseRule } from '@app/modules/licenseRule/licenseRule';
-import CurrentPriceRule from './CurrentPriceRule';
+import CurrentPrice from './CurrentPrice';
 
 const mapStateToProps = state => ({
   promotion: state.scheduledPrice.promotion,
@@ -31,4 +31,4 @@ const mapDispatchToProps = dispatch =>
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(CurrentPriceRule);
+)(CurrentPrice);

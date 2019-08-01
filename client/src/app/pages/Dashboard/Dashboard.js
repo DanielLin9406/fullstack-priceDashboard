@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import HelmetLayout from '@app/layout/helmet/HelmetLayout';
 import Calendar from '@app/components/Calendar/Container';
-import CurrentPriceRule from '@app/components/CurrentPriceRule/Container';
+import CurrentPrice from '@app/components/CurrentPrice/Container';
 import QueuePromo from '@app/components/QueuePromo/Container';
 import CurrentPromotion from '@app/components/CurrentPromotion/Container';
 import SetPriceRule from '@app/components/SetPriceRule/Container';
@@ -33,7 +33,7 @@ class Dashboard extends Component {
         <Calendar />
         <SetPriceRule />
         <QueuePromo />
-        <CurrentPriceRule />
+        <CurrentPrice />
       </HelmetLayout>
     );
   }

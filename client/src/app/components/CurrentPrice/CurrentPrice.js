@@ -10,7 +10,7 @@ import { testFetchLoading } from '@app/shared/testFetch';
 import { getStashPromoId } from '@app/shared/productHelper';
 import ProductListWrap from './ProductListWrap';
 
-export default class CurrentPriceRule extends Component {
+export default class CurrentPrice extends Component {
   state = {
     licenseRule: {},
     bcPrice: [],
