@@ -188,6 +188,7 @@ export default class SetPriceRule extends Component {
     const key = this.state.stashPromotionId;
     const queue = this.state.queue;
     const items = this.state.items;
+    console.log({ key, queue, items });
     if (!testScheduleComplete({ key, queue, items })) return;
     console.log('Apply Promotion');
     this.props.asyncApplyPromotion({
@@ -197,6 +198,12 @@ export default class SetPriceRule extends Component {
       stashPromotionId: this.state.stashPromotionId,
       user: this.props.user,
       param
+    });
+    this.setState(state => {
+      return {
+        ...state,
+        isLoading: true
+      };
     });
   };
 
@@ -383,16 +390,6 @@ export default class SetPriceRule extends Component {
                         Update schedule
                       </RedButton>
                     )}
-
-                    {/* <RedButton
-                      onClick={event => {
-                        const params = this.state.editingStash && 'queue';
-                        return this.handleApplyPromo(event, params);
-                      }}
-                    >
-                      {(this.state.editingStash && 'Add schedule to queue') ||
-                        'Update schedule'}
-                    </RedButton> */}
                     {/* <button className="apply-btn-now" onClick={(event) => this.handleApplyPromo(event, 'onLive')}>Apply schedule rule now</button> */}
                   </Col>
                 </RowGroup>

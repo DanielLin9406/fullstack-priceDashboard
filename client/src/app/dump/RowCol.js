@@ -8,6 +8,9 @@ const RowGroup = styled.div`
   padding-left: 3%;
   padding-right: 3%;
   box-sizing: border-box;
+  &:last-child {
+    margin-top: 1rem;
+  }
 `;
 
 const RowFloatGroup = styled(RowGroup)`
