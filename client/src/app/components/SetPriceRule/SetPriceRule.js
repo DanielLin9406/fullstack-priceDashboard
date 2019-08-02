@@ -261,6 +261,7 @@ export default class SetPriceRule extends Component {
   handleStartDateChange = day => {
     const formatDay = moment(day).format('YYYY-MM-DD 00:00');
     const pst = moment.tz(formatDay, 'America/Los_Angeles').format();
+    console.log(formatDay);
     this.setState(state => {
       const key = state.currentPromotionId;
       return {

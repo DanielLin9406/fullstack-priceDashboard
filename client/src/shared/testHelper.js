@@ -26,8 +26,9 @@ const testProductInItem = ({ sku, currentItems }) => {
 
 const testScheduleComplete = ({ key, queue, items }) => {
   // queue and item has stashPromotionId => starting edit
+  console.log(Object.prototype.hasOwnProperty.call(items, key));
   if (
-    Object.prototype.hasOwnProperty.call(items[key]) &&
+    Object.prototype.hasOwnProperty.call(items, key) &&
     items[key].length > 0 &&
     queue[key].startDate !== '' &&
     queue[key].endDate !== '' &&
