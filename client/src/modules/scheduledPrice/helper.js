@@ -1,4 +1,4 @@
-function getPromotionAPIHelper({ json }) {
+function getPromotionAPIHelper({ data }) {
   const promotion = {
     queue: {},
     onLive: '',
@@ -9,7 +9,7 @@ function getPromotionAPIHelper({ json }) {
     items: {},
     active: ''
   };
-  json.data.forEach((ele, index) => {
+  data.data.forEach((ele, index) => {
     const strIndex = index.toString();
     Object.defineProperty(promotion.queue, strIndex, {
       value: {},
@@ -40,8 +40,8 @@ function getPromotionAPIHelper({ json }) {
   });
   return { promotion, priceSet };
 }
-function updatePromotionAPIHelper({ json, queue, items, stashPromotionId }) {
-  const _id = json.data._id;
+function updatePromotionAPIHelper({ data, queue, items, stashPromotionId }) {
+  const _id = data.data._id;
   const updatedQueue = {
     ...queue,
     [stashPromotionId]: {

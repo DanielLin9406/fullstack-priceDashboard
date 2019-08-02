@@ -19,6 +19,8 @@ import {
 import parseDate, { formatDate } from '@app/shared/dateHelper';
 import ViewPriceRule from './ViewPriceRule';
 import AddPriceRule from './AddPriceRule';
+import AddPromotion from '@app/components/AddPromotion/Container';
+import EditPromotion from '@app/components/EditPromotion/Container';
 
 import './SetPriceRule.scss';
 
@@ -32,11 +34,12 @@ export default class SetPriceRule extends Component {
       queue: {},
       items: [],
       bcPrice: {},
-      editingStash: true,
       isLoading: true,
+      errMsg: [],
+      editingStash: true,
       stashPromotionId: '',
-      currentPromotionId: '',
-      errMsg: []
+      currentPromotionId: props.promotion.active,
+      isCalledByProps: true
     };
   }
 
@@ -44,85 +47,182 @@ export default class SetPriceRule extends Component {
     const propsStashId = getStashPromoId(props);
 
     if (testFetchLoading(props.loading)) return null;
+    console.log('currentPromotionId', state.currentPromotionId);
+    console.log('stashPromotionId', state.stashPromotionId);
+    console.log('Prop active', props.promotion.active);
 
+    // Remove Promotion
     if (props.removedPromoId) {
-      console.log('Remove Promotion');
-      delete props.priceSet.items[props.removedPromoId];
-      delete props.promotion.queue[props.removedPromoId];
-      return {
-        ...state,
-        stashPromotionId: propsStashId,
-        currentPromotionId: props.promotion.active,
-        order: props.promotion.order,
-        editingStash: false,
-        items: {
-          ...props.priceSet.items,
-          [propsStashId]: []
-        },
-        queue: {
-          ...props.promotion.queue,
-          [propsStashId]: {
-            promotionId: propsStashId.toString(),
-            name: '',
-            startDate: '',
-            endDate: ''
-          }
-        }
-      };
-    }
-
-    if (state.stashPromotionId !== propsStashId) {
-      console.log('Promotion added');
       return {
         ...state,
         isLoading: false,
-        bcPrice: props.bcPrice,
-        order: props.promotion.order,
-        items: {
-          ...props.priceSet.items,
-          [propsStashId]: []
-        },
-        queue: {
-          ...props.promotion.queue,
-          [propsStashId]: {
-            promotionId: propsStashId.toString(),
-            name: '',
-            startDate: '',
-            endDate: ''
-          }
-        },
-        currentPromotionId: propsStashId,
-        stashPromotionId: propsStashId,
+        errMsg: props.errMsg,
+        editingStash: false
+      };
+    }
+    // if (state.currentPromotionId !== propsStashId) {
+    //   console.log('Add Promotion');
+    //   return {
+    //     ...state,
+    //     isLoading: false,
+    //     currentPromotionId: propsStashId,
+    //     stashPromotionId: propsStashId,
+    //     editingStash: false
+    //   };
+    // }
+    // } else if (state.currentPromotionIdFromProps === state.currentPromotionId) {
+    // if (state.currentPromotionId === propsStashId) {
+    //   console.log('Edit Promotion');
+    //   return {
+    //     ...state,
+    //     isLoading: false,
+    //     currentPromotionIdFromProps: props.promotion.active,
+    //     currentPromotionId: props.promotion.active,
+    //     stashPromotionId: propsStashId,
+    //     editingStash: false
+    //   };
+    // }
+    // }
+    // if (props.removedPromoId) {
+    //   console.log('Remove Promotion');
+    //   delete props.priceSet.items[props.removedPromoId];
+    //   delete props.promotion.queue[props.removedPromoId];
+    //   return {
+    //     ...state,
+    //     stashPromotionId: propsStashId,
+    //     currentPromotionId: props.promotion.active,
+    //     order: props.promotion.order,
+    //     editingStash: false,
+    //     items: {
+    //       ...props.priceSet.items,
+    //       [propsStashId]: []
+    //     },
+    //     queue: {
+    //       ...props.promotion.queue,
+    //       [propsStashId]: {
+    //         promotionId: propsStashId.toString(),
+    //         name: '',
+    //         startDate: '',
+    //         endDate: ''
+    //       }
+    //     }
+    //   };
+    // }
+
+    // Add Promotion
+    if (state.stashPromotionId !== propsStashId) {
+      return {
+        ...state,
+        isLoading: false,
         errMsg: props.errMsg
       };
     }
-
     if (state.stashPromotionId === propsStashId) {
       if (state.currentPromotionId !== props.promotion.active) {
+        // Edit Promotion
         if (
           state.stashPromotionId === state.currentPromotionId &&
           !state.editingStash
         ) {
-          console.log('Edit Promotion');
           return {
             ...state,
-            currentPromotionId: state.stashPromotionId,
+            isLoading: false,
+            errMsg: props.errMsg,
             editingStash: true
           };
         }
+        // Change Promotion
         if (
           state.stashPromotionId !== state.currentPromotionId ||
           state.editingStash
         ) {
-          console.log('Change Promotion');
           return {
             ...state,
-            currentPromotionId: props.promotion.active,
+            isLoading: false,
+            errMsg: props.errMsg,
             editingStash: false
           };
         }
       }
     }
+    // if (props.removedPromoId) {
+    //   console.log('Remove Promotion');
+    //   delete props.priceSet.items[props.removedPromoId];
+    //   delete props.promotion.queue[props.removedPromoId];
+    //   return {
+    //     ...state,
+    //     stashPromotionId: propsStashId,
+    //     currentPromotionId: props.promotion.active,
+    //     order: props.promotion.order,
+    //     editingStash: false,
+    //     items: {
+    //       ...props.priceSet.items,
+    //       [propsStashId]: []
+    //     },
+    //     queue: {
+    //       ...props.promotion.queue,
+    //       [propsStashId]: {
+    //         promotionId: propsStashId.toString(),
+    //         name: '',
+    //         startDate: '',
+    //         endDate: ''
+    //       }
+    //     }
+    //   };
+    // }
+
+    // if (state.stashPromotionId !== propsStashId) {
+    //   console.log('Promotion added');
+    //   return {
+    //     ...state,
+    //     isLoading: false,
+    //     bcPrice: props.bcPrice,
+    //     order: props.promotion.order,
+    //     items: {
+    //       ...props.priceSet.items,
+    //       [propsStashId]: []
+    //     },
+    //     queue: {
+    //       ...props.promotion.queue,
+    //       [propsStashId]: {
+    //         promotionId: propsStashId.toString(),
+    //         name: '',
+    //         startDate: '',
+    //         endDate: ''
+    //       }
+    //     },
+    //     currentPromotionId: propsStashId,
+    //     stashPromotionId: propsStashId,
+    //     errMsg: props.errMsg
+    //   };
+    // }
+
+    // if (state.stashPromotionId === propsStashId) {
+    //   if (state.currentPromotionId !== props.promotion.active) {
+    //     if (
+    //       state.stashPromotionId === state.currentPromotionId &&
+    //       !state.editingStash
+    //     ) {
+    //       console.log('Edit Promotion');
+    //       return {
+    //         ...state,
+    //         currentPromotionId: state.stashPromotionId,
+    //         editingStash: true
+    //       };
+    //     }
+    //     if (
+    //       state.stashPromotionId !== state.currentPromotionId ||
+    //       state.editingStash
+    //     ) {
+    //       console.log('Change Promotion');
+    //       return {
+    //         ...state,
+    //         currentPromotionId: props.promotion.active,
+    //         editingStash: false
+    //       };
+    //     }
+    //   }
+    // }
     return null;
   }
 
@@ -130,175 +230,176 @@ export default class SetPriceRule extends Component {
 
   componentDidUpdate() {}
 
-  onLoadPromotion = event => {
-    event.preventDefault();
-    event.persist();
-    this.setState(state => ({
-      currentPromotionId: state.stashPromotionId,
-      editingStash: false
-    }));
-  };
+  // onLoadPromotion = event => {
+  //   event.preventDefault();
+  //   event.persist();
+  //   this.setState(state => ({
+  //     currentPromotionId: state.stashPromotionId,
+  //     editingStash: false
+  //   }));
+  // };
 
-  addProductIntoList = event => {
-    const unCtrlTarget = event.target;
-    const data = new FormData(unCtrlTarget);
-    const [sku, name, price] = data.get('productDetails').split('-');
-    const key = this.state.currentPromotionId;
-    const currentItems = this.state.items[key];
-    if (!testProductInItem({ sku, currentItems })) return;
+  // addProductIntoList = event => {
+  //   const unCtrlTarget = event.target;
+  //   const data = new FormData(unCtrlTarget);
+  //   const [sku, name, price] = data.get('productDetails').split('-');
+  //   const key = this.state.currentPromotionId;
+  //   const currentItems = this.state.items[key];
+  //   if (!testProductInItem({ sku, currentItems })) return;
 
-    this.setState(state => {
-      const newKey = state.currentPromotionId;
-      const items = state.items[newKey];
-      items.push({
-        name,
-        sale_price: data.get('salePrice'),
-        promotionId: newKey.toString(),
-        price,
-        sku
-      });
-      return {
-        items: {
-          ...state.items,
-          [newKey]: items
-        }
-      };
-    });
-  };
+  //   this.setState(state => {
+  //     const newKey = state.currentPromotionId;
+  //     const items = state.items[newKey];
+  //     items.push({
+  //       name,
+  //       sale_price: data.get('salePrice'),
+  //       promotionId: newKey.toString(),
+  //       price,
+  //       sku
+  //     });
+  //     return {
+  //       items: {
+  //         ...state.items,
+  //         [newKey]: items
+  //       }
+  //     };
+  //   });
+  // };
 
-  removeProductFromList = event => {
-    event.preventDefault();
-    const unCtrlCurrentTarget = event.currentTarget;
-    const itemIndex = unCtrlCurrentTarget.dataset.index;
-    this.setState(state => {
-      const key = state.currentPromotionId;
-      return {
-        editingStash: false,
-        items: {
-          ...state.items,
-          [key]: state.items[key].filter((ele, i) => i.toString() !== itemIndex)
-        }
-      };
-    });
-  };
+  // removeProductFromList = event => {
+  //   event.preventDefault();
+  //   const unCtrlCurrentTarget = event.currentTarget;
+  //   const itemIndex = unCtrlCurrentTarget.dataset.index;
+  //   this.setState(state => {
+  //     const key = state.currentPromotionId;
+  //     return {
+  //       editingStash: false,
+  //       items: {
+  //         ...state.items,
+  //         [key]: state.items[key].filter((ele, i) => i.toString() !== itemIndex)
+  //       }
+  //     };
+  //   });
+  // };
 
-  handleApplyPromo = (event, param) => {
-    event.preventDefault();
-    event.persist();
-    const key = this.state.stashPromotionId;
-    const queue = this.state.queue;
-    const items = this.state.items;
-    console.log({ key, queue, items });
-    if (!testScheduleComplete({ key, queue, items })) return;
-    console.log('Apply Promotion');
-    this.props.asyncApplyPromotion({
-      order: this.state.order,
-      queue: this.state.queue,
-      items: this.state.items,
-      stashPromotionId: this.state.stashPromotionId,
-      user: this.props.user,
-      param
-    });
-    this.setState(state => {
-      return {
-        ...state,
-        isLoading: true
-      };
-    });
-  };
+  // handleApplyPromo = (event, param) => {
+  //   event.preventDefault();
+  //   event.persist();
+  //   const key = this.state.stashPromotionId;
+  //   const queue = this.state.queue;
+  //   const items = this.state.items;
+  //   console.log({ key, queue, items });
+  //   if (!testScheduleComplete({ key, queue, items })) return;
+  //   console.log('Apply Promotion');
+  //   this.props.asyncApplyPromotion({
+  //     order: this.state.order,
+  //     queue: this.state.queue,
+  //     items: this.state.items,
+  //     stashPromotionId: this.state.stashPromotionId,
+  //     user: this.props.user,
+  //     param
+  //   });
+  //   this.setState(state => {
+  //     return {
+  //       ...state,
+  //       isLoading: true
+  //     };
+  //   });
+  // };
 
-  handleUpdatePromo = event => {
-    event.preventDefault();
-    event.persist();
-    // const key = this.state.currentPromotionId;
-    this.props.asyncEditPromotion({
-      order: this.state.order,
-      queue: this.state.queue,
-      items: this.state.items,
-      currentPromotionId: this.state.currentPromotionId,
-      user: this.props.user
-    });
-  };
+  // handleUpdatePromo = event => {
+  //   event.preventDefault();
+  //   event.persist();
+  //   // const key = this.state.currentPromotionId;
+  //   this.props.asyncEditPromotion({
+  //     order: this.state.order,
+  //     queue: this.state.queue,
+  //     items: this.state.items,
+  //     currentPromotionId: this.state.currentPromotionId,
+  //     user: this.props.user
+  //   });
+  // };
 
-  handleAddItemToList = event => {
-    event.preventDefault();
-    // event.persist();
-    this.addProductIntoList(event);
-    this.setState(state => {
-      const key = state.currentPromotionId;
-      return {
-        currentPromotionId: key,
-        editingStash: false,
-        queue: {
-          ...state.queue,
-          [key]: {
-            ...state.queue[key]
-          }
-        }
-      };
-    });
-  };
+  // handleAddItemToList = event => {
+  //   event.preventDefault();
+  //   // event.persist();
+  //   this.addProductIntoList(event);
+  //   this.setState(state => {
+  //     const key = state.currentPromotionId;
+  //     return {
+  //       currentPromotionId: key,
+  //       editingStash: false,
+  //       queue: {
+  //         ...state.queue,
+  //         [key]: {
+  //           ...state.queue[key]
+  //         }
+  //       }
+  //     };
+  //   });
+  // };
 
-  handlePromoName = event => {
-    event.preventDefault();
-    event.persist();
-    const unCtrlCurrentTarget = event.currentTarget;
-    this.setState(state => {
-      const key = state.currentPromotionId;
-      return {
-        editingStash: false,
-        queue: {
-          ...state.queue,
-          [key]: {
-            ...state.queue[key],
-            name: unCtrlCurrentTarget.value
-          }
-        }
-      };
-    });
-  };
+  // handlePromoName = event => {
+  //   event.preventDefault();
+  //   event.persist();
+  //   const unCtrlCurrentTarget = event.currentTarget;
+  //   this.setState(state => {
+  //     const key = state.currentPromotionId;
+  //     return {
+  //       editingStash: false,
+  //       queue: {
+  //         ...state.queue,
+  //         [key]: {
+  //           ...state.queue[key],
+  //           name: unCtrlCurrentTarget.value
+  //         }
+  //       }
+  //     };
+  //   });
+  // };
 
-  handleStartDateChange = day => {
-    const formatDay = moment(day).format('YYYY-MM-DD 00:00');
-    const pst = moment.tz(formatDay, 'America/Los_Angeles').format();
-    console.log(formatDay);
-    this.setState(state => {
-      const key = state.currentPromotionId;
-      return {
-        editingStash: false,
-        queue: {
-          ...state.queue,
-          [key]: {
-            ...state.queue[key],
-            promotionId: key.toString(),
-            startDate: pst
-          }
-        }
-      };
-    });
-  };
+  // handleStartDateChange = day => {
+  //   const formatDay = moment(day).format('YYYY-MM-DD 00:00');
+  //   const pst = moment.tz(formatDay, 'America/Los_Angeles').format();
+  //   console.log(formatDay);
+  //   this.setState(state => {
+  //     const key = state.currentPromotionId;
+  //     return {
+  //       editingStash: false,
+  //       queue: {
+  //         ...state.queue,
+  //         [key]: {
+  //           ...state.queue[key],
+  //           promotionId: key.toString(),
+  //           startDate: pst
+  //         }
+  //       }
+  //     };
+  //   });
+  // };
 
-  handleEndDateChange = day => {
-    const formatDay = moment(day).format('YYYY-MM-DD 00:00');
-    const pst = moment.tz(formatDay, 'America/Los_Angeles').format();
-    this.setState(state => {
-      const key = state.currentPromotionId;
-      return {
-        editingStash: false,
-        queue: {
-          ...state.queue,
-          [key]: {
-            ...state.queue[key],
-            promotionId: key.toString(),
-            endDate: pst
-          }
-        }
-      };
-    });
-  };
+  // handleEndDateChange = day => {
+  //   const formatDay = moment(day).format('YYYY-MM-DD 00:00');
+  //   const pst = moment.tz(formatDay, 'America/Los_Angeles').format();
+  //   this.setState(state => {
+  //     const key = state.currentPromotionId;
+  //     return {
+  //       editingStash: false,
+  //       queue: {
+  //         ...state.queue,
+  //         [key]: {
+  //           ...state.queue[key],
+  //           promotionId: key.toString(),
+  //           endDate: pst
+  //         }
+  //       }
+  //     };
+  //   });
+  // };
 
   render() {
     const { isLoading, currentPromotionId, errMsg } = this.state;
+    const { state } = this;
     return (
       <Section className="set-price-rule">
         <SectionHeader>
@@ -311,7 +412,8 @@ export default class SetPriceRule extends Component {
         </SectionHeader>
         <SectionBody isLoading={isLoading} errMsg={errMsg}>
           <Panel>
-            {(currentPromotionId && (
+            {(this.state.editingStash && <AddPromotion />) || <EditPromotion />}
+            {/* {(currentPromotionId && (
               <>
                 <RowGroup>
                   <Col>
@@ -354,7 +456,7 @@ export default class SetPriceRule extends Component {
                   </ColGroupDate>
                 </RowGroup>
                 <RowGroup>
-                  <Row className="add-item-price-container">
+                  <Row>
                     <AddPriceRule
                       addItem={this.handleAddItemToList}
                       bcPriceList={this.state.bcPrice}
@@ -362,12 +464,12 @@ export default class SetPriceRule extends Component {
                       errMsg={this.state.errMsg}
                     />
                   </Row>
-                  <Row className="item-price-list-container">
+                  <Row>
                     <ViewPriceRule
                       currentItemPriceList={
                         this.state.items[currentPromotionId]
                       }
-                      rmItem={this.removeProductFromList}
+                      rmItem={this.handleRemoveItemFromList}
                     />
                   </Row>
                 </RowGroup>
@@ -376,34 +478,30 @@ export default class SetPriceRule extends Component {
                   <Col>
                     {(this.state.editingStash && (
                       <RedButton
-                        onClick={event => {
-                          return this.handleApplyPromo(event, 'queue');
-                        }}
+                        onClick={event => this.handleApplyPromo(event, 'queue')}
                       >
                         Add schedule to queue
                       </RedButton>
                     )) || (
                       <RedButton
-                        onClick={event => {
-                          return this.handleUpdatePromo(event, '');
-                        }}
+                        onClick={event => this.handleUpdatePromo(event, '')}
                       >
                         Update schedule
                       </RedButton>
                     )}
-                    {/* <button className="apply-btn-now" onClick={(event) => this.handleApplyPromo(event, 'onLive')}>Apply schedule rule now</button> */}
                   </Col>
                 </RowGroup>
               </>
-            )) || <>No promotion schedule has been selected</>}
+            )) || <>No promotion schedule has been selected</>} */}
+            {/* <button className="apply-btn-now" onClick={(event) => this.handleApplyPromo(event, 'onLive')}>Apply schedule rule now</button> */}
 
-            {this.state.editingStash || (
+            {/* {this.state.editingStash || (
               <RowFloatGroup>
                 <GreenButton onClick={event => this.onLoadPromotion(event)}>
                   Add New Promotion
                 </GreenButton>
               </RowFloatGroup>
-            )}
+            )} */}
           </Panel>
         </SectionBody>
       </Section>

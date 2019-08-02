@@ -6,12 +6,12 @@ import {
   asyncEditPromotion,
   loadDefaultPromotion
 } from '@app/modules/scheduledPrice/scheduledPrice';
-import SetPriceRule from './SetPriceRule';
+import AddPromotion from './AddPromotion';
 
 const mapStateToProps = state => ({
   promotion: state.scheduledPrice.promotion,
   priceSet: state.scheduledPrice.priceSet,
-  statusCode: state.scheduledPrice.statusCode,
+  postResponse: state.scheduledPrice.postResponse,
   removedPromoId: state.scheduledPrice.removedPromoId,
   bcPrice: state.currentBCPrice.priceList,
   user: state.auth.user,
@@ -30,4 +30,4 @@ const mapDispatchToProps = dispatch =>
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(SetPriceRule);
+)(AddPromotion);

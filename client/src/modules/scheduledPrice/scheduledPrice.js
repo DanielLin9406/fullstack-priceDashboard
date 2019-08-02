@@ -31,7 +31,7 @@ const initialState = {
   errMsg: undefined,
   postLoading: true,
   removedPromoId: '',
-  postResponse: '',
+  statusCode: '',
   priceSet: {
     active: '',
     items: {}
@@ -141,13 +141,13 @@ export default (state = initialState, action) => {
         ...state,
         removedPromoId: '',
         isLoading: false,
-        postResponse: action.postResponse
+        statusCode: action.statusCode
       };
     case POST_PROMOTION_FAIL:
       return {
         ...state,
         isLoading: false,
-        postResponse: action.postResponse
+        statusCode: action.statusCode
       };
     case EDIT_PROMOTION:
       return {
@@ -233,8 +233,8 @@ export const sortPromotion = (oldIndex, newIndex) => dispatch => {
 export const asyncGetPromotion = ({ user }) => async dispatch => {
   try {
     const res = await scheduledPriceAPI.get(user.token);
-    const json = res.data;
-    const { promotion, priceSet } = getPromotionAPIHelper({ json });
+    const { data, status } = res;
+    const { promotion, priceSet } = getPromotionAPIHelper({ data });
     dispatch({
       type: GET_PROMOTION_SUCCESS,
       promotion,
@@ -242,27 +242,11 @@ export const asyncGetPromotion = ({ user }) => async dispatch => {
     });
   } catch (error) {
     dispatch({
-      type: GET_PROMOTION_FAIL
+      type: GET_PROMOTION_FAIL,
+      statusCode: error.response.status
     });
     return Promise.reject(new Error(error.message));
   }
-  // return scheduledPriceAPI
-  //   .fetchList(user.token)
-  //   .then(json => {
-  //     const { promotion, priceSet } = getPromotionAPIHelper({ json });
-  //     dispatch({
-  //       type: GET_PROMOTION_SUCCESS,
-  //       promotion,
-  //       priceSet
-  //     });
-  //     return json;
-  //   })
-  //   .catch(error => {
-  //     dispatch({
-  //       type: GET_PROMOTION_FAIL
-  //     });
-  //     return Promise.reject(new Error(error.message));
-  //   });
 };
 
 export const asyncApplyPromotion = ({
@@ -283,9 +267,9 @@ export const asyncApplyPromotion = ({
   order.push(stashPromotionId); // very important => trigger next loop
   try {
     const res = await scheduledPriceAPI.post(user.token, postBody);
-    const json = res.data;
+    const { data, status } = res;
     const { updatedQueue, updatedItems } = updatePromotionAPIHelper({
-      json,
+      data,
       queue,
       items,
       stashPromotionId
@@ -314,58 +298,15 @@ export const asyncApplyPromotion = ({
     }
     dispatch({
       type: POST_PROMOTION_SUCCESS,
-      postResponse: 200
+      statusCode: status
     });
   } catch (error) {
     dispatch({
-      type: POST_PROMOTION_FAIL
+      type: POST_PROMOTION_FAIL,
+      statusCode: error.response.status
     });
     return Promise.reject(new Error(error.message));
   }
-
-  // await scheduledPriceAPI
-  //   .create(user.token, postBody)
-  //   .then(json => {
-  //     const { updatedQueue, updatedItems } = updatePromotionAPIHelper({
-  //       json,
-  //       queue,
-  //       items,
-  //       stashPromotionId
-  //     });
-  //     // TODO test if 200
-  //     switch (param) {
-  //       case 'onLive':
-  //         dispatch({
-  //           type: APPLY_PROMOTION_ONLIVE,
-  //           order,
-  //           queue: updatedQueue,
-  //           items: updatedItems,
-  //           stashPromotionId
-  //         });
-  //         break;
-  //       case 'queue':
-  //         dispatch({
-  //           type: ADD_PROMOTION_IN_QUEUE,
-  //           order,
-  //           queue: updatedQueue,
-  //           items: updatedItems,
-  //           stashPromotionId
-  //         });
-  //         break;
-  //       default:
-  //         break;
-  //     }
-  //     dispatch({
-  //       type: POST_PROMOTION_SUCCESS,
-  //       postResponse: 200
-  //     });
-  //   })
-  //   .catch(error => {
-  //     dispatch({
-  //       type: POST_PROMOTION_FAIL
-  //     });
-  //     return Promise.reject(new Error(error.message));
-  //   });
 };
 
 export const asyncEditPromotion = ({
@@ -384,7 +325,7 @@ export const asyncEditPromotion = ({
   };
   try {
     const res = await scheduledPriceAPI.put(user.token, _id, putBody);
-    const json = res.data;
+    const { data, status } = res;
     dispatch({
       type: EDIT_PROMOTION,
       order,
@@ -394,36 +335,15 @@ export const asyncEditPromotion = ({
     });
     dispatch({
       type: POST_PROMOTION_SUCCESS,
-      postResponse: 200
+      statusCode: status
     });
   } catch (error) {
     dispatch({
-      type: POST_PROMOTION_FAIL
+      type: POST_PROMOTION_FAIL,
+      statusCode: error.response.status
     });
     return Promise.reject(new Error(error.message));
   }
-
-  // await scheduledPriceAPI
-  //   .update(user.token, _id, putBody)
-  //   .then(() => {
-  //     dispatch({
-  //       type: EDIT_PROMOTION,
-  //       order,
-  //       queue,
-  //       items,
-  //       currentPromotionId
-  //     });
-  //     dispatch({
-  //       type: POST_PROMOTION_SUCCESS,
-  //       postResponse: 200
-  //     });
-  //   })
-  //   .catch(error => {
-  //     dispatch({
-  //       type: POST_PROMOTION_FAIL
-  //     });
-  //     return Promise.reject(new Error(error.message));
-  //   });
 };
 
 export const asyncRemovePromotion = ({
@@ -433,37 +353,20 @@ export const asyncRemovePromotion = ({
 }) => async dispatch => {
   try {
     const res = await scheduledPriceAPI.delete(user.token, _id);
-    const json = res.data;
+    const { data, status } = res;
     dispatch({
       type: REMOVE_PROMOTION,
       promotionId
     });
     dispatch({
       type: POST_PROMOTION_SUCCESS,
-      postResponse: 200
+      statusCode: status
     });
   } catch (error) {
     dispatch({
-      type: POST_PROMOTION_FAIL
+      type: POST_PROMOTION_FAIL,
+      statusCode: error.response.status
     });
     return Promise.reject(new Error(error.message));
   }
-  // await scheduledPriceAPI
-  //   .remove(user.token, _id)
-  //   .then(() => {
-  //     dispatch({
-  //       type: REMOVE_PROMOTION,
-  //       promotionId
-  //     });
-  //     dispatch({
-  //       type: POST_PROMOTION_SUCCESS,
-  //       postResponse: 200
-  //     });
-  //   })
-  //   .catch(error => {
-  //     dispatch({
-  //       type: POST_PROMOTION_FAIL
-  //     });
-  //     return Promise.reject(new Error(error.message));
-  //   });
 };

@@ -72,16 +72,19 @@ const Col = styled.div`
 
 const ColInput = props => {
   const Component = props.component;
+  const value = props.value;
   if (Component) {
+    console.log(Component);
+    console.log(props.value);
     return (
       <ColInputContainer>
-        <Component {...props} />
+        <Component {...props} value={value} />
       </ColInputContainer>
     );
   }
   return (
     <ColInputContainer>
-      <ColInputWrap {...props} />
+      <ColInputWrap {...props} value={value} />
     </ColInputContainer>
   );
 };
