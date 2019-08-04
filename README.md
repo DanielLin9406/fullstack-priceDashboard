@@ -2,7 +2,7 @@
 
 This project as internal tool for the company is desinged for setting and showing product price.
 
-![preview](https://i.imgur.com/bCIldOr.png)
+![preview](https://i.imgur.com/GQTiwCh.png)
 
 ## Installation
 
