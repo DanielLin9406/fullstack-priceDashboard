@@ -4,6 +4,7 @@ import { getPromotionAPIHelper, updatePromotionAPIHelper } from './helper';
 /*
  * define action name
  */
+export const ADD_NEW_PROMOTION = 'promotion/ADD_NEW_PROMOTION';
 export const LOAD_PROMOTION = 'promotion/LOAD_PROMOTION';
 export const SORT_PROMOTION = 'promotion/SORT_PROMOTION';
 
@@ -39,6 +40,7 @@ const initialState = {
   promotion: {
     active: '',
     onLive: '',
+    onEdit: '',
     order: [],
     queue: {}
   }
@@ -266,6 +268,9 @@ export const asyncApplyPromotion = ({
   };
   order.push(stashPromotionId); // very important => trigger next loop
   try {
+    dispatch({
+      type: POST_PROMOTION_REQ
+    });
     const res = await scheduledPriceAPI.post(user.token, postBody);
     const { data, status } = res;
     const { updatedQueue, updatedItems } = updatePromotionAPIHelper({

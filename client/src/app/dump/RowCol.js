@@ -69,28 +69,36 @@ const Col = styled.div`
   flex-direction: column;
   flex: 0 0 46%;
 `;
+const ColErrMsg = styled.span`
+  font-size: 0.9rem;
+  color: red;
+  text-align: left;
+  display: block;
+`;
 
 const ColInput = props => {
   const Component = props.component;
   const value = props.value;
+  const errMsg = props.errMsg;
   if (Component) {
-    console.log(Component);
-    console.log(props.value);
     return (
       <ColInputContainer>
         <Component {...props} value={value} />
+        {errMsg && <ColErrMsg>{errMsg}</ColErrMsg>}
       </ColInputContainer>
     );
   }
   return (
     <ColInputContainer>
       <ColInputWrap {...props} value={value} />
+      {errMsg && <ColErrMsg>{errMsg}</ColErrMsg>}
     </ColInputContainer>
   );
 };
 
 Col.Label = RowLabel;
 Col.Input = ColInput;
+Col.ErrMsg = ColErrMsg;
 
 export default RowGroup;
 export { ColGroup, ColGroupDate, Col, Row, ColInput, RowFloatGroup };

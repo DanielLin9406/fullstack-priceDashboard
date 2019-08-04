@@ -25,18 +25,37 @@ const testProductInItem = ({ sku, currentItems }) => {
 };
 
 const testScheduleComplete = ({ key, queue, items }) => {
-  // queue and item has stashPromotionId => starting edit
-  console.log(Object.prototype.hasOwnProperty.call(items, key));
-  if (
-    Object.prototype.hasOwnProperty.call(items, key) &&
-    items[key].length > 0 &&
-    queue[key].startDate !== '' &&
-    queue[key].endDate !== '' &&
-    queue[key].name !== ''
-  ) {
-    return true;
+  const result = [];
+  // if (!Object.prototype.hasOwnProperty.call(items, key))
+  if (items[key].length === 0) {
+    result.push({
+      name: 'promoItem',
+      result: false,
+      message: "Don't have items in this promotion"
+    });
   }
-  return false;
+  if (!queue[key].startDate !== '') {
+    result.push({
+      name: 'promoStartDate',
+      result: false,
+      message: "Don't contain promotion start date"
+    });
+  }
+  if (!queue[key].endDate !== '') {
+    result.push({
+      name: 'promoEndDate',
+      result: false,
+      message: "Don't contain promotion end date"
+    });
+  }
+  if (!queue[key].name !== '') {
+    result.push({
+      name: 'promoName',
+      result: false,
+      message: "Don't contain promotion name"
+    });
+  }
+  return result;
 };
 
 export default testBundle;

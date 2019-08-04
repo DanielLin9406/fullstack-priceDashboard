@@ -17,6 +17,7 @@ const Loading = ({ active, children }) => (
         wrapper: {
           width: '100%',
           height: '100%',
+          minHeight: '50px',
           overflow: 'initial',
           display: 'inherit',
           justifyContent: 'inherit'
@@ -28,10 +29,4 @@ const Loading = ({ active, children }) => (
     </LoadingOverlay>
   </LoadingContainer>
 );
-// {
-//   /* </div> */
-// }
-// {
-//   /* <ReactLoading type="spin" color="#ccc" height={50} width={50} /> */
-// }
 export default Loading;

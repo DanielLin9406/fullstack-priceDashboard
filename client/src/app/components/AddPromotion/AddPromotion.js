@@ -1,25 +1,9 @@
 import React, { Component } from 'react';
-import DayPickerInput from 'react-day-picker/DayPickerInput';
-import moment from 'moment';
-import { RedButton, GreenButton } from '@app/dump/Button';
-import RowGroup, {
-  ColGroupDate,
-  Col,
-  Row,
-  RowFloatGroup
-} from '@app/dump/RowCol';
 import { getStashPromoId } from '@app/shared/productHelper';
 import { testFetchLoading } from '@app/shared/testFetch';
-import {
-  testProductInItem,
-  testScheduleComplete
-} from '@app/shared/testHelper';
-import parseDate, { formatDate } from '@app/shared/dateHelper';
-import ViewPriceRule from '@app/components/SetPriceRule/ViewPriceRule';
-import AddPriceRule from '@app/components/SetPriceRule/AddPriceRule';
+import { testScheduleComplete } from '@app/shared/testHelper';
+import { transFormToObject } from '@app/shared/typeHelper';
 import '@app/components/SetPriceRule/SetPriceRule.scss';
-
-require('moment-timezone');
 
 export default class AddPromotion extends Component {
   constructor(props) {
@@ -29,11 +13,11 @@ export default class AddPromotion extends Component {
       queue: {},
       items: [],
       bcPrice: {},
-      editingStash: true,
       isLoading: true,
-      stashPromotionId: '',
       currentPromotionId: '',
-      errMsg: []
+      errMsg: [],
+      buttonName: 'Add schedule to queue',
+      testResult: []
     };
   }
 
@@ -42,8 +26,10 @@ export default class AddPromotion extends Component {
 
     if (testFetchLoading(props.loading)) return null;
 
-    if (state.stashPromotionId !== propsStashId) {
-      console.log('Promotion added');
+    if (state.currentPromotionId !== propsStashId) {
+      console.log(
+        'Load Existing Promotion Data from Props and Prepare for new promotion'
+      );
       return {
         ...state,
         isLoading: false,
@@ -63,7 +49,6 @@ export default class AddPromotion extends Component {
           }
         },
         currentPromotionId: propsStashId,
-        stashPromotionId: propsStashId,
         errMsg: props.errMsg
       };
     }
@@ -71,253 +56,42 @@ export default class AddPromotion extends Component {
     return null;
   }
 
+  handleApplyPromo = ({ event, state }) => {
+    event.preventDefault();
+    event.persist();
+    const { currentPromotionId, queue, items, order } = state;
+    const key = currentPromotionId;
+    const testResult = testScheduleComplete({ key, queue, items });
+    if (testResult.length > 0) {
+      this.setState({
+        testResult: transFormToObject(testResult)
+      });
+      return;
+    }
+    console.log('test success');
+    // this.props.asyncApplyPromotion({
+    //   order,
+    //   queue,
+    //   items,
+    //   stashPromotionId: currentPromotionId,
+    //   user: this.props.user,
+    //   param: 'queue'
+    // });
+  };
+
+  handler = () => {
+    return {
+      handleAsyncPromoCall: this.handleApplyPromo
+    };
+  };
+
   componentDidMount() {}
 
-  componentDidUpdate() {}
-
-  onLoadPromotion = event => {
-    event.preventDefault();
-    event.persist();
-    this.setState(state => ({
-      currentPromotionId: state.stashPromotionId,
-      editingStash: false
-    }));
-  };
-
-  addProductIntoList = event => {
-    const unCtrlTarget = event.target;
-    const data = new FormData(unCtrlTarget);
-    const [sku, name, price] = data.get('productDetails').split('-');
-    const key = this.state.currentPromotionId;
-    const currentItems = this.state.items[key];
-    if (!testProductInItem({ sku, currentItems })) return;
-
-    this.setState(state => {
-      const newKey = state.currentPromotionId;
-      const items = state.items[newKey];
-      items.push({
-        name,
-        sale_price: data.get('salePrice'),
-        promotionId: newKey.toString(),
-        price,
-        sku
-      });
-      return {
-        items: {
-          ...state.items,
-          [newKey]: items
-        }
-      };
-    });
-  };
-
-  removeProductFromList = event => {
-    event.preventDefault();
-    const unCtrlCurrentTarget = event.currentTarget;
-    const itemIndex = unCtrlCurrentTarget.dataset.index;
-    this.setState(state => {
-      const key = state.currentPromotionId;
-      return {
-        editingStash: false,
-        items: {
-          ...state.items,
-          [key]: state.items[key].filter((ele, i) => i.toString() !== itemIndex)
-        }
-      };
-    });
-  };
-
-  handleApplyPromo = (event, param) => {
-    event.preventDefault();
-    event.persist();
-    const key = this.state.stashPromotionId;
-    const queue = this.state.queue;
-    const items = this.state.items;
-    console.log({ key, queue, items });
-    if (!testScheduleComplete({ key, queue, items })) return;
-    console.log('Apply Promotion');
-    this.props.asyncApplyPromotion({
-      order: this.state.order,
-      queue: this.state.queue,
-      items: this.state.items,
-      stashPromotionId: this.state.stashPromotionId,
-      user: this.props.user,
-      param
-    });
-    this.setState(state => {
-      return {
-        ...state,
-        isLoading: true
-      };
-    });
-  };
-
-  handleUpdatePromo = event => {
-    event.preventDefault();
-    event.persist();
-    // const key = this.state.currentPromotionId;
-    this.props.asyncEditPromotion({
-      order: this.state.order,
-      queue: this.state.queue,
-      items: this.state.items,
-      currentPromotionId: this.state.currentPromotionId,
-      user: this.props.user
-    });
-  };
-
-  handleAddItemToList = event => {
-    event.preventDefault();
-    // event.persist();
-    this.addProductIntoList(event);
-    this.setState(state => {
-      const key = state.currentPromotionId;
-      return {
-        currentPromotionId: key,
-        editingStash: false,
-        queue: {
-          ...state.queue,
-          [key]: {
-            ...state.queue[key]
-          }
-        }
-      };
-    });
-  };
-
-  handlePromoName = event => {
-    event.preventDefault();
-    event.persist();
-    const unCtrlCurrentTarget = event.currentTarget;
-    this.setState(state => {
-      const key = state.currentPromotionId;
-      return {
-        editingStash: false,
-        queue: {
-          ...state.queue,
-          [key]: {
-            ...state.queue[key],
-            name: unCtrlCurrentTarget.value
-          }
-        }
-      };
-    });
-  };
-
-  handleStartDateChange = day => {
-    const formatDay = moment(day).format('YYYY-MM-DD 00:00');
-    const pst = moment.tz(formatDay, 'America/Los_Angeles').format();
-    console.log(formatDay);
-    this.setState(state => {
-      const key = state.currentPromotionId;
-      return {
-        editingStash: false,
-        queue: {
-          ...state.queue,
-          [key]: {
-            ...state.queue[key],
-            promotionId: key.toString(),
-            startDate: pst
-          }
-        }
-      };
-    });
-  };
-
-  handleEndDateChange = day => {
-    const formatDay = moment(day).format('YYYY-MM-DD 00:00');
-    const pst = moment.tz(formatDay, 'America/Los_Angeles').format();
-    this.setState(state => {
-      const key = state.currentPromotionId;
-      return {
-        editingStash: false,
-        queue: {
-          ...state.queue,
-          [key]: {
-            ...state.queue[key],
-            promotionId: key.toString(),
-            endDate: pst
-          }
-        }
-      };
-    });
-  };
+  componentDidUpdate() {
+    console.log(this.state);
+  }
 
   render() {
-    const { isLoading, currentPromotionId, errMsg } = this.state;
-    return (
-      <>
-        <RowGroup>
-          <Col>
-            <Col.Label htmlFor="htmlForPromoName">Promotion Name</Col.Label>
-            <Col.Input
-              onBlur={this.handlePromoName}
-              onChange={this.handlePromoName}
-              value={this.state.queue[currentPromotionId].name}
-              name="promoName"
-              type="text"
-              id="htmlForPromoName"
-            />
-          </Col>
-          <ColGroupDate>
-            <Col>
-              <Col.Label htmlFor="">From</Col.Label>
-              <Col.Input
-                value={this.state.queue[currentPromotionId].startDate}
-                onDayChange={this.handleStartDateChange}
-                formatDate={formatDate}
-                format="YYYY-MM-DD"
-                parseDate={parseDate}
-                component={DayPickerInput}
-              />
-            </Col>
-            {'-'}
-            <Col>
-              <Col.Label htmlFor="">To</Col.Label>
-              <Col.Input
-                value={this.state.queue[currentPromotionId].endDate}
-                onDayChange={this.handleEndDateChange}
-                formatDate={formatDate}
-                format="YYYY-MM-DD"
-                parseDate={parseDate}
-                component={DayPickerInput}
-              />
-            </Col>
-          </ColGroupDate>
-        </RowGroup>
-        <RowGroup>
-          <Row className="add-item-price-container">
-            <AddPriceRule
-              addItem={this.handleAddItemToList}
-              bcPriceList={this.state.bcPrice}
-              currentPromotionId={currentPromotionId}
-              errMsg={this.state.errMsg}
-            />
-          </Row>
-          <Row className="item-price-list-container">
-            <ViewPriceRule
-              currentItemPriceList={this.state.items[currentPromotionId]}
-              rmItem={this.removeProductFromList}
-            />
-          </Row>
-        </RowGroup>
-
-        <RowGroup>
-          <Col>
-            <RedButton
-              onClick={event => {
-                return this.handleApplyPromo(event, 'queue');
-              }}
-            >
-              Add schedule to queue
-            </RedButton>
-          </Col>
-        </RowGroup>
-        <RowFloatGroup>
-          <GreenButton onClick={event => this.onLoadPromotion(event)}>
-            Add New Promotion
-          </GreenButton>
-        </RowFloatGroup>
-      </>
-    );
+    return <>{this.props.children(this.state, this.handler())}</>;
   }
 }

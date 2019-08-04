@@ -1,4 +1,4 @@
-import Loadable from '@app/components/Loadable/Loadable';
+import Loadable from '@app/dump/Loadable';
 
 const paths = {
   INDEX: '/',

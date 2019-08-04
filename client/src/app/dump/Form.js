@@ -27,6 +27,7 @@ const FormCtrlCol = styled.div`
 const FormLabel = styled(Col.Label)``;
 const FormSelect = styled(Select)``;
 
+FormCol.ErrMsg = Col.ErrMsg;
 FormCol.Label = FormLabel;
 FormCol.Select = FormSelect;
 FormCol.Input = styled(Input).attrs({ type: 'text' })``;

@@ -1,8 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import Loading from '@app/components/Loading/Loading';
+import Loading from '@app/dump/Loading';
 import renderErrMsg from '@app/shared/renderHelper';
-import { testExternalErrMsg } from '@app/shared/testFetch';
 
 const SectionContainer = styled.section`
   flex: 0 0 30%;
@@ -14,6 +13,15 @@ const SectionContainer = styled.section`
   border: 1px solid #f5f5f5;
   background: #f7f7f7;
   border-radius: 4px;
+`;
+
+const SectionWrapContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  + div {
+    border-top: solid 1px black;
+    margin-top: 1rem;
+  }
 `;
 
 const SectionBodyContainer = styled.div`
@@ -47,6 +55,10 @@ const Section = ({ className, children }) => (
   <SectionContainer className={className}>{children}</SectionContainer>
 );
 
+const SectionWrap = ({ children }) => (
+  <SectionWrapContainer>{children}</SectionWrapContainer>
+);
+
 const SectionHeader = ({ children }) => {
   if (typeof children === 'function') {
     return <SectionHeaderContainer>{children()}</SectionHeaderContainer>;
@@ -69,4 +81,4 @@ const SectionBody = ({ isLoading, errMsg, children, className }) => {
 };
 
 export default Section;
-export { SectionBody, SectionHeader, SectionSubHeader };
+export { SectionBody, SectionHeader, SectionSubHeader, SectionWrap };

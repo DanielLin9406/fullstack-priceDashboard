@@ -27,7 +27,7 @@ export default class CurrentPrice extends Component {
 
     if (state.isDefaultPrice) {
       if (props.promotion.active) {
-        console.log(props.bcPrice);
+        // console.log(props.bcPrice);
         return {
           ...state,
           licenseRule: props.licenseRule,

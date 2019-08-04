@@ -40,7 +40,6 @@ class AddPriceRule extends Component {
             <CrossRedButton>+</CrossRedButton>
           </FormCtrlCol>
         </Form>
-        <div>{this.errMsg}</div>
       </>
     );
   }
