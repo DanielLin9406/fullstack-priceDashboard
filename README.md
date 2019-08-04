@@ -2,7 +2,11 @@
 
 This project as internal tool for the company is desinged for setting and showing product price.
 
-![preview](https://i.imgur.com/GQTiwCh.png)
+Set a new promotion and view a particular promotion.
+![preview1](https://i.imgur.com/6rcwR3Y.png)
+
+Details price in terms of different user
+![preview2](https://i.imgur.com/MmvQmTv.png)
 
 ## Installation
 
