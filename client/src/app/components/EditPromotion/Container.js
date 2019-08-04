@@ -1,11 +1,7 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import {
-  asyncApplyPromotion,
-  asyncEditPromotion,
-  loadDefaultPromotion
-} from '@app/modules/scheduledPrice/scheduledPrice';
+import { asyncEditPromotion } from '@app/modules/scheduledPrice/scheduledPrice';
 import EditPromotion from './EditPromotion';
 
 const mapStateToProps = state => ({
@@ -22,10 +18,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    { asyncApplyPromotion, asyncEditPromotion, loadDefaultPromotion },
-    dispatch
-  );
+  bindActionCreators({ asyncEditPromotion }, dispatch);
 
 export default connect(
   mapStateToProps,

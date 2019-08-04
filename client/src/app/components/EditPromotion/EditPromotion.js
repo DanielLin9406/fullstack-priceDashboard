@@ -13,7 +13,8 @@ export default class EditPromotion extends Component {
       isLoading: true,
       currentPromotionId: '',
       errMsg: [],
-      buttonName: 'Update schedule'
+      buttonName: 'Update schedule',
+      testResult: []
     };
   }
 

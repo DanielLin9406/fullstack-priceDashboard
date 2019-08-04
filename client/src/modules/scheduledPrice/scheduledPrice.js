@@ -190,7 +190,7 @@ export default (state = initialState, action) => {
           ...state.promotion,
           order: action.order,
           queue: action.queue,
-          onLive: action.stashPromotionId
+          onLive: action.currentPromotionId
         },
         priceSet: {
           ...state.priceSet,
@@ -255,18 +255,18 @@ export const asyncApplyPromotion = ({
   order,
   queue,
   items,
-  stashPromotionId,
+  currentPromotionId,
   param,
   user
 }) => async dispatch => {
   const postBody = {
-    name: queue[stashPromotionId].name,
-    start_date: queue[stashPromotionId].startDate,
-    end_date: queue[stashPromotionId].endDate,
-    items: items[stashPromotionId],
+    name: queue[currentPromotionId].name,
+    start_date: queue[currentPromotionId].startDate,
+    end_date: queue[currentPromotionId].endDate,
+    items: items[currentPromotionId],
     apply_now: param === 'onLive'
   };
-  order.push(stashPromotionId); // very important => trigger next loop
+  order.push(currentPromotionId); // very important => trigger next loop
   try {
     dispatch({
       type: POST_PROMOTION_REQ
@@ -277,7 +277,7 @@ export const asyncApplyPromotion = ({
       data,
       queue,
       items,
-      stashPromotionId
+      currentPromotionId
     });
     switch (param) {
       case 'onLive':
@@ -286,7 +286,7 @@ export const asyncApplyPromotion = ({
           order,
           queue: updatedQueue,
           items: updatedItems,
-          stashPromotionId
+          currentPromotionId
         });
         break;
       case 'queue':
@@ -295,7 +295,7 @@ export const asyncApplyPromotion = ({
           order,
           queue: updatedQueue,
           items: updatedItems,
-          stashPromotionId
+          currentPromotionId
         });
         break;
       default:
@@ -329,6 +329,9 @@ export const asyncEditPromotion = ({
     items: items[currentPromotionId]
   };
   try {
+    dispatch({
+      type: POST_PROMOTION_REQ
+    });
     const res = await scheduledPriceAPI.put(user.token, _id, putBody);
     const { data, status } = res;
     dispatch({
@@ -357,6 +360,9 @@ export const asyncRemovePromotion = ({
   user
 }) => async dispatch => {
   try {
+    dispatch({
+      type: POST_PROMOTION_REQ
+    });
     const res = await scheduledPriceAPI.delete(user.token, _id);
     const { data, status } = res;
     dispatch({

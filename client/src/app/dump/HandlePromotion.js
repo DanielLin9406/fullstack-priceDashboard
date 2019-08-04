@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import moment from 'moment';
 import { RedButton } from '@app/dump/Button';
-import RowGroup, { ColGroupDate, Col, Row } from '@app/dump/RowCol';
+import RowGroup, { ColGroupDate, Col, Row, ColInput } from '@app/dump/RowCol';
 import { testProductInItem } from '@app/shared/testHelper';
 import parseDate, { formatDate } from '@app/shared/dateHelper';
 import ViewPriceRule from '@app/components/SetPriceRule/ViewPriceRule';
@@ -44,8 +44,10 @@ export default class HandlePromotion extends Component {
 
   removeProductFromList = event => {
     event.preventDefault();
+
     const unCtrlCurrentTarget = event.currentTarget;
     const itemIndex = unCtrlCurrentTarget.dataset.index;
+    console.log('here');
     this.setState(state => {
       const key = state.currentPromotionId;
       return {
@@ -96,7 +98,6 @@ export default class HandlePromotion extends Component {
   handleStartDateChange = day => {
     const formatDay = moment(day).format('YYYY-MM-DD 00:00');
     const pst = moment.tz(formatDay, 'America/Los_Angeles').format();
-    console.log(formatDay);
     this.setState(state => {
       const key = state.currentPromotionId;
       return {
@@ -130,98 +131,106 @@ export default class HandlePromotion extends Component {
     });
   };
 
-  componentDidUpdate() {
-    console.log(this.state);
-  }
+  componentDidUpdate() {}
 
   render() {
-    const { currentPromotionId } = this.state;
-    const { state } = this;
+    const {
+      state,
+      props,
+      handlePromoName,
+      handleStartDateChange,
+      handleEndDateChange,
+      handleAddItemToList,
+      removeProductFromList
+    } = this;
+    const { currentPromotionId, queue, bcPrice, items } = state;
+    const { testResult, buttonName, handleAsyncPromoCall } = props;
+
     return (
       <>
         <RowGroup>
           <Col>
             <Col.Label htmlFor="htmlForPromoName">Promotion Name</Col.Label>
             <Col.Input
-              onBlur={this.handlePromoName}
-              onChange={this.handlePromoName}
-              value={this.state.queue[currentPromotionId].name}
-              name="promoName"
-              type="text"
-              id="htmlForPromoName"
-              errMsg={
-                this.props.testResult.promoName &&
-                this.props.testResult.promoName.message
-              }
-            />
+              errMsg={testResult.promoName && testResult.promoName.message}
+            >
+              <Col.InputWrap
+                onBlur={handlePromoName}
+                onChange={handlePromoName}
+                value={queue[currentPromotionId].name}
+                name="promoName"
+                type="text"
+                id="htmlForPromoName"
+              />
+            </Col.Input>
           </Col>
           <ColGroupDate>
             <Col>
               <Col.Label htmlFor="">From</Col.Label>
               <Col.Input
-                value={this.state.queue[currentPromotionId].startDate}
-                onDayChange={this.handleStartDateChange}
-                formatDate={formatDate}
-                format="YYYY-MM-DD"
-                parseDate={parseDate}
-                component={DayPickerInput}
                 errMsg={
-                  this.props.testResult.promoStartDate &&
-                  this.props.testResult.promoStartDate.message
+                  testResult.promoStartDate && testResult.promoStartDate.message
                 }
-              />
+              >
+                <DayPickerInput
+                  value={queue[currentPromotionId].startDate}
+                  onDayChange={handleStartDateChange}
+                  formatDate={formatDate}
+                  format="YYYY-MM-DD"
+                  parseDate={parseDate}
+                />
+              </Col.Input>
             </Col>
             {'-'}
             <Col>
               <Col.Label htmlFor="">To</Col.Label>
               <Col.Input
-                value={this.state.queue[currentPromotionId].endDate}
-                onDayChange={this.handleEndDateChange}
-                formatDate={formatDate}
-                format="YYYY-MM-DD"
-                parseDate={parseDate}
-                component={DayPickerInput}
                 errMsg={
-                  this.props.testResult.promoEndDate &&
-                  this.props.testResult.promoEndDate.message
+                  testResult.promoEndDate && testResult.promoEndDate.message
                 }
-              />
+              >
+                <DayPickerInput
+                  value={queue[currentPromotionId].endDate}
+                  onDayChange={handleEndDateChange}
+                  formatDate={formatDate}
+                  format="YYYY-MM-DD"
+                  parseDate={parseDate}
+                />
+              </Col.Input>
             </Col>
           </ColGroupDate>
         </RowGroup>
         <RowGroup>
           <Row className="add-item-price-container">
             <AddPriceRule
-              addItem={this.handleAddItemToList}
-              bcPriceList={this.state.bcPrice}
+              addItem={handleAddItemToList}
+              bcPriceList={bcPrice}
               currentPromotionId={currentPromotionId}
             />
           </Row>
           <Row>
             <Col.ErrMsg>
-              {this.props.testResult.promoItem &&
-                this.props.testResult.promoItem.message}
+              {testResult.promoItem && testResult.promoItem.message}
             </Col.ErrMsg>
           </Row>
           <Row className="item-price-list-container">
             <ViewPriceRule
-              currentItemPriceList={this.state.items[currentPromotionId]}
-              rmItem={this.removeProductFromList}
+              currentItemPriceList={items[currentPromotionId]}
+              rmItem={removeProductFromList}
             />
           </Row>
         </RowGroup>
-
         <RowGroup>
           <Col>
             <RedButton
               onClick={event =>
-                this.props.handleAsyncPromoCall({
+                handleAsyncPromoCall({
                   event,
                   state
                 })
               }
             >
-              {this.props.buttonName}
+              {buttonName}
             </RedButton>
           </Col>
         </RowGroup>

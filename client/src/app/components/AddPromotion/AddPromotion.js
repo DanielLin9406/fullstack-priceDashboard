@@ -58,25 +58,23 @@ export default class AddPromotion extends Component {
 
   handleApplyPromo = ({ event, state }) => {
     event.preventDefault();
-    event.persist();
+    // event.persist();
     const { currentPromotionId, queue, items, order } = state;
     const key = currentPromotionId;
     const testResult = testScheduleComplete({ key, queue, items });
-    if (testResult.length > 0) {
-      this.setState({
-        testResult: transFormToObject(testResult)
-      });
-      return;
-    }
+
+    this.setState({
+      testResult: transFormToObject(testResult)
+    });
     console.log('test success');
-    // this.props.asyncApplyPromotion({
-    //   order,
-    //   queue,
-    //   items,
-    //   stashPromotionId: currentPromotionId,
-    //   user: this.props.user,
-    //   param: 'queue'
-    // });
+    this.props.asyncApplyPromotion({
+      order,
+      queue,
+      items,
+      currentPromotionId,
+      user: this.props.user,
+      param: 'queue'
+    });
   };
 
   handler = () => {
@@ -87,9 +85,7 @@ export default class AddPromotion extends Component {
 
   componentDidMount() {}
 
-  componentDidUpdate() {
-    console.log(this.state);
-  }
+  componentDidUpdate() {}
 
   render() {
     return <>{this.props.children(this.state, this.handler())}</>;

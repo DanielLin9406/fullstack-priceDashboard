@@ -77,25 +77,15 @@ const ColErrMsg = styled.span`
 `;
 
 const ColInput = props => {
-  const Component = props.component;
-  const value = props.value;
   const errMsg = props.errMsg;
-  if (Component) {
-    return (
-      <ColInputContainer>
-        <Component {...props} value={value} />
-        {errMsg && <ColErrMsg>{errMsg}</ColErrMsg>}
-      </ColInputContainer>
-    );
-  }
   return (
     <ColInputContainer>
-      <ColInputWrap {...props} value={value} />
+      {props.children}
       {errMsg && <ColErrMsg>{errMsg}</ColErrMsg>}
     </ColInputContainer>
   );
 };
-
+Col.InputWrap = ColInputWrap;
 Col.Label = RowLabel;
 Col.Input = ColInput;
 Col.ErrMsg = ColErrMsg;

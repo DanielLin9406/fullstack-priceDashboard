@@ -34,21 +34,21 @@ const testScheduleComplete = ({ key, queue, items }) => {
       message: "Don't have items in this promotion"
     });
   }
-  if (!queue[key].startDate !== '') {
+  if (queue[key].startDate === '') {
     result.push({
       name: 'promoStartDate',
       result: false,
       message: "Don't contain promotion start date"
     });
   }
-  if (!queue[key].endDate !== '') {
+  if (queue[key].endDate === '') {
     result.push({
       name: 'promoEndDate',
       result: false,
       message: "Don't contain promotion end date"
     });
   }
-  if (!queue[key].name !== '') {
+  if (queue[key].name === '') {
     result.push({
       name: 'promoName',
       result: false,

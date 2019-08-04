@@ -67,9 +67,10 @@ const ForkButtonContainer = styled.button`
   cursor: pointer;
 `;
 
-const ForkButton = ({ children }, props) => (
-  <ForkButtonContainer {...props}>{children}</ForkButtonContainer>
-);
+const ForkButton = props => {
+  const children = props.children;
+  return <ForkButtonContainer {...props}>{children}</ForkButtonContainer>;
+};
 
 const FlatButton = styled.button`
   width: 85%;
