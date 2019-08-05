@@ -65,7 +65,7 @@ npm run build:prod
 
 - Webpack 4
 - Babel 7
-- React 16 with render props, compount pattern
+- React 16 with render props, compound pattern
 - Redux with Module pattern
 - Redux-thunk
 - React-Router 4
