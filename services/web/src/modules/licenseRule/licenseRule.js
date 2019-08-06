@@ -59,7 +59,7 @@ export const asyncGetLicenseRule = ({ user }) => async dispatch => {
     const json = res.data;
     dispatch({
       type: GET_PG_LICENSE_SUCCESS,
-      rule: json.rule
+      rule: json
     });
   } catch (error) {
     dispatch({
