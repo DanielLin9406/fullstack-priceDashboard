@@ -5,7 +5,9 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --exec babel-node server.js"
+    "start": "nodemon --exec babel-node src/server.js",
+    "build": "babel src -d build",
+    "prod": "node build/server.js"
   },
   "keywords": [
     "node",
@@ -14,6 +16,7 @@
   "author": "Daniel Lin",
   "license": "MIT",
   "devDependencies": {
+    "@babel/cli": "^7.5.5",
     "@babel/core": "^7.5.5",
     "@babel/node": "^7.5.5",
     "@babel/plugin-transform-runtime": "^7.5.5",
@@ -28,6 +31,8 @@
     "express": "^4.17.1",
     "mongoose": "^5.6.8",
     "redis": "^2.8.0",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.4",
     "util": "^0.12.1"
   }
 }

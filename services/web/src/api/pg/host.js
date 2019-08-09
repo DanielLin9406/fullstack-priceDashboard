@@ -1,1 +1,1 @@
-export default `${app.env.API_URL}`;
+export default `${app.env.API_HOST}`;

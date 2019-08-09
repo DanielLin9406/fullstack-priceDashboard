@@ -4,7 +4,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import './model/promotionsModel';
 import promotionsAPI from './routes/promotionsAPI';
-import { saveData } from './db/writeToDB';
+import { saveData } from './db/seeds/seeds';
 import { connectDb } from './libs/mongoose/mongoose';
 
 const app = express();

@@ -22,9 +22,33 @@ export default {
   buildDir: path.join(rootDir, 'build'),
   appHtml: path.join(rootDir, 'src/assets/templates/index.html'),
   servedUrl: '/',
-  API_URL: {
-    apiDoc: 'http://localhost:7000/v2',
-    jsonserver: 'http://localhost:8095'
+  webpackVisualizerHtml: 'report/webpack-visualizer.html',
+  API_HOST: {
+    prod: '',
+    stage: 'http://localhost:7000/',
+    jsonserver: 'http://localhost',
+    dev: 'http://localhost'
   },
-  webpackVisualizerHtml: 'report/webpack-visualizer.html'
+  API_PORT: {
+    prod: {
+      promotions: null,
+      price: null,
+      upgradeRule: null
+    },
+    stage: {
+      promotions: null,
+      price: null,
+      upgradeRule: null
+    },
+    jsonserver: {
+      promotions: '8095',
+      price: '8095',
+      upgradeRule: '8095'
+    },
+    dev: {
+      promotions: '5001/v1',
+      price: '5000/v1',
+      upgradeRule: '5002/v1'
+    }
+  }
 };

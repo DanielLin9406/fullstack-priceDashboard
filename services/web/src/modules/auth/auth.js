@@ -88,6 +88,7 @@ export const handleLogin = () => dispatch => {
   return async () => {
     try {
       const user = await authApi.signInWithGoogle();
+      console.log(user.token);
       dispatch({ type: 'LOGIN_SUCCESS', payload: user });
     } catch (error) {
       dispatch({ type: 'LOGIN_FAILURE', payload: error.message });

@@ -2,10 +2,12 @@
   "name": "user",
   "version": "1.0.0",
   "description": "user api as service",
-  "main": "server.js",
+  "main": "src/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --exec babel-node server.js"
+    "start": "nodemon --exec babel-node src/server.js",
+    "build": "babel src -d build",
+    "prod": "node build/server.js"
   },
   "keywords": [
     "node",
@@ -14,10 +16,12 @@
   "author": "Daniel Lin",
   "license": "MIT",
   "devDependencies": {
+    "@babel/cli": "^7.5.5",
     "@babel/core": "^7.5.5",
     "@babel/node": "^7.5.5",
     "@babel/plugin-transform-runtime": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
+    "@babel/register": "^7.5.5",
     "@babel/runtime": "^7.5.5",
     "nodemon": "^1.19.1"
   },
@@ -25,6 +29,8 @@
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "dotenv": "^8.0.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "google-auth-library": "^5.1.2",
+    "http-errors": "^1.7.3"
   }
 }

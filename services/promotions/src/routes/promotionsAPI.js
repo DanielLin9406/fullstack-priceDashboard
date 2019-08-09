@@ -1,8 +1,44 @@
 import promotionRouter from '../libs/router/router';
-import promotion from '../db/promotions_db.json';
+import PromotionsModel from '../model/promotionsModel';
+import ensureAuthenticated from '../libs/auth/authorization';
+import redis from 'redis';
+import util from 'util';
+import keys from '../config/keys';
+// import promotion from '../db/promotions_db.json';
 
-promotionRouter.get('/promotions', async (req, res) => {
-  res.send(JSON.stringify(promotion));
+const client = redis.createClient(keys.redisUrl);
+client.hget = util.promisify(client.hget);
+
+function object2Arr(promoObj) {
+  const arr = Object.keys(promoObj).map(ele => {
+    return promoObj[ele];
+  });
+  return arr;
+}
+
+promotionRouter.get('/promotions', ensureAuthenticated, async (req, res) => {
+  const data = await PromotionsModel.find({});
+
+  const promoObj = data.reduce((acc, cur, index) => {
+    acc[index] = cur;
+    return acc;
+  }, {});
+
+  const cachValue = await client.hget('promotions', 'promotionsField');
+  if (cachValue) {
+    console.log('read promotions from cache');
+    return res.send(object2Arr(JSON.parse(cachValue)));
+  }
+
+  client.hset(
+    'promotions',
+    'promotionsField',
+    JSON.stringify(promoObj),
+    'EX',
+    10
+  );
+
+  return res.send(JSON.stringify(object2Arr(promoObj)));
 });
 
 promotionRouter.post('/promotions', async (req, res) => {
