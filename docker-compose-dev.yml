@@ -1,0 +1,90 @@
+version: "3"
+services:
+  redis:
+    image: "redis:alpine"
+    container_name: redis
+  nginx:
+    restart: always
+    build:
+      dockerfile: docker-dev.dockerfile
+      context: ./nginx
+    container_name: nginx
+    ports:
+      - "3050:80"
+    depends_on:
+      - redis
+  prices:
+    build:
+      dockerfile: docker-dev.dockerfile
+      context: ./services/prices/
+    container_name: prices
+    volumes:
+      - /home/prices/node_modules
+      - ./services/prices:/home/prices
+    env_file:
+      - ./services/prices/.env
+    environment:
+      - NODE_ENV=development
+    ports:
+      - 5000:5000
+    depends_on:
+      - redis
+      - nginx
+    command: npm start
+  promotions:
+    build:
+      dockerfile: docker-dev.dockerfile
+      context: ./services/promotions/
+    container_name: promotions
+    volumes:
+      - /home/promotions/node_modules
+      - ./services/promotions:/home/promotions
+    env_file:
+      - ./services/promotions/.env
+    environment:
+      - NODE_ENV=development
+    ports:
+      - 5001:5001
+    depends_on:
+      - redis
+      - nginx
+    command: npm start
+  upgrade-rules:
+    build:
+      dockerfile: docker-dev.dockerfile
+      context: ./services/upgrade-rules/
+    container_name: upgrade-rules
+    volumes:
+      - /home/upgrade-rules/node_modules
+      - ./services/upgrade-rules:/home/upgrade-rules
+    env_file:
+      - ./services/upgrade-rules/.env
+    environment:
+      - NODE_ENV=development
+    ports:
+      - 5002:5002
+    depends_on:
+      - redis
+      - nginx
+    command: npm start
+  web:
+    build:
+      dockerfile: docker-dev.dockerfile
+      context: ./services/web/
+    container_name: web
+    volumes:
+      - /home/web/node_modules
+      - ./services/web:/home/web
+    env_file:
+      - ./services/web/.env
+    environment:
+      - NODE_ENV=development
+    ports:
+      - 3000:3000
+    depends_on:
+      - redis
+      - nginx
+      - prices
+      - promotions
+      - upgrade-rules
+    command: npm run start:dev
