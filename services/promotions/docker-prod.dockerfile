@@ -5,12 +5,12 @@ LABEL maintainer="daniel"
 
 RUN npm i -g npm@6.9.0
 RUN useradd --user-group --create-home --shell /bin/bash app
-RUN mkdir -p /home/promotions-service/node_modules
-RUN chown -R app:app /home/promotions-service/
+RUN mkdir -p /home/promotions/node_modules
+RUN chown -R app:app /home/promotions/
 
 USER app
-WORKDIR /home/promotions-service
-COPY package*.json /home/promotions-service/
+WORKDIR /home/promotions
+COPY package*.json /home/promotions/
 RUN npm install
 RUN npm run build
 

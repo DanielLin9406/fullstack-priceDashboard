@@ -5,12 +5,12 @@ LABEL maintainer="daniel"
 
 RUN npm i -g npm@6.9.0
 RUN useradd --user-group --create-home --shell /bin/bash app
-RUN mkdir -p /home/upgrade-rule-service/node_modules
-RUN chown -R app:app /home/upgrade-rule-service/
+RUN mkdir -p /home/upgrade-rule/node_modules
+RUN chown -R app:app /home/upgrade-rule/
 
 USER app
-WORKDIR /home/upgrade-rule-service
-COPY package*.json /home/upgrade-rule-service/
+WORKDIR /home/upgrade-rule
+COPY package*.json /home/upgrade-rule/
 RUN npm install
 
 EXPOSE 5002

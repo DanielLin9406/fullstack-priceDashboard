@@ -5,12 +5,12 @@ LABEL maintainer="daniel"
 
 RUN npm i -g npm@6.9.0
 RUN useradd --user-group --create-home --shell /bin/bash app
-RUN mkdir -p /home/prices-service/node_modules
-RUN chown -R app:app /home/prices-service/
+RUN mkdir -p /home/prices/node_modules
+RUN chown -R app:app /home/prices/
 
 USER app
-WORKDIR /home/prices-service
-COPY package*.json /home/prices-service/
+WORKDIR /home/prices
+COPY package*.json /home/prices/
 RUN npm install
 
 EXPOSE 5000
