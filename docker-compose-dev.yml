@@ -1,8 +1,13 @@
 version: "3"
 services:
-  redis:
+  redis_db:
     image: "redis:alpine"
-    container_name: redis
+    command: ["redis-server", "--appendonly", "yes"]
+    container_name: redis_db
+    networks:
+      - dashboard
+    ports:
+      - 6379:6379
   nginx:
     restart: always
     build:
@@ -10,9 +15,28 @@ services:
       context: ./nginx
     container_name: nginx
     ports:
-      - "3050:80"
+      - "80:80"
     depends_on:
-      - redis
+      - redis_db
+    networks:
+      - dashboard
+  user:
+    build:
+      dockerfile: docker-dev.dockerfile
+      context: ./services/user/
+    container_name: user
+    volumes:
+      - /home/user/node_modules
+      - ./services/user:/home/user
+    env_file:
+      - ./services/user/.env
+    environment:
+      - NODE_ENV=development
+    ports:
+      - 4999:4999
+    command: npm start
+    networks:
+      - dashboard
   prices:
     build:
       dockerfile: docker-dev.dockerfile
@@ -25,12 +49,13 @@ services:
       - ./services/prices/.env
     environment:
       - NODE_ENV=development
+      - REDIS_HOST_DEV=redis_db
+      - REDIS_PORT_DEV=6379
     ports:
       - 5000:5000
-    depends_on:
-      - redis
-      - nginx
     command: npm start
+    networks:
+      - dashboard
   promotions:
     build:
       dockerfile: docker-dev.dockerfile
@@ -43,12 +68,13 @@ services:
       - ./services/promotions/.env
     environment:
       - NODE_ENV=development
+      - REDIS_HOST_DEV=redis_db
+      - REDIS_PORT_DEV=6379
     ports:
       - 5001:5001
-    depends_on:
-      - redis
-      - nginx
     command: npm start
+    networks:
+      - dashboard
   upgrade-rules:
     build:
       dockerfile: docker-dev.dockerfile
@@ -61,12 +87,13 @@ services:
       - ./services/upgrade-rules/.env
     environment:
       - NODE_ENV=development
+      - REDIS_HOST_DEV=redis_db
+      - REDIS_PORT_DEV=6379
     ports:
       - 5002:5002
-    depends_on:
-      - redis
-      - nginx
     command: npm start
+    networks:
+      - dashboard
   web:
     build:
       dockerfile: docker-dev.dockerfile
@@ -80,11 +107,9 @@ services:
     environment:
       - NODE_ENV=development
     ports:
-      - 3000:3000
-    depends_on:
-      - redis
-      - nginx
-      - prices
-      - promotions
-      - upgrade-rules
+      - 8080:3000
     command: npm run start:dev
+    networks:
+      - dashboard
+networks:
+  dashboard:

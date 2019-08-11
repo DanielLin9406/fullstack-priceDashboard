@@ -6,7 +6,11 @@ import util from 'util';
 import keys from '../config/keys';
 // import promotion from '../db/promotions_db.json';
 
-const client = redis.createClient(keys.redisUrl);
+const client = redis.createClient({
+  host: keys.redisHost,
+  port: keys.redisPort,
+  retry_strategy: () => 1000
+});
 client.hget = util.promisify(client.hget);
 
 function object2Arr(promoObj) {

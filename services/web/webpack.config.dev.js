@@ -58,7 +58,7 @@ const devConfig = {
   devServer: {
     port: 8080,
     historyApiFallback: true,
-    host: 'localhost',
+    host: '0.0.0.0',
     hot: true
   }
 };
