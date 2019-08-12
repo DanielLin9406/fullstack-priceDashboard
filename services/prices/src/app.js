@@ -6,6 +6,7 @@ import './model/pricesModel';
 import pricesAPI from './routes/pricesAPI';
 import { saveData } from './db/seeds/seeds';
 import { connectDb } from './libs/mongoose/mongoose';
+import keys from './config/keys';
 
 const app = express();
 const eraseDatabase = true;
@@ -13,7 +14,7 @@ const eraseDatabase = true;
 app.use(bodyParser.json());
 app.use(cors('*'));
 
-app.use('/v1', pricesAPI);
+app.use(`/${keys.authVer}`, pricesAPI);
 
 connectDb().then(() => {
   if (eraseDatabase) {

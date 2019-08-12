@@ -1,9 +1,14 @@
 import request from 'request-promise';
+import keys from '../../config/keys';
 
 let ensureAuthenticated = (req, res, next) => {
+  const baseURL = keys.authPort
+    ? `${keys.authHost}:${keys.authPort}`
+    : `${keys.authHost}`;
+  const pathName = keys.authVer ? `/${keys.authVer}/user` : `/user`;
   const options = {
     method: 'GET',
-    uri: `${process.env.AUTH_HOST_DEV}`,
+    uri: `${baseURL}${pathName}`,
     json: true,
     headers: {
       'Content-Type': 'application/json',

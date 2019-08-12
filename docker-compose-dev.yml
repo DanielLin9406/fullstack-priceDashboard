@@ -15,7 +15,7 @@ services:
       context: ./nginx
     container_name: nginx
     ports:
-      - "80:80"
+      - "3050:80"
     depends_on:
       - redis_db
     networks:
@@ -51,6 +51,9 @@ services:
       - NODE_ENV=development
       - REDIS_HOST_DEV=redis_db
       - REDIS_PORT_DEV=6379
+      - AUTH_HOST_DEV=http://user
+      - AUTH_PORT_DEV=4999
+      - AUTH_VER_DEV=v1
     ports:
       - 5000:5000
     command: npm start
@@ -70,6 +73,9 @@ services:
       - NODE_ENV=development
       - REDIS_HOST_DEV=redis_db
       - REDIS_PORT_DEV=6379
+      - AUTH_HOST_DEV=http://user
+      - AUTH_PORT_DEV=4999
+      - AUTH_VER_DEV=v1
     ports:
       - 5001:5001
     command: npm start
@@ -89,6 +95,9 @@ services:
       - NODE_ENV=development
       - REDIS_HOST_DEV=redis_db
       - REDIS_PORT_DEV=6379
+      - AUTH_HOST_DEV=http://user
+      - AUTH_PORT_DEV=4999
+      - AUTH_VER_DEV=v1
     ports:
       - 5002:5002
     command: npm start
@@ -106,8 +115,17 @@ services:
       - ./services/web/.env
     environment:
       - NODE_ENV=development
+      - API_HOST_PRICES=http://localhost
+      - API_HOST_PROMOTIONS=http://localhost
+      - API_HOST_UPGRADERULES=http://localhost
+      - API_PORT_PRICES=3050
+      - API_PORT_PROMOTIONS=3050
+      - API_PORT_UPGRADERULES=3050
+      - API_VER_PRICES=v1
+      - API_VER_PROMOTIONS=v1
+      - API_VER_UPGRADERULES=v1
     ports:
-      - 8080:3000
+      - 8080:8080
     command: npm run start:dev
     networks:
       - dashboard

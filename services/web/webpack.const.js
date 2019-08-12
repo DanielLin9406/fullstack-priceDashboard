@@ -23,32 +23,70 @@ export default {
   appHtml: path.join(rootDir, 'src/assets/templates/index.html'),
   servedUrl: '/',
   webpackVisualizerHtml: 'report/webpack-visualizer.html',
+  API_VER: {
+    prod: {
+      promotions: '',
+      prices: '',
+      upgradeRules: ''
+    },
+    stage: {
+      promotions: '',
+      prices: '',
+      upgradeRules: ''
+    },
+    jsonserver: {
+      promotions: '',
+      prices: '',
+      upgradeRules: ''
+    },
+    dev: {
+      promotions: process.env.API_VER_PROMOTIONS,
+      prices: process.env.API_VER_PRICES,
+      upgradeRules: process.env.API_VER_UPGRADERULES
+    }
+  },
   API_HOST: {
-    prod: '',
-    stage: 'http://localhost:7000/',
-    jsonserver: 'http://localhost',
-    dev: 'http://localhost'
+    prod: {
+      promotions: '',
+      prices: '',
+      upgradeRules: ''
+    },
+    stage: {
+      promotions: 'http://localhost:7000/',
+      prices: 'http://localhost:7000/',
+      upgradeRules: 'http://localhost:7000/'
+    },
+    jsonserver: {
+      promotions: 'http://localhost',
+      prices: 'http://localhost',
+      upgradeRules: 'http://localhost'
+    },
+    dev: {
+      promotions: process.env.API_HOST_PROMOTIONS,
+      prices: process.env.API_HOST_PRICES,
+      upgradeRules: process.env.API_HOST_UPGRADERULES
+    }
   },
   API_PORT: {
     prod: {
-      promotions: null,
-      price: null,
-      upgradeRule: null
+      promotions: '',
+      prices: '',
+      upgradeRules: ''
     },
     stage: {
-      promotions: null,
-      price: null,
-      upgradeRule: null
+      promotions: '',
+      prices: '',
+      upgradeRules: ''
     },
     jsonserver: {
       promotions: '8095',
-      price: '8095',
-      upgradeRule: '8095'
+      prices: '8095',
+      upgradeRules: '8095'
     },
     dev: {
-      promotions: '5001/v1',
-      price: '5000/v1',
-      upgradeRule: '5002/v1'
+      promotions: process.env.API_PORT_PROMOTIONS,
+      prices: process.env.API_PORT_PRICES,
+      upgradeRules: process.env.API_PORT_UPGRADERULES
     }
   }
 };

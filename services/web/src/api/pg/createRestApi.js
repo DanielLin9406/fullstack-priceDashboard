@@ -1,8 +1,8 @@
 import axios from 'axios';
-import host from './host';
 
-export default (url, port) => {
+export default (url, host, port, ver) => {
   const baseURL = port ? `${host}:${port}` : `${host}`;
+  const withVerUrl = ver ? `${ver}/${url}` : `${url}`;
   const instance = axios.create({
     baseURL,
     headers: {
@@ -12,19 +12,19 @@ export default (url, port) => {
   return {
     get: token => {
       instance.defaults.headers.common.Authorization = `Bearer ${token}`;
-      return instance.get(`${url}`);
+      return instance.get(`${withVerUrl}`);
     },
     post: (token, dataBody) => {
       instance.defaults.headers.common.Authorization = `Bearer ${token}`;
-      return instance.post(`${url}`, dataBody);
+      return instance.post(`${withVerUrl}`, dataBody);
     },
     put: (token, id, dataBody) => {
       instance.defaults.headers.common.Authorization = `Bearer ${token}`;
-      return instance.put(`${url}/${id}`, dataBody);
+      return instance.put(`${withVerUrl}/${id}`, dataBody);
     },
     delete: (token, id) => {
       instance.defaults.headers.common.Authorization = `Bearer ${token}`;
-      return instance.delete(`${url}/${id}`);
+      return instance.delete(`${withVerUrl}/${id}`);
     }
   };
 };

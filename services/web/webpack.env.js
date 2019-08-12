@@ -10,7 +10,8 @@ const VARIABLES = {
   VERSION: packageJSON.version,
   GAPI_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
   API_HOST: host.API_HOST[API_ENV],
-  API_PORT: host.API_PORT[API_ENV]
+  API_PORT: host.API_PORT[API_ENV],
+  API_VER: host.API_VER[API_ENV]
 };
 
 const ENV_VARIABLES = {

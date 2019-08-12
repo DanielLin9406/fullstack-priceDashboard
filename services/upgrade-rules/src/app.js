@@ -6,6 +6,7 @@ import './model/upgradeRuleModel';
 import upgradeRuleAPI from './routes/upgradeRuleAPI';
 import { saveData } from './db/seeds/seeds';
 import { connectDb } from './libs/mongoose/mongoose';
+import keys from './config/keys';
 
 const app = express();
 const eraseDatabase = false;
@@ -13,7 +14,7 @@ const eraseDatabase = false;
 app.use(bodyParser.json());
 app.use(cors('*'));
 
-app.use('/v1', upgradeRuleAPI);
+app.use(`/${keys.authVer}`, upgradeRuleAPI);
 
 connectDb().then(() => {
   if (eraseDatabase) {
