@@ -12,17 +12,33 @@ Details price in terms of different user
 
 ### Prerequisite
 
-#### Client
+- Node v10.16
+- npm v6.9
+
+#### Web
 
 ```bash
 /client/.env
-GOOGLE_CLIENT_ID=
-
+GOOGLE_CLIENT_ID=<client id>
 ```
 
-#### Server
+#### Prices,Promotions,Upgrade-Rules,User
 
-TODO
+```bash
+PORT=<Number>
+DATABASE_URL_PROD=<MongoDB Altas URL>
+DATABASE_URL_DEV=<MongoDB Altas URL>
+REDIS_HOST_DEV=127.0.0.1
+REDIS_HOST_PROD=127.0.0.1
+REDIS_PORT_DEV=6379
+REDIS_PORT_PROD=6379
+AUTH_HOST_DEV=localhost
+AUTH_HOST_PROD=localhost
+AUTH_PORT_DEV=4999
+AUTH_PORT_PROD=4999
+AUTH_VER_DEV=v1
+AUTH_VER_PROD=v1
+```
 
 ### General
 
@@ -61,9 +77,9 @@ npm run build:prod
 
 ## TechStacks
 
-### Client
+### Web
 
-- Webpack 4
+- Webpack 4 custom scaffold
 - Babel 7
 - React 16 with render props, compound pattern
 - Redux with Module pattern
@@ -71,65 +87,33 @@ npm run build:prod
 - React-Router 4
 - React Hot loader
 - React-Loadable for async loading page
+- Redux with module pattern
 - Husky
 - Lint-stage
 - ESlint
 - Prettier
 - Json-server
-- Secret data handler: dotenv
+- Sensitive data handler: dotenv
 
-### Server
+### Promotions, Price, Upgrade-Rules, User
 
-TODO
+- Babel node for compiling ES6 syntax
+- Express.js
+- Restful API
+- Mongoose
+- MongoDB Altas
+- Redis for DB caching
+- Sensitive data handler: dotenv
+- (TODO)WebSocket
+- (TODO)JWT for API authorization between services
 
-## Enviorment
+### Others
 
-- Node v10.16
-- npm v6.9
-
-## Client File Structure
-
-- page, route, layout as components
-
-```bash
-├── api
-│   ├── google
-│   └── pg
-├── app
-│   ├── components
-│   │   ├── AddPromotion
-│   │   ├── Calendar
-│   │   ├── CurrentPrice
-│   │   ├── CurrentPromotion
-│   │   ├── EditPromotion
-│   │   ├── QueuePromo
-│   │   ├── SetPriceRule
-│   │   └── UserSection
-│   ├── const
-│   ├── dump
-│   ├── layout
-│   │   ├── helmet
-│   │   └── oneCol
-│   ├── pages
-│   │   ├── Dashboard
-│   │   └── Login
-│   └── routes
-│       ├── AuthedRoute
-│       ├── BaseRoute
-│       ├── RouteUnit
-│       └── UnAuthedRoute
-├── assets
-│   ├── image
-│   ├── public
-│   └── templates
-├── modules
-│   ├── auth
-│   ├── currentBCPrice
-│   ├── licenseRule
-│   └── scheduledPrice
-└── shared
-
-```
+- Docker
+- Docker-compose
+- Nginx as reverse-proxy
+- Nginx as static file server in production
+- Bash 5 for development
 
 ## License
 
