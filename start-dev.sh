@@ -1,20 +1,34 @@
-#!/bin/bash
+#!/usr/local/bin/bash
+# GNU bash，版本 5.0.7(1)-release (x86_64-apple-darwin18.5.0)
+
 FullPath=$PWD
-declare -a Containers=('nginx' 'prices' 'promotions' 'upgrade-rules' 'user' 'web')
-declare -a ServicesName=(["nginx"]="$FullPath/nginx" ["prices"]="$FullPath/services/prices" ["promotions"]="$FullPath/services/promotions" ["upgrade-rules"]="$FullPath/services/upgrade-rules" ["user"]="$FullPath/services/user" ["web"]="$FullPath/services/web")
-
 FolderName=${PWD##*/}
+declare -a Containers=('nginx' 'prices' 'promotions' 'upgrade-rules' 'user' 'web')
+declare -A ServicesPath=( ["nginx"]="/nginx" ["prices"]="/services/prices" ["promotions"]="/services/promotions" ["upgrade-rules"]="/services/upgrade-rules" ["user"]="/services/user" ["web"]="/services/web" )
 
-go2Folder(){
-  cd $(echo $1 | tr -d '\r')
+dockerBuildImage(){
+  ServicesName=$1
+  docker build -t pg-price-dashboard_${ServicesName}:latest -f ./docker-dev.dockerfile .
 }
 
+dockerRemoveImage(){
+  ServicesName=$1
+  docker rmi $(echo ${FolderName}_${ServicesName})
+}
+
+go2Folder(){
+  RelativePath=$1
+  ServicesName=$2
+  cd $(echo ${FullPath}${RelativePath} | tr -d '\r')
+  dockerBuildImage $2
+}
+
+# Serach a need-to-be-updated container 
 for i in "${Containers[@]}"; do
-  # echo $i
-  # echo ${ServicesName[$i]}
-  [ ! "$(docker ps -a | grep $i)" ] && go2Folder ${ServicesName[$i]}
+  [ ! "$(docker ps -a | grep $i)" ] && dockerRemoveImage $i && go2Folder ${ServicesPath[$i]} $i
 done
-# # Build image for a particular services 
+
+# Build image for a particular services 
 # docker build -t pg-price-dashboard_nginx:latest -f ./docker-dev.dockerfile .
 # docker build -t pg-price-dashboard_web:latest -f ./docker-dev.dockerfile .
 # docker build -t pg-price-dashboard_user:latest -f ./docker-dev.dockerfile .
