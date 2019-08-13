@@ -1,4 +1,4 @@
-# Price Dashboard for Positive Grid
+# Price Dashboard
 
 This project as internal tool for the company is desinged for setting and showing product price.
 
