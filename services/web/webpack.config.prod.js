@@ -25,6 +25,7 @@ const publicConfig = {
   },
   output: {
     path: paths.buildDir,
+    publicPath: '/',
     filename: 'static/js/[name].[chunkhash].js',
     chunkFilename: 'static/js/[name].[chunkhash].js'
   },
