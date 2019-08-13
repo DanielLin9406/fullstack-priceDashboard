@@ -5,14 +5,15 @@ LABEL maintainer="daniel"
 
 RUN npm i -g npm@6.9.0
 RUN useradd --user-group --create-home --shell /bin/bash app
-RUN mkdir -p /home/user/node_modules
-RUN chown -R app:app /home/user/
+RUN mkdir -p /home/prices/node_modules
+RUN chown -R app:app /home/prices/
 
 USER app
-WORKDIR /home/user
-COPY package*.json /home/user/
+WORKDIR /home/prices
+COPY package*.json ./
 RUN npm install
+COPY . .
 RUN npm run build
 
-EXPOSE 4999
+EXPOSE 5000
 CMD ["npm", "run", "prod"]

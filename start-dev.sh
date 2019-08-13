@@ -9,7 +9,7 @@ declare -A ServicesPath=( ["nginx"]="/nginx" ["prices"]="/services/prices" ["pro
 dockerBuildImage(){
   RelativePath=$1
   ServicesName=$2
-  docker build -t pg-price-dashboard_${ServicesName}:latest -f .${RelativePath}/docker-dev.dockerfile .${RelativePath}
+  docker build -t ${FolderName}_${ServicesName}:latest -f .${RelativePath}/docker-dev.dockerfile .${RelativePath}
 }
 
 dockerRemoveImage(){

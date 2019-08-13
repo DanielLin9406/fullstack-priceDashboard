@@ -2,7 +2,7 @@ import { hot } from 'react-hot-loader';
 import React, { Component } from 'react';
 import Routes from './routes';
 
-import './App.scss';
+import './app.scss';
 
 class App extends Component {
   componentDidCatch() {

@@ -2,11 +2,11 @@
   "name": "user",
   "version": "1.0.0",
   "description": "upgrade rule api as service",
-  "main": "server.js",
+  "main": "src/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon --exec babel-node src/server.js",
-    "build": "babel src -d build",
+    "build": "babel ./src -d build",
     "prod": "node build/server.js"
   },
   "keywords": [

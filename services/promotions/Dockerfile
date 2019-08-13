@@ -10,8 +10,9 @@ RUN chown -R app:app /home/promotions/
 
 USER app
 WORKDIR /home/promotions
-COPY package*.json /home/promotions/
+COPY package*.json ./
 RUN npm install
+COPY . .
 RUN npm run build
 
 EXPOSE 5001

@@ -12,12 +12,13 @@ RUN chown -R app:app /home/web/
 
 USER app
 WORKDIR /home/web
-COPY package*.json /home/web/
+COPY package*.json ./
 RUN npm install
+COPY . .
 RUN npm run build:prod
 
 # Start Nginx to host static file as web-service server
 FROM nginx
 EXPOSE 3000
 COPY ./nginx/default-prod.conf /etc/nginx/conf.d/default.conf
-COPY --from=builder /home/web/build /user/share/nginx/html
+COPY --from=builder /home/web/build /usr/share/nginx/html

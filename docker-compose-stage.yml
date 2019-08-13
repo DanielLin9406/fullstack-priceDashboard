@@ -1,0 +1,100 @@
+version: "3"
+services:
+  redis_db-stage:
+    image: "redis:alpine"
+    command: ["redis-server", "--appendonly", "yes"]
+    container_name: redis_db-stage
+    networks:
+      - dashboard-stage
+  nginx-stage:
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: ./nginx
+    container_name: nginx-stage
+    ports:
+      - "3060:80"
+    depends_on:
+      - redis_db-stage
+    networks:
+      - dashboard-stage
+  user-stage:
+    build:
+      dockerfile: Dockerfile
+      context: ./services/user/
+    container_name: user-stage
+    env_file:
+      - ./services/user/.env
+    environment:
+      - NODE_ENV=production
+    ports:
+      - 4999:4999
+    command: npm run prod
+    networks:
+      - dashboard-stage
+  prices-stage:
+    build:
+      dockerfile: Dockerfile
+      context: ./services/prices/
+    container_name: prices-stage
+    env_file:
+      - ./services/prices/.env
+    environment:
+      - NODE_ENV=production
+      - REDIS_HOST_PROD=redis_db
+      - AUTH_HOST_PROD=http://user
+    ports:
+      - 5000:5000
+    command: npm run prod
+    networks:
+      - dashboard-stage
+  promotions-stage:
+    build:
+      dockerfile: Dockerfile
+      context: ./services/promotions/
+    container_name: promotions-stage
+    env_file:
+      - ./services/promotions/.env
+    environment:
+      - NODE_ENV=production
+      - REDIS_HOST_PROD=redis_db
+      - AUTH_HOST_PROD=http://user
+    ports:
+      - 5001:5001
+    command: npm run prod
+    networks:
+      - dashboard-stage
+  upgrade-rules-stage:
+    build:
+      dockerfile: Dockerfile
+      context: ./services/upgrade-rules/
+    container_name: upgrade-rules-stage
+    env_file:
+      - ./services/upgrade-rules/.env
+    environment:
+      - NODE_ENV=production
+      - REDIS_HOST_PROD=redis_db
+      - AUTH_HOST_PROD=http://user
+    ports:
+      - 5002:5002
+    command: npm run prod
+    networks:
+      - dashboard-stage
+  web-stage:
+    build:
+      dockerfile: Dockerfile
+      context: ./services/web/
+    container_name: web-stage
+    env_file:
+      - ./services/web/.env
+    environment:
+      - NODE_ENV=production
+      - API_PORT_PRICES=3060
+      - API_PORT_PROMOTIONS=3060
+      - API_PORT_UPGRADERULES=3060
+    ports:
+      - 3000:3000
+    networks:
+      - dashboard-stage
+networks:
+  dashboard-stage:

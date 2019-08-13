@@ -25,14 +25,14 @@ export default {
   webpackVisualizerHtml: 'report/webpack-visualizer.html',
   API_VER: {
     prod: {
-      promotions: '',
-      prices: '',
-      upgradeRules: ''
+      promotions: process.env.API_VER_PROMOTIONS,
+      prices: process.env.API_VER_PRICES,
+      upgradeRules: process.env.API_VER_UPGRADERULES
     },
     stage: {
-      promotions: '',
-      prices: '',
-      upgradeRules: ''
+      promotions: process.env.API_VER_PROMOTIONS,
+      prices: process.env.API_VER_PRICES,
+      upgradeRules: process.env.API_VER_UPGRADERULES
     },
     jsonserver: {
       promotions: '',
@@ -47,14 +47,14 @@ export default {
   },
   API_HOST: {
     prod: {
-      promotions: '',
-      prices: '',
-      upgradeRules: ''
+      promotions: process.env.API_HOST_PROMOTIONS,
+      prices: process.env.API_HOST_PRICES,
+      upgradeRules: process.env.API_HOST_UPGRADERULES
     },
     stage: {
-      promotions: 'http://localhost:7000/',
-      prices: 'http://localhost:7000/',
-      upgradeRules: 'http://localhost:7000/'
+      promotions: process.env.API_HOST_PROMOTIONS,
+      prices: process.env.API_HOST_PRICES,
+      upgradeRules: process.env.API_HOST_UPGRADERULES
     },
     jsonserver: {
       promotions: 'http://localhost',
@@ -69,14 +69,14 @@ export default {
   },
   API_PORT: {
     prod: {
-      promotions: '',
-      prices: '',
-      upgradeRules: ''
+      promotions: process.env.API_PORT_PROMOTIONS,
+      prices: process.env.API_PORT_PRICES,
+      upgradeRules: process.env.API_PORT_UPGRADERULES
     },
     stage: {
-      promotions: '',
-      prices: '',
-      upgradeRules: ''
+      promotions: process.env.API_PORT_PROMOTIONS,
+      prices: process.env.API_PORT_PRICES,
+      upgradeRules: process.env.API_PORT_UPGRADERULES
     },
     jsonserver: {
       promotions: '8095',

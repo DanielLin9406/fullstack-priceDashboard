@@ -12,7 +12,7 @@
     "start:stage": "NODE_ENV=development NODE_ENV_API=stage npx webpack-dev-server --config webpack.js --color --progress --hot",
     "start:dev": "NODE_ENV=development NODE_ENV_API=dev npx webpack-dev-server --config webpack.js --color --progress --hot",
     "start:jsonserver": "npm run mock:server & npm run mock:dev",
-    "build:prod": "NODE_ENV=production NODE_ENV_API=prodution npx webpack --config webpack.js",
+    "build:prod": "NODE_ENV=production NODE_ENV_API=prod npx webpack --config webpack.js",
     "build:stage": "NODE_ENV=production NODE_ENV_API=stage npx webpack --config webpack.js",
     "build:dev": "NODE_ENV=production NODE_ENV_API=dev npx webpack --config webpack.js",
     "httpServer": "npm run build:stage & http-server ./client/build/"
