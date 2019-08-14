@@ -1,0 +1,10 @@
+sudo: required
+services:
+  - docker
+script:
+  - docker build -t priceDashboard_nginx:latest ./nginx
+  - docker build -t priceDashboard_web:latest ./services/web
+  - docker build -t priceDashboard_user:latest ./services/user
+  - docker build -t priceDashboard_prices:latest ./services/prices
+  - docker build -t priceDashboard_promotions:latest ./services/promotions
+  - docker build -t priceDashboard_upgrade-rules:latest ./services/upgrade-rules
