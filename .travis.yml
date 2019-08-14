@@ -2,18 +2,18 @@ sudo: required
 services:
   - docker
 script:
-  - docker build -t home/price-dashboard_nginx:latest ./nginx
-  - docker build -t home/price-dashboard_web:latest ./services/web
-  - docker build -t home/price-dashboard_user:latest ./services/user
-  - docker build -t home/price-dashboard_prices:latest ./services/prices
-  - docker build -t home/price-dashboard_promotions:latest ./services/promotions
-  - docker build -t home/price-dashboard_upgrade-rules:latest ./services/upgrade-rules
+  - docker build -t $DOCKER_NAME/price-dashboard_nginx:latest ./nginx
+  - docker build -t $DOCKER_NAME/price-dashboard_web:latest ./services/web
+  - docker build -t $DOCKER_NAME/price-dashboard_user:latest ./services/user
+  - docker build -t $DOCKER_NAME/price-dashboard_prices:latest ./services/prices
+  - docker build -t $DOCKER_NAME/price-dashboard_promotions:latest ./services/promotions
+  - docker build -t $DOCKER_NAME/price-dashboard_upgrade-rules:latest ./services/upgrade-rules
   # Log in to the docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   # Take hose images and push them to docker hub
-  - docker push home/price-dashboard_nginx:latest
-  - docker push home/price-dashboard_web:latest
-  - docker push home/price-dashboard_user:latest
-  - docker push home/price-dashboard_prices:latest
-  - docker push home/price-dashboard_promotions:latest
-  - docker push home/price-dashboard_upgrade-rules:latest
+  - docker push $DOCKER_NAME/price-dashboard_nginx:latest
+  - docker push $DOCKER_NAME/price-dashboard_web:latest
+  - docker push $DOCKER_NAME/price-dashboard_user:latest
+  - docker push $DOCKER_NAME/price-dashboard_prices:latest
+  - docker push $DOCKER_NAME/price-dashboard_promotions:latest
+  - docker push $DOCKER_NAME/price-dashboard_upgrade-rules:latest
