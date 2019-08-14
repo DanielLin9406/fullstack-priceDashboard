@@ -77,7 +77,7 @@ npm run build:prod
 
 ## TechStacks
 
-### Web
+### Web SPA
 
 - Webpack 4 custom scaffold
 - Babel 7

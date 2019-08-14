@@ -1,0 +1,10 @@
+sudo: required
+services:
+  - docker
+after_success:
+  - docker build -t priceDashboard_nginx:latest -f ./nginx/docker-dev.dockerfile ./nginx
+  - docker build -t priceDashboard_web:latest -f ./services/web/docker-dev.dockerfile ./services/web
+  - docker build -t priceDashboard_user:latest -f ./services/user/docker-dev.dockerfile ./services/user
+  - docker build -t priceDashboard_prices:latest -f ./services/prices/docker-dev.dockerfile ./services/prices
+  - docker build -t priceDashboard_promotions:latest -f ./services/promotions/docker-dev.dockerfile ./services/promotions
+  - docker build -t priceDashboard_upgrade-rules:latest -f ./services/upgrade-rules/docker-dev.dockerfile ./services/upgrade-rules
