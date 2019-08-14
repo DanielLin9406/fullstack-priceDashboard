@@ -8,3 +8,12 @@ script:
   - docker build -t price-dashboard_prices:latest ./services/prices
   - docker build -t price-dashboard_promotions:latest ./services/promotions
   - docker build -t price-dashboard_upgrade-rules:latest ./services/upgrade-rules
+  # Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take hose images and push them to docker hub
+  - docker push price-dashboard_nginx:latest
+  - docker push price-dashboard_web:latest
+  - docker push price-dashboard_user:latest
+  - docker push price-dashboard_prices:latest
+  - docker push price-dashboard_promotions:latest
+  - docker push price-dashboard_upgrade-rules:latest
