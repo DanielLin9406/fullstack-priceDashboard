@@ -1,5 +1,7 @@
 # Price Dashboard
 
+[![Build Status](https://travis-ci.org/DanielLin9406/fullstack-priceDashboard.svg?branch=master)](https://travis-ci.org/DanielLin9406/fullstack-priceDashboard)
+
 This project as internal tool for the company is desinged for setting and showing product price.
 
 Set a new promotion and view a particular promotion.
@@ -107,13 +109,15 @@ npm run build:prod
 - (TODO)WebSocket
 - (TODO)JWT for API authorization between services
 
-### Others
+### Dev-Ops
 
 - Docker
 - Docker-compose
 - Nginx as reverse-proxy
 - Nginx as static file server in production
 - Bash 5 for development
+- Travis plays CI role
+- AWS Elastic Ben
 
 ## License
 
