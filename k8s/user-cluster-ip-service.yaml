@@ -1,0 +1,11 @@
+apiVersion: apps/v1
+kind: Service
+metadata:
+  name: user-cluster-ip-service
+spec:
+  type: ClusterIP
+  selector:
+    component: user
+  ports:
+    - port: 4999
+      targetPort: 4999

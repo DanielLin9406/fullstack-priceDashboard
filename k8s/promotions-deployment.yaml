@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: promotions-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: promotions
+  template:
+    metadata:
+      labels:
+        component: promotions
+    spec:
+      containers:
+        - name: promotions
+          image: daniellin9406/price-dashboard_promotions
+          ports:
+            - containerPort: 5001
+          env:
+            - name: PORT
+              value: "5001"
+            - name: NODE_ENV
+              value: production
+            - name: REDIS_HOST_PROD
+              value: redis-cluster-ip-service
+            - name: REDIS_PORT_PROD
+              value: "6379"
+            - name: DATABASE_URL_PROD
+              valueFrom:
+                secretKeyRef:
+                  name: databaseurlprod
+                  key: DATABASE_URL_PROD
+            - name: AUTH_HOST_PROD
+              value: user-cluster-ip-service
+            - name: AUTH_PORT_PROD
+              value: "4999"
+            - name: AUTH_VER_PROD
+              value: v1

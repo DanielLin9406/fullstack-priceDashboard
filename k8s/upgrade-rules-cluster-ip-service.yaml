@@ -1,0 +1,11 @@
+apiVersion: apps/v1
+kind: Service
+metadata:
+  name: upgrade-rules-cluster-ip-service
+spec:
+  type: ClusterIP
+  selector:
+    component: upgrade-rules
+  ports:
+    - port: 5002
+      targetPort: 5002

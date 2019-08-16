@@ -1,0 +1,53 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  "containerDefinitions": [
+    {
+      "name": "web",
+      "image": "daniellin9406/price-dashboard_web",
+      "hostname": "web",
+      "essential": false,
+      "memory": 128
+    },
+    {
+      "name": "user",
+      "image": "daniellin9406/price-dashboard_user",
+      "hostname": "user",
+      "essential": false,
+      "memory": 128
+    },
+    {
+      "name": "prices",
+      "image": "daniellin9406/price-dashboard_prices",
+      "hostname": "prices",
+      "essential": false,
+      "memory": 128
+    },
+    {
+      "name": "promotions",
+      "image": "daniellin9406/price-dashboard_promotions",
+      "hostname": "promotions",
+      "essential": false,
+      "memory": 128
+    },
+    {
+      "name": "upgrade-rules",
+      "image": "daniellin9406/price-dashboard_upgrade-rules",
+      "hostname": "upgrade-rules",
+      "essential": false,
+      "memory": 128
+    },
+    {
+      "name": "nginx",
+      "image": "daniellin9406/price-dashboard_nginx",
+      "essential": true,
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "containerPort": 80
+        }
+      ],
+      "links": ["web", "user", "prices", "promotions", "upgrade-rules"],
+      "memory": 128
+    }
+  ]
+}

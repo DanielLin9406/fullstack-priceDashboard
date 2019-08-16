@@ -1,0 +1,33 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-service
+  annotations:
+    kubernetes.io/ingress.calss: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    certmanager.k8s.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  rules:
+    - http:
+      paths:
+        - path: /?(.*)
+          backend:
+            serviceName: web-cluster-ip-service
+            servicePort: 3000
+        - path: /v1/user/?(.*)
+          backend:
+            serviceName: user-cluster-ip-service
+            servicePort: 4999
+        - path: /v1/prices/?(.*)
+          backend:
+            serviceName: prices-cluster-ip-service
+            servicePort: 5000
+        - path: /v1/promotions/?(.*)
+          backend:
+            serviceName: promotions-cluster-ip-service
+            servicePort: 5001
+        - path: /v1/upgrade-rules/?(.*)
+          backend:
+            serviceName: upgrade-rules-cluster-ip-service
+            servicePort: 5002

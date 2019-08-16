@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: web
+  template:
+    metadata:
+      labels:
+        component: web
+    spec:
+      containers:
+        - name: web
+          image: daniellin9406/price-dashboard_web
+          ports:
+            - containerPort: 3000
+          env:
+            - name: GOOGLE_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: googleclientid
+                  key: GOOGLE_CLIENT_ID
+            - name: NODE_ENV
+              value: production
+            - name: API_HOST_PRICES
+              value: prices-cluster-ip-service
+            - name: API_HOST_PROMOTIONS
+              value: promotions-cluster-ip-service
+            - name: API_HOST_UPGRADERULES
+              value: upgrade-rules-cluster-ip-service
+            - name: API_PORT_PRICES
+              value: "5000"
+            - name: API_PORT_PROMOTIONS
+              value: "5001"
+            - name: API_PORT_UPGRADERULES
+              value: "5002"
+            - name: API_VER_PRICES
+              value: v1
+            - name: API_VER_PROMOTIONS
+              value: v1
+            - name: API_VER_UPGRADERULES
+              value: v1

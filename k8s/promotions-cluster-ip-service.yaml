@@ -1,0 +1,11 @@
+apiVersion: apps/v1
+kind: Service
+metadata:
+  name: promotions-cluster-ip-service
+spec:
+  type: ClusterIP
+  selector:
+    component: promotions
+  ports:
+    - port: 5001
+      targetPort: 5001

@@ -117,7 +117,16 @@ npm run build:prod
 - Nginx as static file server in production
 - Bash 5 for development
 - Travis plays CI role
-- AWS Elastic Ben
+
+### Cloud
+
+- AWS Elastic Beanstalk (EB)
+- AWS Elastic Container Service (ECS)
+- AWS Elastic Cache (EC) for Caching instead of Redis
+
+### Service Structure on AWS baesd on docker
+
+### Service Structure on Goolge Cloud based on K8S
 
 ## License
 
