@@ -1,6 +1,73 @@
 import path from 'path';
 
 const rootDir = path.join(__dirname, './');
+const API_VER = {
+  prod: {
+    promotions: process.env.API_VER_PROMOTIONS,
+    prices: process.env.API_VER_PRICES,
+    upgradeRules: process.env.API_VER_UPGRADERULES
+  },
+  stage: {
+    promotions: process.env.API_VER_PROMOTIONS,
+    prices: process.env.API_VER_PRICES,
+    upgradeRules: process.env.API_VER_UPGRADERULES
+  },
+  jsonserver: {
+    promotions: '',
+    prices: '',
+    upgradeRules: ''
+  },
+  dev: {
+    promotions: process.env.API_VER_PROMOTIONS,
+    prices: process.env.API_VER_PRICES,
+    upgradeRules: process.env.API_VER_UPGRADERULES
+  }
+};
+
+const API_HOST = {
+  prod: {
+    promotions: process.env.API_HOST_PROMOTIONS,
+    prices: process.env.API_HOST_PRICES,
+    upgradeRules: process.env.API_HOST_UPGRADERULES
+  },
+  stage: {
+    promotions: process.env.API_HOST_PROMOTIONS,
+    prices: process.env.API_HOST_PRICES,
+    upgradeRules: process.env.API_HOST_UPGRADERULES
+  },
+  jsonserver: {
+    promotions: 'http://localhost',
+    prices: 'http://localhost',
+    upgradeRules: 'http://localhost'
+  },
+  dev: {
+    promotions: process.env.API_HOST_PROMOTIONS,
+    prices: process.env.API_HOST_PRICES,
+    upgradeRules: process.env.API_HOST_UPGRADERULES
+  }
+};
+const API_PORT = {
+  prod: {
+    promotions: process.env.API_PORT_PROMOTIONS,
+    prices: process.env.API_PORT_PRICES,
+    upgradeRules: process.env.API_PORT_UPGRADERULES
+  },
+  stage: {
+    promotions: process.env.API_PORT_PROMOTIONS,
+    prices: process.env.API_PORT_PRICES,
+    upgradeRules: process.env.API_PORT_UPGRADERULES
+  },
+  jsonserver: {
+    promotions: '8095',
+    prices: '8095',
+    upgradeRules: '8095'
+  },
+  dev: {
+    promotions: process.env.API_PORT_PROMOTIONS,
+    prices: process.env.API_PORT_PRICES,
+    upgradeRules: process.env.API_PORT_UPGRADERULES
+  }
+};
 
 export default {
   rootDir,
@@ -22,71 +89,7 @@ export default {
   buildDir: path.join(rootDir, 'build'),
   appHtml: path.join(rootDir, 'src/assets/templates/index.html'),
   servedUrl: '/',
-  webpackVisualizerHtml: 'report/webpack-visualizer.html',
-  API_VER: {
-    prod: {
-      promotions: process.env.API_VER_PROMOTIONS,
-      prices: process.env.API_VER_PRICES,
-      upgradeRules: process.env.API_VER_UPGRADERULES
-    },
-    stage: {
-      promotions: process.env.API_VER_PROMOTIONS,
-      prices: process.env.API_VER_PRICES,
-      upgradeRules: process.env.API_VER_UPGRADERULES
-    },
-    jsonserver: {
-      promotions: '',
-      prices: '',
-      upgradeRules: ''
-    },
-    dev: {
-      promotions: process.env.API_VER_PROMOTIONS,
-      prices: process.env.API_VER_PRICES,
-      upgradeRules: process.env.API_VER_UPGRADERULES
-    }
-  },
-  API_HOST: {
-    prod: {
-      promotions: process.env.API_HOST_PROMOTIONS,
-      prices: process.env.API_HOST_PRICES,
-      upgradeRules: process.env.API_HOST_UPGRADERULES
-    },
-    stage: {
-      promotions: process.env.API_HOST_PROMOTIONS,
-      prices: process.env.API_HOST_PRICES,
-      upgradeRules: process.env.API_HOST_UPGRADERULES
-    },
-    jsonserver: {
-      promotions: 'http://localhost',
-      prices: 'http://localhost',
-      upgradeRules: 'http://localhost'
-    },
-    dev: {
-      promotions: process.env.API_HOST_PROMOTIONS,
-      prices: process.env.API_HOST_PRICES,
-      upgradeRules: process.env.API_HOST_UPGRADERULES
-    }
-  },
-  API_PORT: {
-    prod: {
-      promotions: process.env.API_PORT_PROMOTIONS,
-      prices: process.env.API_PORT_PRICES,
-      upgradeRules: process.env.API_PORT_UPGRADERULES
-    },
-    stage: {
-      promotions: process.env.API_PORT_PROMOTIONS,
-      prices: process.env.API_PORT_PRICES,
-      upgradeRules: process.env.API_PORT_UPGRADERULES
-    },
-    jsonserver: {
-      promotions: '8095',
-      prices: '8095',
-      upgradeRules: '8095'
-    },
-    dev: {
-      promotions: process.env.API_PORT_PROMOTIONS,
-      prices: process.env.API_PORT_PRICES,
-      upgradeRules: process.env.API_PORT_UPGRADERULES
-    }
-  }
+  webpackVisualizerHtml: 'report/webpack-visualizer.html'
 };
+
+export { API_VER, API_HOST, API_PORT };

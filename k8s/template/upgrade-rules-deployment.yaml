@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: upgrade-rules
-          image: daniellin9406/price-dashboard_upgrade-rules
+          image: {{DOCKER_NAME}}/price-dashboard_upgrade-rules
           ports:
             - containerPort: 5002
           env:

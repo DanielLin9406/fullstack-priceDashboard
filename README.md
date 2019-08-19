@@ -116,17 +116,21 @@ npm run build:prod
 - Nginx as reverse-proxy
 - Nginx as static file server in production
 - Bash 5 for development
-- Travis plays CI role
+- Travis plays as CI role
 
-### Cloud
+### Cloud - Service Structure on AWS for multi-docker
 
 - AWS Elastic Beanstalk (EB)
 - AWS Elastic Container Service (ECS)
 - AWS Elastic Cache (EC) for Caching instead of Redis
 
-### Service Structure on AWS baesd on docker
+### Cloud - Service Structure on AWS for Kubernetes
 
-### Service Structure on Goolge Cloud based on K8S
+- (TODO) AWS Elastic Container Service for Kubernetes (EKS)
+
+### Cloud - Service Structure on Goolge Cloud for Kubernetes
+
+- Google Kubernetes Engine (GKE)
 
 ## License
 

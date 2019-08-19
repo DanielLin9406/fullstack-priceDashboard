@@ -1,13 +1,9 @@
 sudo: required
 services:
   - docker
-env:
-  global:
-    - SHA=$(git rev-parse HEAD)
-    - CLOUDSDK_CORE_DISABLE_PROMPTS=1
 before_install:
   # config gcloud-sdk
-  - bash ./scripts/config-gcd.sh
+  - bash ./scripts/config-eks.sh
 before_script:
   # Log in to the docker CLI
   - bash ./scripts/login-dockerhub.sh $DOCKER_PASSWORD $DOCKER_ID
@@ -18,7 +14,7 @@ script:
   - bash ./scripts/push-img-to-dockerhub.sh $DOCKER_NAME $SHA
 deploy:
   - provider: script
-    script: bash scripts/deploy-to-gke.sh $DOCKER_NAME $SHA
+    script: bash scripts/deploy-to-eks.sh
     on:
       branch: master
 notifications:

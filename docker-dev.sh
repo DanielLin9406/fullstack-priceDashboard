@@ -35,4 +35,6 @@ done
 # docker-compose -f docker-compose-dev.yml up
 # docker-compose up -d
 
-
+# docker stop $(docker ps -a -q)
+# docker stop rm <containerID>
+# docker container rm <containerID>

@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: web
-          image: daniellin9406/price-dashboard_web
+          image: {{DOCKER_NAME}}/price-dashboard_web
           ports:
             - containerPort: 3000
           env:

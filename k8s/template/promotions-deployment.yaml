@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: promotions
-          image: daniellin9406/price-dashboard_promotions
+          image: {{DOCKER_NAME}}/price-dashboard_promotions
           ports:
             - containerPort: 5001
           env:

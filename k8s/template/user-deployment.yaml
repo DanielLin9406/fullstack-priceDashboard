@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: user
-          image: daniellin9406/price-dashboard_user
+          image: {{DOCKER_NAME}}/price-dashboard_user
           ports:
             - containerPort: 4999
           env:
