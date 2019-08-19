@@ -16,10 +16,10 @@ script:
   - bash ./scripts/build-docker-img.sh $DOCKER_NAME $SHA
   # Take hose images and push them to docker hub
   - bash ./scripts/push-img-to-dockerhub.sh $DOCKER_NAME $SHA
-deploy:
-  - provider: script
-    script: bash scripts/deploy-to-gke.sh $DOCKER_NAME $SHA
-    on:
-      branch: master
+# deploy:
+#   - provider: script
+#     script: bash scripts/deploy-to-gke.sh $DOCKER_NAME $SHA
+#     on:
+#       branch: master
 notifications:
   email: false
