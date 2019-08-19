@@ -10,7 +10,7 @@ before_install:
   # - bash ./scripts/config-gcd.sh
 before_script:
   # Log in to the docker CLI
-  - bash ./scripts/login-dockerhub.sh $DOCKER_PASSWORD $DOCKER_ID
+  - bash ./scripts/login-dockerhub.sh $DOCKER_PASSWORD $DOCKER_NAME
 script:
   # Build docker images
   - bash ./scripts/build-docker-img.sh $DOCKER_NAME $SHA
