@@ -1,8 +1,8 @@
 #!/bin/bash
 K8S_Folder="../k8s"
 
-$DOCKER_NAME=$1
-$SHA=$2
+DOCKER_NAME=$1
+SHA=$2
 
 # Config google cloud and GCD is incharge of kuectl command inside travis environment
 # Build template and feed a config file to kubectl

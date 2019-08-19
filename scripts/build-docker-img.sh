@@ -1,6 +1,6 @@
 #!/bin/bash
-$DOCKER_NAME=$1
-$SHA=$2
+DOCKER_NAME=$1
+SHA=$2
 
 docker build -t $DOCKER_NAME/price-dashboard_nginx:latest -t $DOCKER_NAME/price-dashboard_nginx:$SHA ./nginx
 docker build -t $DOCKER_NAME/price-dashboard_web:latest -t $DOCKER_NAME/price-dashboard_web:$SHA ./services/web
