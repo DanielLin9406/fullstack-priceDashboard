@@ -68,6 +68,9 @@ services:
       - ./services/promotions/.env
     environment:
       - NODE_ENV=development
+      - PRICES_HOST_DEV=http://prices
+      - PRICES_PORT_DEV=5000
+      - PRICES_VER_DEV=v1
       - REDIS_HOST_DEV=redis_db
       - AUTH_HOST_DEV=http://user
     ports:

@@ -14,7 +14,7 @@ Details price in terms of different user
 
 ### Prerequisite
 
-- Node v10.16
+- Node v10.16.0
 - npm v6.9
 
 #### Web

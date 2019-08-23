@@ -38,3 +38,6 @@ done
 # docker stop $(docker ps -a -q)
 # docker stop rm <containerID>
 # docker container rm <containerID>
+
+# Clear Redis Cache keys
+# docker exec -it 33216c0bbd11 redis-cli FLUSHALL
