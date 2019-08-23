@@ -9,7 +9,7 @@ import { connectDb } from './libs/mongoose/mongoose';
 import keys from './config/keys';
 
 const app = express();
-const eraseDatabase = true;
+const eraseDatabase = false;
 
 app.use(bodyParser.json());
 app.use(cors('*'));

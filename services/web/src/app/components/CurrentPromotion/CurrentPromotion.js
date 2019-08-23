@@ -1,7 +1,7 @@
 import React from 'react';
 import Section, { SectionBody, SectionHeader } from '@app/dump/Section';
 import Panel from '@app/dump/Panel';
-import Button from '@app/dump/Button';
+import { GreenButton } from '@app/dump/Button';
 import TextList, { TextItem } from '@app/dump/TextList';
 import testFetchLoading from '@app/shared/testHelper';
 
@@ -28,9 +28,9 @@ const CurrentPromotion = props => {
                 </TextItem>
                 <TextItem>{promotion.queue[promotion.onLive].endDate}</TextItem>
               </TextList>
-              <Button onClick={onChangePromotion}>
+              <GreenButton onClick={onChangePromotion}>
                 Load onLive Promotion Details
-              </Button>
+              </GreenButton>
             </>
           )) || <>There is no promotion on live</>}
         </Panel>

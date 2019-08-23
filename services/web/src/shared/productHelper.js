@@ -27,7 +27,7 @@ const getUpdatedPrice = (priceProps, deduct) => {
 
 const getStashPromoId = nextProps => {
   const keyArr = nextProps.promotion.order.map(ele => {
-    return Number(ele);
+    return Number(ele.promoId);
   });
   if (keyArr.length === 0) {
     return '0';

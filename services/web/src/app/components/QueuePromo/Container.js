@@ -5,7 +5,7 @@ import {
   loadPromotion,
   sortPromotion,
   asyncRemovePromotion
-} from '@app/modules/scheduledPrice/scheduledPrice';
+} from '@app/modules/promotions/promotions';
 import QueuePromo from './QueuePromo';
 
 const mapStateToProps = state => ({

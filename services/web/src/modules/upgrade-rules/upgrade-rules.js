@@ -12,6 +12,7 @@ export const GET_PG_LICENSE_FAIL = 'license/GET_PG_LICENSE_FAIL';
 
 /*
  * state init (scheduledPrice in redux)
+ *
  */
 const initialState = {
   isLoading: true,

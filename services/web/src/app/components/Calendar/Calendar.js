@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import BigCalendar from 'react-big-calendar';
 import moment from 'moment';
+import { testFetchLoading } from '@app/shared/testFetch';
 import Section, { SectionHeader, SectionBody } from '@app/dump/Section';
 import Panel from '@app/dump/Panel';
 import { getStashPromoId } from '@app/shared/productHelper';
@@ -28,43 +29,43 @@ class Calendar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // active: '',
-      // order: [],
-      // queue: {},
       events: [],
-      // date: new Date(),
-      stashPromotionId: ''
-      // selectEvent: ''
+      currentPromotionId: ''
     };
   }
 
   static getDerivedStateFromProps(props, state) {
     const propsStashId = getStashPromoId(props);
-    const list = props.promotion.queue;
-    const events = props.promotion.order.map((ele, index) => {
-      return {
-        ...state,
-        id: index,
-        promotionId: list[ele].promotionId,
-        title: list[ele].name,
-        allDay: true,
-        start: moment(list[ele].startDate, 'YYYY/MM/DD').toDate(),
-        end: moment(list[ele].endDate, 'YYYY/MM/DD').toDate()
-      };
-    });
-    if (state.stashPromotionId !== propsStashId) {
+    if (testFetchLoading(props.loading)) return null;
+
+    if (state.currentPromotionId !== propsStashId) {
+      const list = props.promotion.queue;
+
+      const events = props.promotion.order.map((ele, index) => {
+        return {
+          ...state,
+          id: index,
+          promotionId: list[ele.promoId].promotionId,
+          title: list[ele.promoId].name,
+          allDay: true,
+          start: moment(list[ele.promoId].startDate, 'YYYY/MM/DD').toDate(),
+          end: moment(list[ele.promoId].endDate, 'YYYY/MM/DD').toDate()
+        };
+      });
       return {
         ...state,
         order: props.promotion.order,
         queue: props.promotion.queue,
-        stashPromotionId: propsStashId,
-        events
+        currentPromotionId: propsStashId,
+        events,
+        errMsg: props.errMsg
       };
     }
-    if (state.stashPromotionId === propsStashId) {
+    if (state.currentPromotionId === propsStashId) {
       return {
         ...state,
-        events
+        errMsg: props.errMsg,
+        events: state.events
       };
     }
     return null;
@@ -81,7 +82,8 @@ class Calendar extends Component {
   };
 
   render() {
-    const { isLoading, errMsg } = this.props;
+    const { loading, errMsg } = this.props;
+    const isLoading = testFetchLoading(loading);
     const { events } = this.state;
     return (
       <Section className="calendar-container">

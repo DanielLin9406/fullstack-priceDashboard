@@ -15,7 +15,7 @@ let ensureAuthenticated = (req, res, next) => {
       authorization: `Bearer ${req.headers.authorization.split(' ')[1]}`
     }
   };
-  // return next();
+
   return request(options)
     .then(response => {
       req.user = response.user;

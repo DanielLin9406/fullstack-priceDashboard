@@ -1,13 +1,13 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { loadPromotion } from '@app/modules/scheduledPrice/scheduledPrice';
+import { loadPromotion } from '@app/modules/promotions/promotions';
 import Calendar from './Calendar';
 
 const mapStateToProps = state => ({
   promotion: state.scheduledPrice.promotion,
-  isLoading: state.scheduledPrice.isLoading,
-  errMsg: [state.scheduledPrice.errMsg]
+  errMsg: [state.scheduledPrice.errMsg],
+  loading: [state.scheduledPrice.isLoading]
 });
 
 const mapDispatchToProps = dispatch =>

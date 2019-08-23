@@ -264,9 +264,9 @@ export const asyncApplyPromotion = ({
     start_date: queue[currentPromotionId].startDate,
     end_date: queue[currentPromotionId].endDate,
     items: items[currentPromotionId],
-    apply_now: param === 'onLive'
+    on_live: param
   };
-  order.push(currentPromotionId); // very important => trigger next loop
+  order.push({ promoId: currentPromotionId, onLive: param }); // very important => trigger next loop
   try {
     dispatch({
       type: POST_PROMOTION_REQ
@@ -281,13 +281,14 @@ export const asyncApplyPromotion = ({
     });
     switch (param) {
       case 'onLive':
-        dispatch({
-          type: APPLY_PROMOTION_ONLIVE,
-          order,
-          queue: updatedQueue,
-          items: updatedItems,
-          currentPromotionId
-        });
+        console.log('here1');
+        // dispatch({
+        //   type: APPLY_PROMOTION_ONLIVE,
+        //   order,
+        //   queue: updatedQueue,
+        //   items: updatedItems,
+        //   currentPromotionId
+        // });
         break;
       case 'queue':
         dispatch({

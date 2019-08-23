@@ -1,5 +1,5 @@
-import scheduledPrice from './scheduledPrice/scheduledPrice';
-import licenseRule from './licenseRule/licenseRule';
+import scheduledPrice from './promotions/promotions';
+import licenseRule from './upgrade-rules/upgrade-rules';
 import currentBCPrice from './currentBCPrice/currentBCPrice';
 import auth from './auth/auth';
 

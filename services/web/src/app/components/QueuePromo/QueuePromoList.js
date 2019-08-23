@@ -68,9 +68,15 @@ const SortableItem = SortableElement(
 
 const QueuePromoList = SortableContainer(({ items }) => (
   <QueueList>
-    {items.order.map((ele, index) => (
-      <SortableItem key={`item-${ele}`} index={index} item={items.queue[ele]} />
-    ))}
+    {items.order
+      .filter(ele => ele.onLive === 'queue')
+      .map((ele, index) => (
+        <SortableItem
+          key={`item-${ele.promoId}`}
+          index={index}
+          item={items.queue[ele.promoId]}
+        />
+      ))}
   </QueueList>
 ));
 

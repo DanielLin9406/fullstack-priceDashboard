@@ -66,11 +66,12 @@ export default class AddPromotion extends Component {
     const { currentPromotionId, queue, items, order } = state;
     const key = currentPromotionId;
     const testResult = testScheduleComplete({ key, queue, items });
-
     this.setState({
       testResult: transFormToObject(testResult)
     });
+    if (testResult.length > 0) return;
     console.log('test success');
+    console.log('apply promo');
     this.props.asyncApplyPromotion({
       order,
       queue,

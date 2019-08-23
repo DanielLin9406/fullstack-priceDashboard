@@ -20,7 +20,8 @@ export default class EditPromotion extends Component {
 
   static getDerivedStateFromProps(props, state) {
     if (testFetchLoading(props.loading)) return null;
-
+    console.log('current:', state.currentPromotionId);
+    console.log('next', props.promotion.active);
     if (state.currentPromotionId !== props.promotion.active) {
       console.log('Load Existing Promotion Data from Props');
       return {
@@ -76,13 +77,20 @@ export default class EditPromotion extends Component {
     event.preventDefault();
     event.persist();
     const { currentPromotionId, queue, items, order } = state;
+    const key = currentPromotionId;
+    const testResult = testScheduleComplete({ key, queue, items });
+    this.setState({
+      testResult: transFormToObject(testResult)
+    });
+    if (testResult.length > 0) return;
+    console.log('test success');
+    console.log('edit promo');
     this.props.asyncEditPromotion({
       order,
       queue,
       items,
       currentPromotionId,
-      user: this.props.user,
-      param: ''
+      user: this.props.user
     });
   };
 

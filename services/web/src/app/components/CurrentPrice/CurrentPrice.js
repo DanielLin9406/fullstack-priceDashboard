@@ -8,6 +8,7 @@ import { GreenButton } from '@app/dump/Button';
 import Panel from '@app/dump/Panel';
 import { testFetchLoading } from '@app/shared/testFetch';
 import { getStashPromoId } from '@app/shared/productHelper';
+import TextList, { TextItem } from '@app/dump/TextList';
 import ProductListWrap from './ProductListWrap';
 
 export default class CurrentPrice extends Component {
@@ -15,7 +16,6 @@ export default class CurrentPrice extends Component {
     licenseRule: {},
     bcPrice: [],
     priceList: {},
-    stashPromotionId: '',
     currentPromotionId: '',
     isLoading: true,
     isDefaultPrice: true,
@@ -33,7 +33,7 @@ export default class CurrentPrice extends Component {
           licenseRule: props.licenseRule,
           bcPrice: props.bcPrice,
           priceList: props.priceSet,
-          stashPromotionId: getStashPromoId(props),
+          // stashPromotionId: getStashPromoId(props),
           isLoading: false,
           isDefaultPrice: true,
           currentPromotionId: props.promotion.active,
@@ -46,7 +46,7 @@ export default class CurrentPrice extends Component {
           licenseRule: props.licenseRule,
           bcPrice: props.bcPrice,
           priceList: props.priceSet,
-          stashPromotionId: getStashPromoId(props),
+          // stashPromotionId: getStashPromoId(props),
           isLoading: false,
           isDefaultPrice: true,
           errMsg: props.errMsg,
@@ -87,9 +87,9 @@ export default class CurrentPrice extends Component {
     const name = queue[currentPromotionId] && queue[currentPromotionId].name;
     return currentPromotionId ? (
       <>
-        <>
-          Promotion Name:<span>{name}</span>
-        </>
+        <TextList>
+          Promotion Name:<TextItem>{name}</TextItem>
+        </TextList>
         <GreenButton onClick={this.loadDefaultPriceList}>
           Load Default Price List
         </GreenButton>

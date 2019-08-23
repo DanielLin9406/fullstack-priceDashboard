@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { asyncGetPromotion } from '@app/modules/scheduledPrice/scheduledPrice';
+import { asyncGetPromotion } from '@app/modules/promotions/promotions';
 import { asyncGetBCPrice } from '@app/modules/currentBCPrice/currentBCPrice';
 import Dashboard from './Dashboard';
 

@@ -16,6 +16,15 @@ export default class HandlePromotion extends Component {
     this.state = { ...props };
   }
 
+  static getDerivedStateFromProps(props, state) {
+    if (state.currentPromotionId !== props.currentPromotionId) {
+      return {
+        ...props
+      };
+    }
+    return null;
+  }
+
   componentDidUpdate() {}
 
   addProductIntoList = event => {

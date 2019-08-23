@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { loadPromotion } from '@app/modules/scheduledPrice/scheduledPrice';
+import { loadPromotion } from '@app/modules/promotions/promotions';
 import CurrentPromotion from './CurrentPromotion';
 
 const mapStateToProps = state => ({
