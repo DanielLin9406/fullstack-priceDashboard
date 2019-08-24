@@ -24,11 +24,8 @@ const SetPriceRule = props => {
           <SectionBody isLoading={isLoading} errMsg={errMsg}>
             <Panel>
               <EditPromotion>
-                {(state, { handleAsyncPromoCall }) => (
-                  <HandlePromotion
-                    {...state}
-                    handleAsyncPromoCall={handleAsyncPromoCall}
-                  />
+                {(state, { applyPromoCall }) => (
+                  <HandlePromotion {...state} applyPromoCall={applyPromoCall} />
                 )}
               </EditPromotion>
             </Panel>
@@ -40,10 +37,11 @@ const SetPriceRule = props => {
         <SectionBody isLoading={isLoading} errMsg={errMsg}>
           <Panel>
             <AddPromotion>
-              {(state, { handleAsyncPromoCall }) => (
+              {(state, { applyPromoCall, applyInstantlyPromoCall }) => (
                 <HandlePromotion
                   {...state}
-                  handleAsyncPromoCall={handleAsyncPromoCall}
+                  applyPromoCall={applyPromoCall}
+                  applyInstantlyPromoCall={applyInstantlyPromoCall}
                 />
               )}
             </AddPromotion>

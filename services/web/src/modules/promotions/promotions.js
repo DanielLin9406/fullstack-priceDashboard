@@ -212,13 +212,11 @@ export const asyncApplyPromotion = ({
     const { promotion, priceSet } = loadPayloadAPIHelper({ data });
     switch (param) {
       case 'onLive':
-        // dispatch({
-        //   type: POST_PROMOTION_ONLIVE,
-        //   order,
-        //   queue: updatedQueue,
-        //   items: updatedItems,
-        //   currentPromotionId
-        // });
+        dispatch({
+          type: POST_PROMOTION_ONLIVE,
+          promotion,
+          priceSet
+        });
         break;
       case 'queue':
         dispatch({
@@ -280,11 +278,7 @@ export const asyncEditPromotion = ({
   }
 };
 
-export const asyncRemovePromotion = ({
-  promotionId,
-  _id,
-  user
-}) => async dispatch => {
+export const asyncRemovePromotion = ({ _id, user }) => async dispatch => {
   try {
     dispatch({
       type: FETCH_PROMOTION_REQ

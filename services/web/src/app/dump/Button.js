@@ -8,6 +8,7 @@ const Button = styled.button`
   border-radius: 5px;
   color: #fff;
   background-color: ${props => props.fillColor};
+  margin-top: 3px;
 `;
 
 Button.propTypes = {
@@ -20,6 +21,10 @@ const GreenButton = styled(Button).attrs({
 
 const RedButton = styled(Button).attrs({
   fillColor: '#f42e65'
+})``;
+
+const LightRedButton = styled(Button).attrs({
+  fillColor: '#f98ba9'
 })``;
 
 const CrossButtonContainer = styled.button`
@@ -87,5 +92,6 @@ export {
   CrossRedButton,
   ForkButton,
   FlatButton,
-  TextButton
+  TextButton,
+  LightRedButton
 };

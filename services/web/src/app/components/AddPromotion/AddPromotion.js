@@ -9,7 +9,6 @@ export default class AddPromotion extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      order: [],
       queue: {},
       items: [],
       bcPrice: {},
@@ -17,6 +16,7 @@ export default class AddPromotion extends Component {
       currentPromotionId: '',
       errMsg: [],
       buttonName: 'Add schedule to queue',
+      buttonName2: 'Add schedule on live',
       testResult: []
     };
   }
@@ -34,7 +34,6 @@ export default class AddPromotion extends Component {
         ...state,
         isLoading: false,
         bcPrice: props.bcPrice,
-        order: props.promotion.order,
         items: {
           ...props.priceSet.items,
           [propsStashId]: []
@@ -60,10 +59,9 @@ export default class AddPromotion extends Component {
 
   componentDidUpdate() {}
 
-  handleApplyPromo = ({ event, state }) => {
+  handleApplyPromo = ({ event, state, param }) => {
     event.preventDefault();
-    // event.persist();
-    const { currentPromotionId, queue, items, order } = state;
+    const { currentPromotionId, queue, items } = state;
     const key = currentPromotionId;
     const testResult = testScheduleComplete({ key, queue, items });
     this.setState({
@@ -77,13 +75,16 @@ export default class AddPromotion extends Component {
       items,
       currentPromotionId,
       user: this.props.user,
-      param: 'queue'
+      param
     });
   };
 
   handler = () => {
     return {
-      handleAsyncPromoCall: this.handleApplyPromo
+      applyPromoCall: ({ event, state }) =>
+        this.handleApplyPromo({ event, state, param: 'queue' }),
+      applyInstantlyPromoCall: ({ event, state }) =>
+        this.handleApplyPromo({ event, state, param: 'onLive' })
     };
   };
 

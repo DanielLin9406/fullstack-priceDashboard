@@ -28,9 +28,8 @@ const SortableItem = SortableElement(
 
     removePromotion = event => {
       const _id = event.currentTarget.id;
-      const promotionId = event.currentTarget.dataset.promotionId;
       const user = this.context.user;
-      this.context.removePromotion({ promotionId, _id, user });
+      this.context.removePromotion({ _id, user });
     };
 
     loadPromotion = event => {
@@ -52,11 +51,7 @@ const SortableItem = SortableElement(
                 {item.startDate.split('T')[0]} - {item.endDate.split('T')[0]}
               </PromoPeriodSpan>
             </FlatButton>
-            <ForkButton
-              data-promotion-id={item.promotionId}
-              id={item._id}
-              onClick={this.removePromotion}
-            >
+            <ForkButton id={item._id} onClick={this.removePromotion}>
               X
             </ForkButton>
           </QueueItem>

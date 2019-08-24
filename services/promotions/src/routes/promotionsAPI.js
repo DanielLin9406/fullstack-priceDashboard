@@ -79,37 +79,95 @@ promotionRouter.post('/promotions', async (req, res) => {
   };
 
   try {
-    const cachValue = await client.hget('promotions', 'promotionsField');
-    // Create new row in the database
-    const promotion = new PromotionsModel({ ...payload, items: validatedItem });
-    const writeDBRes = await promotion.save();
-    let newData = [];
+    if (on_live === 'onLive') {
+      const updateDBRes = await PromotionsModel.findOneAndUpdate(
+        { on_live: 'onLive' },
+        { on_live: 'queue' },
+        { new: true }
+      );
+      const promotion = new PromotionsModel({
+        ...payload,
+        items: validatedItem
+      });
+      const writeDBRes = await promotion.save();
+      const cachValue = await client.hget('promotions', 'promotionsField');
+      let newData = [];
 
-    if (cachValue) {
-      const cache = JSON.parse(cachValue);
-      newData = [...Object.keys(cache).map(ele => cache[ele])];
-      newData.push(writeDBRes);
+      if (cachValue) {
+        const cache = JSON.parse(cachValue);
+        // update which is onlive to queue
+        if (updateDBRes) {
+          newData = [
+            ...Object.keys(cache).map(ele => {
+              if (ele === updateDBRes._id.toString()) {
+                return updateDBRes;
+              } else {
+                return cache[ele];
+              }
+            })
+          ];
+        } else {
+          newData = [...Object.keys(cache).map(ele => cache[ele])];
+        }
+        // add new onlive
+        newData.push(writeDBRes);
+      } else {
+        newData = await PromotionsModel.find({});
+      }
+      const newPromoObj = newData.reduce((acc, cur, index) => {
+        acc[cur._id] = cur;
+        return acc;
+      }, {});
+      // Update redis cache data
+      client.hset(
+        'promotions',
+        'promotionsField',
+        JSON.stringify(newPromoObj),
+        'EX',
+        10
+      );
+      const reSponseData = {
+        dBStatus: true,
+        data: newData
+      };
+
+      res.status(201).send(JSON.stringify(reSponseData));
     } else {
-      newData = await PromotionsModel.find({});
-    }
-    const newPromoObj = newData.reduce((acc, cur, index) => {
-      acc[cur._id] = cur;
-      return acc;
-    }, {});
-    // Update redis cache data
-    client.hset(
-      'promotions',
-      'promotionsField',
-      JSON.stringify(newPromoObj),
-      'EX',
-      10
-    );
+      // Create new row in the database
+      const promotion = new PromotionsModel({
+        ...payload,
+        items: validatedItem
+      });
+      const writeDBRes = await promotion.save();
+      const cachValue = await client.hget('promotions', 'promotionsField');
+      let newData = [];
 
-    const reSponseData = {
-      dBStatus: true,
-      data: newData
-    };
-    res.status(201).send(JSON.stringify(reSponseData));
+      if (cachValue) {
+        const cache = JSON.parse(cachValue);
+        newData = [...Object.keys(cache).map(ele => cache[ele])];
+        newData.push(writeDBRes);
+      } else {
+        newData = await PromotionsModel.find({});
+      }
+      const newPromoObj = newData.reduce((acc, cur, index) => {
+        acc[cur._id] = cur;
+        return acc;
+      }, {});
+      // Update redis cache data
+      client.hset(
+        'promotions',
+        'promotionsField',
+        JSON.stringify(newPromoObj),
+        'EX',
+        10
+      );
+
+      const reSponseData = {
+        dBStatus: true,
+        data: newData
+      };
+      res.status(201).send(JSON.stringify(reSponseData));
+    }
   } catch (error) {
     console.log('err', error);
     res.status(500).send(error);

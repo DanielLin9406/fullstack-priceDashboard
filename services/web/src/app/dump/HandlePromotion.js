@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import moment from 'moment';
-import { RedButton } from '@app/dump/Button';
+import { RedButton, LightRedButton } from '@app/dump/Button';
 import RowGroup, { ColGroupDate, Col, Row, ColInput } from '@app/dump/RowCol';
 import { testProductInItem } from '@app/shared/testHelper';
 import parseDate, { formatDate } from '@app/shared/dateHelper';
@@ -154,7 +154,13 @@ export default class HandlePromotion extends Component {
       removeProductFromList
     } = this;
     const { currentPromotionId, queue, bcPrice, items } = state;
-    const { testResult, buttonName, handleAsyncPromoCall } = props;
+    const {
+      testResult,
+      buttonName,
+      buttonName2,
+      applyPromoCall,
+      applyInstantlyPromoCall
+    } = props;
 
     return (
       <>
@@ -234,7 +240,7 @@ export default class HandlePromotion extends Component {
           <Col>
             <RedButton
               onClick={event =>
-                handleAsyncPromoCall({
+                applyPromoCall({
                   event,
                   state
                 })
@@ -242,6 +248,18 @@ export default class HandlePromotion extends Component {
             >
               {buttonName}
             </RedButton>
+            {applyInstantlyPromoCall && (
+              <LightRedButton
+                onClick={event =>
+                  applyInstantlyPromoCall({
+                    event,
+                    state
+                  })
+                }
+              >
+                {buttonName2}
+              </LightRedButton>
+            )}
           </Col>
         </RowGroup>
       </>
