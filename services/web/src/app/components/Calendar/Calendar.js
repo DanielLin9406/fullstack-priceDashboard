@@ -40,7 +40,6 @@ class Calendar extends Component {
 
     if (state.currentPromotionId !== propsStashId) {
       const list = props.promotion.queue;
-
       const events = props.promotion.order.map((ele, index) => {
         return {
           ...state,
@@ -62,10 +61,22 @@ class Calendar extends Component {
       };
     }
     if (state.currentPromotionId === propsStashId) {
+      const list = props.promotion.queue;
+      const events = props.promotion.order.map((ele, index) => {
+        return {
+          ...state,
+          id: index,
+          promotionId: list[ele.promoId].promotionId,
+          title: list[ele.promoId].name,
+          allDay: true,
+          start: moment(list[ele.promoId].startDate, 'YYYY/MM/DD').toDate(),
+          end: moment(list[ele.promoId].endDate, 'YYYY/MM/DD').toDate()
+        };
+      });
       return {
         ...state,
         errMsg: props.errMsg,
-        events: state.events
+        events
       };
     }
     return null;

@@ -1,4 +1,4 @@
-function getPromotionAPIHelper({ data }) {
+function loadPayloadAPIHelper({ data }) {
   const promotion = {
     queue: {},
     onLive: '',
@@ -9,7 +9,18 @@ function getPromotionAPIHelper({ data }) {
     items: {},
     active: ''
   };
-  data.forEach((ele, index) => {
+  let promotionList = '';
+  if (Object.prototype.toString.call(data) === '[object Object]') {
+    // const res = await axios
+    // data.data = []
+    // data.dBstatus = true
+    promotionList = data.data;
+  } else {
+    // const res = await axios
+    // data = []
+    promotionList = data;
+  }
+  promotionList.forEach((ele, index) => {
     const strIndex = index.toString();
     Object.defineProperty(promotion.queue, strIndex, {
       value: {},
@@ -42,27 +53,15 @@ function getPromotionAPIHelper({ data }) {
   });
   return { promotion, priceSet };
 }
-function updatePromotionAPIHelper({ data, queue, items, currentPromotionId }) {
-  const _id = data.data._id;
-  const updatedQueue = {
-    ...queue,
-    [currentPromotionId]: {
-      ...queue[currentPromotionId],
-      _id
-    }
-  };
 
-  const updatedItems = {
-    ...items,
-    [currentPromotionId]: [
-      ...items[currentPromotionId].map(prdObj => {
-        const newPrdObj = prdObj;
-        newPrdObj._id = _id;
-        return newPrdObj;
-      })
-    ]
+function sendPayloadAPIHelper({ queue, items, currentPromotionId, param }) {
+  return {
+    name: queue[currentPromotionId].name,
+    start_date: queue[currentPromotionId].startDate,
+    end_date: queue[currentPromotionId].endDate,
+    items: items[currentPromotionId],
+    on_live: param
   };
-  return { updatedQueue, updatedItems };
 }
 
-export { getPromotionAPIHelper, updatePromotionAPIHelper };
+export { loadPayloadAPIHelper, sendPayloadAPIHelper };

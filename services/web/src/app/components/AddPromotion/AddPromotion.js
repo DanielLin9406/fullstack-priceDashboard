@@ -73,7 +73,6 @@ export default class AddPromotion extends Component {
     console.log('test success');
     console.log('apply promo');
     this.props.asyncApplyPromotion({
-      order,
       queue,
       items,
       currentPromotionId,

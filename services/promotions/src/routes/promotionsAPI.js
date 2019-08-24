@@ -24,7 +24,7 @@ promotionRouter.get('/promotions', ensureAuthenticated, async (req, res) => {
 
   const data = await PromotionsModel.find({});
   const promoObj = data.reduce((acc, cur, index) => {
-    acc[index] = cur;
+    acc[cur._id] = cur;
     return acc;
   }, {});
 
@@ -81,19 +81,19 @@ promotionRouter.post('/promotions', async (req, res) => {
   try {
     const cachValue = await client.hget('promotions', 'promotionsField');
     // Create new row in the database
-    const promotion = new PromotionsModel({ ...payload });
+    const promotion = new PromotionsModel({ ...payload, items: validatedItem });
     const writeDBRes = await promotion.save();
-    const cache = JSON.parse(cachValue);
     let newData = [];
 
     if (cachValue) {
+      const cache = JSON.parse(cachValue);
       newData = [...Object.keys(cache).map(ele => cache[ele])];
       newData.push(writeDBRes);
     } else {
       newData = await PromotionsModel.find({});
     }
     const newPromoObj = newData.reduce((acc, cur, index) => {
-      acc[index] = cur;
+      acc[cur._id] = cur;
       return acc;
     }, {});
     // Update redis cache data
@@ -106,7 +106,7 @@ promotionRouter.post('/promotions', async (req, res) => {
     );
 
     const reSponseData = {
-      status: true,
+      dBStatus: true,
       data: newData
     };
     res.status(201).send(JSON.stringify(reSponseData));
@@ -118,11 +118,101 @@ promotionRouter.post('/promotions', async (req, res) => {
 
 promotionRouter.put('/promotions/:id', async (req, res) => {
   const { name, start_date, end_date, items } = req.body;
-  res.send(JSON.stringify(promotion));
+  const _id = req.params.id;
+  const payload = {
+    name,
+    end_date,
+    start_date,
+    items
+  };
+
+  try {
+    const cachValue = await client.hget('promotions', 'promotionsField');
+    const updateDBRes = await PromotionsModel.findByIdAndUpdate(
+      { _id },
+      { ...payload },
+      { new: true },
+      (error, document) => document
+    );
+
+    let newData = [];
+    if (cachValue) {
+      const cache = JSON.parse(cachValue);
+      newData = [
+        ...Object.keys(cache).map(ele => {
+          if (ele === _id) {
+            return updateDBRes;
+          } else {
+            return cache[ele];
+          }
+        })
+      ];
+    } else {
+      newData = await PromotionsModel.find({});
+    }
+
+    const newPromoObj = newData.reduce((acc, cur, index) => {
+      acc[cur._id] = cur;
+      return acc;
+    }, {});
+    // Update redis cache data
+    client.hset(
+      'promotions',
+      'promotionsField',
+      JSON.stringify(newPromoObj),
+      'EX',
+      10
+    );
+
+    const reSponseData = {
+      dBStatus: true,
+      data: newData
+    };
+    res.status(200).send(JSON.stringify(reSponseData));
+  } catch (error) {
+    res.status(500).send(error);
+  }
 });
 
 promotionRouter.delete('/promotions/:id', async (req, res) => {
-  res.send(JSON.stringify(promotion));
+  const _id = req.params.id;
+  try {
+    const cachValue = await client.hget('promotions', 'promotionsField');
+    await PromotionsModel.findOneAndDelete({ _id });
+    let newData = [];
+    if (cachValue) {
+      const cache = JSON.parse(cachValue);
+      newData = [
+        ...Object.keys(cache)
+          .filter(ele => ele !== _id)
+          .map(ele => cache[ele])
+      ];
+    } else {
+      newData = await PromotionsModel.find({});
+    }
+
+    const newPromoObj = newData.reduce((acc, cur, index) => {
+      acc[cur._id] = cur;
+      return acc;
+    }, {});
+
+    // Update redis cache data
+    client.hset(
+      'promotions',
+      'promotionsField',
+      JSON.stringify(newPromoObj),
+      'EX',
+      10
+    );
+
+    const reSponseData = {
+      dBStatus: true,
+      data: newData
+    };
+    res.status(200).send(JSON.stringify(reSponseData));
+  } catch (error) {
+    res.status(500).send(error);
+  }
 });
 
 export default promotionRouter;

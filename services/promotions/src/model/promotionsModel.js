@@ -5,7 +5,7 @@ const promotionsSchema = new mongoose.Schema({
   name: String,
   start_date: String,
   end_date: String,
-  onLive: String,
+  on_live: String,
   items: [ItemSchema]
 });
 

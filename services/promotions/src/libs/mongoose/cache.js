@@ -10,6 +10,7 @@ const client = redis.createClient({
 client.hget = util.promisify(client.hget);
 
 const createEnhancedMongoose = mongoose => {
+  mongoose.set('useFindAndModify', false);
   const exec = mongoose.Query.prototype.exec;
   mongoose.Query.prototype.cache = function(options = {}) {
     this.useCache = true;

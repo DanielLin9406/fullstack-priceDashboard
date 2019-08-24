@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { testFetchLoading } from '@app/shared/testFetch';
+import { testScheduleComplete } from '@app/shared/testHelper';
+import { transFormToObject } from '@app/shared/typeHelper';
 import '@app/components/SetPriceRule/SetPriceRule.scss';
 
 export default class EditPromotion extends Component {
@@ -20,8 +22,8 @@ export default class EditPromotion extends Component {
 
   static getDerivedStateFromProps(props, state) {
     if (testFetchLoading(props.loading)) return null;
-    console.log('current:', state.currentPromotionId);
-    console.log('next', props.promotion.active);
+    // console.log('current:', state.currentPromotionId);
+    // console.log('next', props.promotion.active);
     if (state.currentPromotionId !== props.promotion.active) {
       console.log('Load Existing Promotion Data from Props');
       return {
@@ -39,31 +41,6 @@ export default class EditPromotion extends Component {
         errMsg: props.errMsg
       };
     }
-    // if (props.removedPromoId) {
-    //   console.log('Remove Promotion');
-    //   delete props.priceSet.items[props.removedPromoId];
-    //   delete props.promotion.queue[props.removedPromoId];
-    //   return {
-    //     ...state,
-    //     stashPromotionId: propsStashId,
-    //     currentPromotionId: props.promotion.active,
-    //     order: props.promotion.order,
-    //     // editingStash: false,
-    //     items: {
-    //       ...props.priceSet.items,
-    //       [propsStashId]: []
-    //     },
-    //     queue: {
-    //       ...props.promotion.queue,
-    //       [propsStashId]: {
-    //         promotionId: propsStashId.toString(),
-    //         name: '',
-    //         startDate: '',
-    //         endDate: ''
-    //       }
-    //     }
-    //   };
-    // }
     return null;
   }
 
@@ -85,6 +62,7 @@ export default class EditPromotion extends Component {
     if (testResult.length > 0) return;
     console.log('test success');
     console.log('edit promo');
+    console.log('queue', queue);
     this.props.asyncEditPromotion({
       order,
       queue,
