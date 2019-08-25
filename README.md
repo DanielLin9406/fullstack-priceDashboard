@@ -256,7 +256,7 @@ npm run prod
 
 ## History
 
-origin/initial: this is the first version which contains only front-end side code
+origin/initial-version: this is the first version which contains only front-end side code
 origin/basic: Add client and server to become full-stack project
 origin/basic-refractor-setpricerule: Checkout from origin/basic and refractor a huge amout of the front-end code that becomes componentization.
 origin/master: complete full-stack project with dev-ops pipeline.
