@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/DanielLin9406/fullstack-priceDashboard.svg?branch=master)](https://travis-ci.org/DanielLin9406/fullstack-priceDashboard)
 
-This project is originally desinged as an internal tool for the company for the purpose of setting and showing product price. Initially, it contains only front-end side before I completely refractor front-end side and rebuild it as a full-stack project with container technique. It also has CI pipeline right now.
+This project is originally desinged as an internal tool for a company I was at for the purpose of setting and showing product price. Initially, it contains only front-end side before I completely refractor front-end side and rebuild it as a full-stack project with container technique. It also has CI pipeline right now.
 
 Set a new promotion and view a particular promotion.
 ![preview1](https://i.imgur.com/6rcwR3Y.png)
@@ -253,6 +253,13 @@ npm run prod
 ### Cloud - Service Structure on Goolge Cloud for Kubernetes
 
 - (TODO)Google Kubernetes Engine (GKE)
+
+## History
+
+origin/initial: this is the first version which contains only front-end side code
+origin/basic: Add client and server to become full-stack project
+origin/basic-refractor-setpricerule: Checkout from origin/basic and refractor a huge amout of the front-end code that becomes componentization.
+origin/master: complete full-stack project with dev-ops pipeline.
 
 ## License
 
