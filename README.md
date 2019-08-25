@@ -292,6 +292,6 @@ npm run build:prod
 
 ## TODO
 
-1. Check React performance with an idea provided by this [article](https://medium.com/@evenchange4/react-stack-%E9%96%8B%E7%99%BC%E9%AB%94%E9%A9%97%E8%88%87%E5%84%AA%E5%8C%96%E7%AD%96%E7%95%A5-b056da2fa0aa))
+1. Check React performance with an idea provided by this [article](https://medium.com/@evenchange4/react-stack-%E9%96%8B%E7%99%BC%E9%AB%94%E9%A9%97%E8%88%87%E5%84%AA%E5%8C%96%E7%AD%96%E7%95%A5-b056da2fa0aa)
 
 2. Check Node practice to match a [Node.js best practice guide](https://github.com/goldbergyoni/nodebestpractices)
