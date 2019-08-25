@@ -1,0 +1,21 @@
+{
+  "name": "pg-price-dashboard",
+  "version": "1.0.0",
+  "description": "[![Build Status](https://travis-ci.org/DanielLin9406/fullstack-priceDashboard.svg?branch=master)](https://travis-ci.org/DanielLin9406/fullstack-priceDashboard)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "concurrently \"npm start --prefix services/prices\" \"npm start --prefix services/promotions\" \"npm start --prefix services/upgrade-rules\" \"npm start --prefix services/user\" \"npm run start:dev --prefix services/web\"",
+    "build": "npm run build --prefix services/prices && npm run build --prefix services/promotions && npm run build --prefix services/upgrade-rules && npm run build --prefix services/user && npm run build:prod --prefix services/web"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DanielLin9406/fullstack-priceDashboard.git"
+  },
+  "author": "Daniel Lin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DanielLin9406/fullstack-priceDashboard/issues"
+  },
+  "homepage": "https://github.com/DanielLin9406/fullstack-priceDashboard#readme"
+}

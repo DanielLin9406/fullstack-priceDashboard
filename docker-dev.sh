@@ -30,11 +30,12 @@ done
 # docker build -t pg-price-dashboard_promotions:latest -f ./services/promotions/docker-dev.dockerfile ./services/promotions
 # docker build -t pg-price-dashboard_upgrade-rules:latest -f ./services/upgrade-rules/docker-dev.dockerfile ./services/upgrade-rules
 
-# # Build all image and run container
-# docker-compose -f docker-compose-dev.yml --build
+# Build all image and run container
+# docker-compose -f docker-compose-dev.yml build
 # docker-compose -f docker-compose-dev.yml up
 # docker-compose up -d
 
+# Remove stop-state container
 # docker stop $(docker ps -a -q)
 # docker stop rm <containerID>
 # docker container rm <containerID>
