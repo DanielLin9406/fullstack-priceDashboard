@@ -20,6 +20,7 @@ Tech perspective:
 - Layout, route and page as component for more flexibility.
 - Separate container as subscriber of Redux make it easy to understand.
 - Use React design pattern such as compound, render-props and context api to build reuseable component.
+- Use nginx as static file server in production version.
 
 Function perspective:
 
@@ -35,6 +36,9 @@ Tech perspective:
 - Clearly understand Node/Express backend structure with ES6 syntax.
 - Every route has implemented Redis as cache server to reduce DB write/read operation.
 - Thanks for Redis, my API will return full promotion list without additionly DB querying no matter which restfull api is called.
+- Use nginx as reverse-proxy.
+- Separate Express 'app' and 'server'
+- self-contained components as file structure.
 
 ## Prerequisite
 
@@ -285,3 +289,9 @@ npm run build:prod
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
+
+## TODO
+
+1. Check React performance with an idea provided by this [article](https://medium.com/@evenchange4/react-stack-%E9%96%8B%E7%99%BC%E9%AB%94%E9%A9%97%E8%88%87%E5%84%AA%E5%8C%96%E7%AD%96%E7%95%A5-b056da2fa0aa))
+
+2. Check Node practice to match a [Node.js best practice guide](https://github.com/goldbergyoni/nodebestpractices)
