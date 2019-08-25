@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "concurrently \"npm start --prefix services/prices\" \"npm start --prefix services/promotions\" \"npm start --prefix services/upgrade-rules\" \"npm start --prefix services/user\" \"npm run start:dev --prefix services/web\"",
-    "build": "npm run build --prefix services/prices && npm run build --prefix services/promotions && npm run build --prefix services/upgrade-rules && npm run build --prefix services/user && npm run build:prod --prefix services/web"
+    "build": "npm run build --prefix services/prices && npm run build --prefix services/promotions && npm run build --prefix services/upgrade-rules && npm run build --prefix services/user && npm run build:prod --prefix services/web",
+    "prod": "npm run prod --prefix services/prices && npm run prod --prefix services/promotions && npm run prod --prefix services/upgrade-rules && npm run prod --prefix services/user && npm run build:prod --prefix services/web"
   },
   "repository": {
     "type": "git",

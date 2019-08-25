@@ -46,7 +46,7 @@ Tech perspective:
 ### Web Services
 
 ```bash
-# /services/web/.env
+# ./services/web/.env
 
 GOOGLE_CLIENT_ID=<Google OAuth 2 Client Id>
 API_HOST_PRICES=http://localhost
@@ -63,11 +63,9 @@ API_VER_UPGRADERULES=v1
 ### User Services
 
 ```bash
-# /services/user/.env
+# ./services/user/.env
 
 PORT=4999
-DATABASE_URL_PROD=<MongoDB Altas full Url>
-DATABASE_URL_DEV=<MongoDB Altas full Url>
 # Same as the client id in web service
 CLIENT_ID=<Google OAuth 2 Client Id>
 CLIENT_SECRET=<Google OAuth 2.0 client Secret>
@@ -78,9 +76,9 @@ REDIRECT_URI=http://localhost:8080/auth/callback
 ### Prices,Promotions,Upgrade-Rules Services
 
 ```bash
-# /services/prices/.env
-# /services/promotions/.env
-# /services/upgrade-rules/.env
+# ./services/prices/.env
+# ./services/promotions/.env
+# ./services/upgrade-rules/.env
 
 PORT=5000(promotions) | 5001(prices)| 5002(upgrade-rules)
 DATABASE_URL_PROD=<MongoDB Altas URL>
@@ -129,12 +127,12 @@ brew install redis
 2. Install Dependence of each service
 
 ```bash
-# /
-# /services/web
-# /services/promotions
-# /services/prices
-# /services/upgrade-rules
-# /services/user
+# ./
+# ./services/web
+# ./services/promotions
+# ./services/prices
+# ./services/upgrade-rules
+# ./services/user
 
 npm i
 ```
@@ -148,7 +146,7 @@ redis-server
 4. Start Project
 
 ```bash
-# / @project root
+# ./ @project root
 npm start
 ```
 
@@ -156,7 +154,7 @@ npm start
 
 Open browser and go to http://localhost:8080.
 
-### More Client start script
+### More Slient Start Script
 
 ```bash
 # with JSON Mock server (only get data is available )
@@ -167,10 +165,50 @@ npm run start:jsonserver
 npm run start:dev
 ```
 
-### Build Client for Production with different API server
+## Build Project and Run Production version
+
+You also have two ways to run production version:
 
 ```bash
-#/services/web
+# Method 1. In project root (Highly Recommonded)
+docker-compose -f docker-compose-stage.yml up
+
+# Method 2. In project root
+(TODO)See below details
+```
+
+### Method 1: docker-compose
+
+This method is easy.
+Open browser and go to http://localhost:3060.
+You can see the dashboard.
+
+### Method 2: npm script
+
+1. Run Production Bbuild
+
+```bash
+# ./ @project root
+# Use Babel to complie import syntax to require
+npm run build
+```
+
+2. Run Production Server
+
+```bash
+# ./ @project root
+# Use Babel to complie import syntax to require
+npm run prod
+```
+
+3. Check result
+
+Open browser and go to http://localhost:8080.
+
+### More Client Build Script
+
+```bash
+# ./services/web
 # with other localhost API server in different port
 npm run build:dev
 
@@ -181,23 +219,7 @@ npm run build:stage
 npm run build:prod
 ```
 
-### Build Server for Production
-
-```bash
-# / @project root
-# Use Babel to complie import syntax to require
-npm run build
-```
-
-### Run Server for Production
-
-```bash
-# / @project root
-# Use Babel to complie import syntax to require
-npm run prod
-```
-
-## TechStacks of Each Service
+## TechStacks
 
 ### Web
 
@@ -211,13 +233,11 @@ npm run prod
 - React-Loadable for async loading page
 - Redux with module pattern
 - (TODO) Jest+puppeteer for unit test
-- Husky
-- Lint-stage
-- ESlint
-- Prettier
+- Husky+Lint-stage
+- ESlint+Prettier
 - Json-server
 - Sensitive data handler: dotenv
-- Google OAuth
+- Google OAuth 2.0
 
 ### Promotions, Price, Upgrade-Rules and User
 
@@ -239,6 +259,7 @@ npm run prod
 - Nginx as static file server in production
 - Bash 5 for development
 - Travis plays as CI role
+  - Delegate gcloud to handle kubectl command
 
 ### Cloud - Service Structure on AWS for multi-docker
 
