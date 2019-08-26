@@ -236,6 +236,7 @@ npm run build:prod
 - React Hot loader
 - React-Loadable for async loading page
 - Redux with module pattern
+- (TODO) Server side rendering (SSR)
 - (TODO) Jest+puppeteer for unit test
 - Husky+Lint-stage
 - ESlint+Prettier
@@ -267,8 +268,8 @@ npm run build:prod
 
 ### Cloud - Service Structure on AWS for multi-docker
 
-- (TODO)AWS Elastic Beanstalk (EB)
-- (TODO)AWS Elastic Container Service (ECS)
+- AWS Elastic Beanstalk (EB)
+- AWS Elastic Container Service (ECS)
 - (TODO)AWS Elastic Cache (EC) for Caching instead of Redis
 
 ### Cloud - Service Structure on AWS for Kubernetes
@@ -277,7 +278,7 @@ npm run build:prod
 
 ### Cloud - Service Structure on Goolge Cloud for Kubernetes
 
-- (TODO)Google Kubernetes Engine (GKE)
+- Google Kubernetes Engine (GKE)
 
 ## History
 
@@ -295,3 +296,5 @@ npm run build:prod
 1. Check React performance with an idea provided by this [article](https://medium.com/@evenchange4/react-stack-%E9%96%8B%E7%99%BC%E9%AB%94%E9%A9%97%E8%88%87%E5%84%AA%E5%8C%96%E7%AD%96%E7%95%A5-b056da2fa0aa)
 
 2. Check Node practice to match a [Node.js best practice guide](https://github.com/goldbergyoni/nodebestpractices)
+
+3. Replace one or several services from Node to Python or GoLang for study purpose.
