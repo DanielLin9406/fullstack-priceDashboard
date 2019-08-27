@@ -237,7 +237,8 @@ npm run build:prod
 - React-Loadable for async loading page
 - Redux with module pattern
 - (TODO) Server side rendering (SSR)
-- (TODO) Jest+puppeteer for unit test
+- (TODO) Jest+puppeteer for component unit test
+- (TODO) Google Analytics and use Google Optimize
 - Husky+Lint-stage
 - ESlint+Prettier
 - Json-server
@@ -249,7 +250,7 @@ npm run build:prod
 - Babel node for compiling ES6 syntax
 - Express.js
 - Restful API
-- (TODO) Mocha+Chi for unit test
+- (TODO) Mocha+Chi for API unit test
 - Mongoose
 - MongoDB Altas
 - Redis for DB caching
@@ -295,6 +296,8 @@ npm run build:prod
 
 1. Check React performance with an idea provided by this [article](https://medium.com/@evenchange4/react-stack-%E9%96%8B%E7%99%BC%E9%AB%94%E9%A9%97%E8%88%87%E5%84%AA%E5%8C%96%E7%AD%96%E7%95%A5-b056da2fa0aa)
 
-2. Check Node practice to match a [Node.js best practice guide](https://github.com/goldbergyoni/nodebestpractices)
+2. Implemtn GA and Google Optimizie
 
-3. Replace one or several services from Node to Python or GoLang for study purpose.
+3. Check Node practice to match a [Node.js best practice guide](https://github.com/goldbergyoni/nodebestpractices)
+
+4. Replace one or several services from Node to Python or GoLang for study purpose.
