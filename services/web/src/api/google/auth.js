@@ -1,4 +1,4 @@
-import loadScript from '@shinin/load-script';
+import loadScript from 'load-script2';
 import noop from 'lodash/noop';
 import { promisify } from '@app/shared/promiseHelper';
 
