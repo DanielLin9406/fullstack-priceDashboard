@@ -12,7 +12,7 @@ export default class ProductListWrap extends Component {
 
   getChildContext() {
     return {
-      mapSku2Name: buildMapSkuToName(this.props.bcPrice),
+      mapSku2Name: buildMapSkuToName(this.props.priceList),
       currentPromotionId: this.props.currentPromotionId
     };
   }
@@ -36,8 +36,8 @@ export default class ProductListWrap extends Component {
     return List[0];
   };
 
-  getProductList = bcPrice => {
-    return bcPrice
+  getProductList = priceList => {
+    return priceList
       .map(prdObj => {
         const priceObj = this.mapProductToPromotion(prdObj);
         const updatedPriceObj = {
@@ -64,11 +64,11 @@ export default class ProductListWrap extends Component {
   };
 
   render() {
-    const { bcPrice } = this.props;
+    const { priceList } = this.props;
 
     return (
       <ProductList>
-        {this.getProductList(bcPrice).map(prdObj => (
+        {this.getProductList(priceList).map(prdObj => (
           <ProductItem key={`item-${prdObj.name}`}>
             <PriceListWrap
               licenseRule={this.props.licenseRule[prdObj.sku]}

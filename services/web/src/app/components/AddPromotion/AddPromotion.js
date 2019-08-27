@@ -11,7 +11,7 @@ export default class AddPromotion extends Component {
     this.state = {
       queue: {},
       items: [],
-      bcPrice: {},
+      priceList: {},
       isLoading: true,
       currentPromotionId: '',
       errMsg: [],
@@ -33,7 +33,7 @@ export default class AddPromotion extends Component {
       return {
         ...state,
         isLoading: false,
-        bcPrice: props.bcPrice,
+        priceList: props.priceList,
         items: {
           ...props.priceSet.items,
           [propsStashId]: []

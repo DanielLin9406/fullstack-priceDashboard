@@ -5,8 +5,8 @@ import SetPriceRule from './SetPriceRule';
 
 const mapStateToProps = state => ({
   active: state.scheduledPrice.promotion.active,
-  loading: [state.scheduledPrice.isLoading, state.currentBCPrice.isLoading],
-  errMsg: [state.scheduledPrice.errMsg, state.currentBCPrice.errMsg]
+  loading: [state.scheduledPrice.isLoading, state.productPrice.isLoading],
+  errMsg: [state.scheduledPrice.errMsg, state.productPrice.errMsg]
 });
 
 // const mapDispatchToProps = dispatch =>

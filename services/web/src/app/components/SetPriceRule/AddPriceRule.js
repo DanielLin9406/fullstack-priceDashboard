@@ -6,7 +6,7 @@ class AddPriceRule extends Component {
   componentDidMount() {}
 
   getPriceList = () => {
-    return this.props.bcPriceList.filter(prdObj => {
+    return this.props.priceList.filter(prdObj => {
       const reg = /(^L|^B)/i;
       return reg.test(prdObj.sku);
     });

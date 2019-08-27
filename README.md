@@ -5,7 +5,7 @@
 This project is originally desinged as an internal tool for a company I was at for the purpose of setting and showing product price. Initially, it contains only front-end side before I completely refractor front-end side and rebuild it as a full-stack project with container technique. It also has CI pipeline right now.
 
 Set a new promotion and view a particular promotion.
-![preview1](https://i.imgur.com/6rcwR3Y.png)
+![preview1](https://i.imgur.com/rAfJDVF.png)
 
 Details price in terms of different user
 ![preview2](https://i.imgur.com/MmvQmTv.png)

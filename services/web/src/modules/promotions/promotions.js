@@ -1,5 +1,5 @@
 import { arrayMove } from 'react-sortable-hoc';
-import scheduledPriceAPI from '@app/api/pg/scheduledPrice';
+import scheduledPriceAPI from '@app/api/internal/scheduledPrice';
 import { loadPayloadAPIHelper, sendPayloadAPIHelper } from './helper';
 /*
  * define action name

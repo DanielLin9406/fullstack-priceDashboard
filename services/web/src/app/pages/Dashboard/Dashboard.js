@@ -10,15 +10,15 @@ import UserSection from '@app/components/UserSection/Container';
 class Dashboard extends Component {
   componentDidMount() {
     this.loadPromotionData();
-    this.loadBCPrice();
+    this.loadPrice();
   }
 
   loadPromotionData = () => {
     this.props.asyncGetPromotion({ user: this.props.user });
   };
 
-  loadBCPrice = () => {
-    this.props.asyncGetBCPrice({ user: this.props.user });
+  loadPrice = () => {
+    this.props.asyncGetPrice({ user: this.props.user });
   };
 
   render() {

@@ -7,12 +7,12 @@ import AddPromotion from './AddPromotion';
 const mapStateToProps = state => ({
   promotion: state.scheduledPrice.promotion,
   priceSet: state.scheduledPrice.priceSet,
-  bcPrice: state.currentBCPrice.priceList,
+  priceList: state.productPrice.priceList,
   user: state.auth.user,
 
-  loading: [state.scheduledPrice.isLoading, state.currentBCPrice.isLoading],
+  loading: [state.scheduledPrice.isLoading, state.productPrice.isLoading],
 
-  errMsg: [state.scheduledPrice.errMsg, state.currentBCPrice.errMsg]
+  errMsg: [state.scheduledPrice.errMsg, state.productPrice.errMsg]
 });
 
 const mapDispatchToProps = dispatch =>

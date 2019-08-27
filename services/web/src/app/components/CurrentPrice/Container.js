@@ -8,17 +8,17 @@ import CurrentPrice from './CurrentPrice';
 const mapStateToProps = state => ({
   promotion: state.scheduledPrice.promotion,
   priceSet: state.scheduledPrice.priceSet,
-  bcPrice: state.currentBCPrice.priceList,
+  priceList: state.productPrice.priceList,
   licenseRule: state.licenseRule.rule,
 
   loading: [
     state.scheduledPrice.isLoading,
-    state.currentBCPrice.isLoading,
+    state.productPrice.isLoading,
     state.licenseRule.isLoading
   ],
   errMsg: [
     state.scheduledPrice.errMsg,
-    state.currentBCPrice.errMsg,
+    state.productPrice.errMsg,
     state.licenseRule.errMsg
   ],
 

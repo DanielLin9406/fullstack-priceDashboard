@@ -1,4 +1,4 @@
-import licenseRuleAPI from '@app/api/pg/licenseRule';
+import licenseRuleAPI from '@app/api/internal/licenseRule';
 
 /*
  * define action name

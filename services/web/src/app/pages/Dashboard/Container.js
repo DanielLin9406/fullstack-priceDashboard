@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { asyncGetPromotion } from '@app/modules/promotions/promotions';
-import { asyncGetBCPrice } from '@app/modules/currentBCPrice/currentBCPrice';
+import { asyncGetPrice } from '@app/modules/productPrice/productPrice';
 import Dashboard from './Dashboard';
 
 const mapStateToProps = state => ({
@@ -10,7 +10,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({ asyncGetPromotion, asyncGetBCPrice }, dispatch);
+  bindActionCreators({ asyncGetPromotion, asyncGetPrice }, dispatch);
 
 export default connect(
   mapStateToProps,

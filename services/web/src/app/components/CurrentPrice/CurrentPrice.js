@@ -14,8 +14,8 @@ import ProductListWrap from './ProductListWrap';
 export default class CurrentPrice extends Component {
   state = {
     licenseRule: {},
-    bcPrice: [],
-    priceList: {},
+    priceList: [],
+    priceSet: {},
     currentPromotionId: '',
     isLoading: true,
     isDefaultPrice: true,
@@ -27,12 +27,12 @@ export default class CurrentPrice extends Component {
 
     if (state.isDefaultPrice) {
       if (props.promotion.active) {
-        // console.log(props.bcPrice);
+        // console.log(props.priceList);
         return {
           ...state,
           licenseRule: props.licenseRule,
-          bcPrice: props.bcPrice,
-          priceList: props.priceSet,
+          priceList: props.priceList,
+          priceSet: props.priceSet,
           // stashPromotionId: getStashPromoId(props),
           isLoading: false,
           isDefaultPrice: true,
@@ -44,8 +44,8 @@ export default class CurrentPrice extends Component {
         return {
           ...state,
           licenseRule: props.licenseRule,
-          bcPrice: props.bcPrice,
-          priceList: props.priceSet,
+          priceList: props.priceList,
+          priceSet: props.priceSet,
           // stashPromotionId: getStashPromoId(props),
           isLoading: false,
           isDefaultPrice: true,
@@ -75,7 +75,7 @@ export default class CurrentPrice extends Component {
     this.props.asyncGetLicenseRule({ user: this.props.user });
   };
 
-  loadDefaultPriceList = () => {
+  loadDefaultPriceSet = () => {
     this.setState({
       isDefaultPrice: false
     });
@@ -90,12 +90,12 @@ export default class CurrentPrice extends Component {
         <TextList>
           Promotion Name:<TextItem>{name}</TextItem>
         </TextList>
-        <GreenButton onClick={this.loadDefaultPriceList}>
+        <GreenButton onClick={this.loadDefaultPriceSet}>
           Load Default Price List
         </GreenButton>
       </>
     ) : (
-      <>Default BC Price List</>
+      <>Default Price List</>
     );
   };
 
@@ -104,9 +104,9 @@ export default class CurrentPrice extends Component {
       isLoading,
       errMsg,
       currentPromotionId,
-      priceList,
+      priceSet,
       licenseRule,
-      bcPrice
+      priceList
     } = this.state;
     const { promotion } = this.props;
     return (
@@ -122,9 +122,9 @@ export default class CurrentPrice extends Component {
           <Panel>
             <ProductListWrap
               currentPromotionId={currentPromotionId}
-              bcPrice={bcPrice}
+              priceList={priceList}
               licenseRule={licenseRule}
-              promoItem={priceList}
+              promoItem={priceSet}
             />
           </Panel>
         </SectionBody>

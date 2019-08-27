@@ -153,7 +153,7 @@ export default class HandlePromotion extends Component {
       handleAddItemToList,
       removeProductFromList
     } = this;
-    const { currentPromotionId, queue, bcPrice, items } = state;
+    const { currentPromotionId, queue, priceList, items } = state;
     const {
       testResult,
       buttonName,
@@ -220,7 +220,7 @@ export default class HandlePromotion extends Component {
           <Row className="add-item-price-container">
             <AddPriceRule
               addItem={handleAddItemToList}
-              bcPriceList={bcPrice}
+              priceList={priceList}
               currentPromotionId={currentPromotionId}
             />
           </Row>

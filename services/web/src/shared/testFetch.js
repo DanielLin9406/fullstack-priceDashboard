@@ -1,7 +1,7 @@
 const testExternalLoading = nextProps => {
   if (
     nextProps.isLoading_scheduledPrice ||
-    nextProps.isLoading_currentBCPrice ||
+    nextProps.isLoading_productPrice ||
     nextProps.isLoading_licenseRule
   ) {
     return true;

@@ -1,4 +1,4 @@
-import currentBCPriceApi from '@app/api/pg/currentBCPrice';
+import productPriceApi from '@app/api/internal/productPrice';
 
 /*
  * define action name
@@ -7,8 +7,8 @@ import currentBCPriceApi from '@app/api/pg/currentBCPrice';
 /*
  * define async action name
  */
-export const GET_BC_PRICE_SUCCESS = 'priceList/GET_BC_PRICE_SUCCESS';
-export const GET_BC_PRICE_FAIL = 'priceList/GET_BC_PRICE_FAIL';
+export const GET_PRICE_SUCCESS = 'priceList/GET_PRICE_SUCCESS';
+export const GET_PRICE_FAIL = 'priceList/GET_PRICE_FAIL';
 
 /*
  * state init (scheduledPrice in redux)
@@ -24,14 +24,14 @@ const initialState = {
  */
 export default (state = initialState, action) => {
   switch (action.type) {
-    case GET_BC_PRICE_SUCCESS:
+    case GET_PRICE_SUCCESS:
       return {
         ...state,
         isLoading: false,
         errMsg: undefined,
         priceList: action.priceList
       };
-    case GET_BC_PRICE_FAIL:
+    case GET_PRICE_FAIL:
       return {
         ...state,
         isLoading: false,
@@ -54,17 +54,17 @@ export default (state = initialState, action) => {
  * export async packaged dispatch
  */
 
-export const asyncGetBCPrice = ({ user }) => async dispatch => {
+export const asyncGetPrice = ({ user }) => async dispatch => {
   try {
-    const res = await currentBCPriceApi.get(user.token);
+    const res = await productPriceApi.get(user.token);
     const json = res.data;
     dispatch({
-      type: GET_BC_PRICE_SUCCESS,
+      type: GET_PRICE_SUCCESS,
       priceList: json
     });
   } catch (error) {
     dispatch({
-      type: GET_BC_PRICE_FAIL
+      type: GET_PRICE_FAIL
     });
     return Promise.reject(new Error(error.message));
   }
