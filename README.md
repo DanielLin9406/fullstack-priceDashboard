@@ -12,6 +12,11 @@ Details price in terms of different user
 
 ## Features
 
+- No need to reload page after create/update/delete, the state is always up-to-date with backend.
+- Easily to check the following promotion in queue pool.
+- Show individual product price in different promotion sale
+- You can understand how much a product cost to a particular user who may alrady has a product before.
+
 ### Web Service Features
 
 Tech perspective:
@@ -21,13 +26,6 @@ Tech perspective:
 - Separate container as subscriber of Redux make it easy to understand.
 - Use React design pattern such as compound, render-props and context api to build reuseable component.
 - Use nginx as static file server in production version.
-
-Function perspective:
-
-- No need to reload page after create/update/delete, the state is always up-to-date with backend.
-- Easily to check the following promotion in queue pool.
-- Show individual product price in different promotion sale
-- You can understand how much a product cost to a particular user who may alrady has a product before.
 
 ### User/Promotions/Prices/Upgrade-rules Service Features
 
