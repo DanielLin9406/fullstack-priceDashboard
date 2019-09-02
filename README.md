@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/DanielLin9406/fullstack-priceDashboard.svg?branch=master)](https://travis-ci.org/DanielLin9406/fullstack-priceDashboard)
 
-This project is originally desinged as an internal tool for a company I was at for the purpose of setting and showing product price. Initially, it contains only front-end side before I completely refractor front-end side and rebuild it as a full-stack project with container technique. It also has CI pipeline right now.
+This project was originally desinged as an internal tool for a company I was at and for the purpose of setting and reading product's price. Initially, it contains only front-end code since I had collaborated other member in backend team. After I had left the company, I refactored my front-end code and re-built it to a complete full-stack project with container technique. It also has a basic CI pipeline right now.
 
 Set a new promotion and view a particular promotion.
 ![preview1](https://i.imgur.com/rAfJDVF.png)
@@ -12,31 +12,30 @@ Details price in terms of different user
 
 ## Features
 
-- No need to reload page after create/update/delete, the state is always up-to-date with backend.
-- Easily to check the following promotion in queue pool.
-- Show individual product price in different promotion sale
-- You can understand how much a product cost to a particular user who may alrady has a product before.
+- The state is always up-to-date with backend even when create/update/delete operation has been triggered.
+- Allow user to auto sign in if browser has been permitted to store his/her password.
+- Power visual for understanding which promotion is on live and what is next promotion.
+- You can easily calculate a product price for a user who could has any combination of company's early product before.
 
 ### Web Service Features
 
 Tech perspective:
 
-- Use my own Webpack setting for React instead of CRA.
-- Layout, route and page as component for more flexibility.
-- Separate container as subscriber of Redux make it easy to understand.
-- Use React design pattern such as compound, render-props and context api to build reuseable component.
-- Use nginx as static file server in production version.
+- Take advantage of the power of Webpack for packaging web service in dev and prod. environment instead of directly using CRA.
+- Separte layout, route and page as component for more flexibility.
+- Auto sign in with Credential Management API.
+- Separate Redux's mapStateToProps and mapDispatchToProps from every component in order to make it easy to understand.
+- Implement React's design pattern such as compound, render-props and context api to build reuseable and clear component.
+- Use nginx as static file server in production environment.
 
 ### User/Promotions/Prices/Upgrade-rules Service Features
 
 Tech perspective:
 
-- Clearly understand Node/Express backend structure with ES6 syntax.
-- Every route has implemented Redis as cache server to reduce DB write/read operation.
-- Thanks for Redis, my API will return full promotion list without additionly DB querying no matter which restfull api is called.
-- Use nginx as reverse-proxy.
-- Separate Express 'app' and 'server'
-- self-contained components as file structure.
+- Best practice of Node/Express with ES6 syntax(e.g. self-contained components as file structure).
+- Thanks to Redis, no extra DB query command is executed when post/update/delete router has been called and still can return a full list of promotion.
+- Every route has implemented Redis as cache server to reduce DB's query operation.
+- Use NGINX as a reverse proxy.
 
 ## Prerequisite
 

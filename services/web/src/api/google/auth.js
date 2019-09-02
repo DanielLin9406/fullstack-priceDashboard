@@ -30,10 +30,42 @@ function modelGoogleUser(googleUser) {
   };
 }
 
+function storeIdentity(googleUser) {
+  if (window.FederatedCredential) {
+    const profile = googleUser.getBasicProfile();
+    const credential = new FederatedCredential({
+      id: profile.getEmail(),
+      provider: 'https://accounts.google.com',
+      name: profile.getName(),
+      iconURL: profile.getImageUrl()
+    });
+    return navigator.credentials.store(credential);
+  }
+}
+
+async function getIdentity() {
+  const res = await navigator.credentials.get({
+    password: true,
+    federated: {
+      providers: ['https://accounts.google.com']
+    },
+    mediation: 'silent'
+  });
+  return res;
+}
+
 async function initAuthentication() {
   const googleAuth = await getGoogleAuth();
-  if (!googleAuth.isSignedIn.get()) return;
-  const googleUser = googleAuth.currentUser.get();
+  const identity = await getIdentity();
+  let googleUser = '';
+  if (identity) {
+    googleUser = await googleAuth
+      .signIn({ login_hint: identity.id })
+      .catch(noop);
+  } else {
+    if (!googleAuth.isSignedIn.get()) return;
+    googleUser = googleAuth.currentUser.get();
+  }
   return modelGoogleUser(googleUser);
 }
 
@@ -49,6 +81,7 @@ async function signInWithGoogle() {
   const googleAuth = await getGoogleAuth();
   const googleUser = await googleAuth.signIn().catch(noop);
   if (!googleUser) return;
+  await storeIdentity(googleUser);
   return modelGoogleUser(googleUser);
 }
 

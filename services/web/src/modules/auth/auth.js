@@ -78,6 +78,7 @@ export const initAuth = () => async dispatch => {
   const user = await authApi.initAuthentication();
   dispatch({ type: 'INIT_AUTH', payload: user });
   const tenMins = 10 * 60 * 1000;
+  if (!user) return;
   let expiresIn = user.expiryDate - Date.now() - tenMins;
   if (expiresIn < 0) expiresIn = 0;
   setTimeout(() => reloadAuth(dispatch), expiresIn);
@@ -88,7 +89,6 @@ export const handleLogin = () => dispatch => {
   return async () => {
     try {
       const user = await authApi.signInWithGoogle();
-      console.log(user.token);
       dispatch({ type: 'LOGIN_SUCCESS', payload: user });
     } catch (error) {
       dispatch({ type: 'LOGIN_FAILURE', payload: error.message });

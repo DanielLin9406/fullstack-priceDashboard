@@ -19,7 +19,9 @@ export default class Login extends Component {
           <SectionHeader>Sign in to Price Dashboard</SectionHeader>
           <SectionBody isLoading={!initialized} errMsg={errMsg}>
             <Panel>
-              <RedButton onClick={this.props.handleLogin()}>Sign in</RedButton>
+              <RedButton onClick={this.props.handleLogin()}>
+                Sign in with Google
+              </RedButton>
             </Panel>
           </SectionBody>
         </Section>
