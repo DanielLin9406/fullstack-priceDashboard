@@ -30,3 +30,7 @@ variable "health_check_path" {
   default     = "/"
   description = "The default health check path"
 }
+
+variable "project_name" {
+  description = "tag name that can be used in aws tag editor"
+}

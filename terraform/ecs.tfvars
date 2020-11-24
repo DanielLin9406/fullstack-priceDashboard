@@ -1,8 +1,10 @@
 vpc_cidr = "10.0.0.0/16"
 environment = "stage"
+project_name = "price-dashboard"
 cluster = "price-dashboard"
-public_subnet_cidrs = ["10.0.0.0/25"]
-private_subnet_cidrs = ["10.0.1.0/25"]
-private_db_subnet_cidrs = ["10.0.2.0/25"]
-availability_zones = ["us_east-1a"]
+public_subnet_cidrs = ["10.0.0.0/24", "10.0.1.0/24"]
+private_subnet_cidrs = ["10.0.50.0/24", "10.0.51.0/24"]
+availability_zones = ["us-east-1a", "us-east-1b"]
+aws_region = "us-east-1"
 instance_type = "t2.micro"
+ecs_aws_ami = "ami-275ffe31"

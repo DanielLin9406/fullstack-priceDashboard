@@ -2,18 +2,18 @@
 resource "aws_iam_role" "ecs_task_assume" {
   name               = "ecs_task_assume"
   assume_role_policy = <<EOF
-    {
-        "Version": "2012-10-17",
-        "Statement":[{
-            "Sid":"",
-            "Effect": "Allow",
-            "Principal": {
-                "Service": "ecs-tasks.amazonaws.com"
-            },
-            "Action": "sts:Assume Role"
-        }]
-    }
-    EOF
+{
+    "Version": "2012-10-17",
+    "Statement":[{
+        "Sid":"",
+        "Effect": "Allow",
+        "Principal": {
+            "Service": "ecs-tasks.amazonaws.com"
+        },
+        "Action": "sts:AssumeRole"
+    }]
+}
+EOF
 }
 
 resource "aws_iam_role_policy" "ecs_task_assume" {
@@ -52,7 +52,7 @@ resource "aws_iam_role" "ecsTaskExecutionRole" {
         "Principal":{
             "Service":"ecs-tasks.amazonaws.com"
         },    
-        "Action":"sts:Assume Role"
+        "Action":"sts:AssumeRole"
     }]
 }
 EOF

@@ -18,3 +18,7 @@ variable "cluster" {
 variable "security_group_id" {
   description = "ecs instance security group"
 }
+
+variable "project_name" {
+  description = "tag name that can be used in aws tag editor"
+}

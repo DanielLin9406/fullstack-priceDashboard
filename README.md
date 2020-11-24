@@ -263,6 +263,7 @@ npm run build:prod
 - Bash 5 for development
 - Travis plays as CI role
   - Delegate gcloud to handle kubectl command
+- Leverage Terraform to create ECS and EKS.
 
 ### Cloud - Service Structure on AWS for multi-docker
 
@@ -273,10 +274,6 @@ npm run build:prod
 ### Cloud - Service Structure on AWS for Kubernetes
 
 - (TODO) AWS Elastic Container Service for Kubernetes (EKS)
-
-### Cloud - Service Structure on Goolge Cloud for Kubernetes
-
-- Google Kubernetes Engine (GKE)
 
 ## History
 

@@ -7,3 +7,6 @@ build/
 dump.rdb
 .terraform
 plan
+terraform.log
+terraform.tfstate
+terraform.tfstate.backup

@@ -5,3 +5,7 @@ variable "vpc_cidr" {
 variable "environment" {
   description = "The name of the environment"
 }
+
+variable "project_name" {
+  description = "tag name that can be used in aws tag editor"
+}

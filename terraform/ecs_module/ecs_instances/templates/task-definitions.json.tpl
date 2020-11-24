@@ -2,10 +2,9 @@
 {
 "name": "web",
 "image": "${REPOSITORY_URL}/price-dashboard_web:latest",
-"hostname": "web",
 "essential": false,
-"memory": 128,
-"cpu": 1,
+"cpu": 128,
+"memory": 1024,
 "portMappings": [
 {
 "containerPort": 8080,
@@ -53,10 +52,9 @@
 {
 "name": "user",
 "image": "${REPOSITORY_URL}/price-dashboard_user:latest",
-"hostname": "user",
 "essential": false,
-"memory": 128,
-"cpu": 1,
+"cpu": 128,
+"memory": 1024,
 "portMappings": [
 {
 "containerPort": 4999,
@@ -80,10 +78,9 @@
 {
 "name": "prices",
 "image": "${REPOSITORY_URL}/price-dashboard_prices:latest",
-"hostname": "prices",
 "essential": false,
-"memory": 128,
-"cpu": 1,
+"cpu": 128,
+"memory": 1024,
 "portMappings": [
 {
 "containerPort": 5000,
@@ -113,10 +110,9 @@
 {
 "name": "promotions",
 "image": "${REPOSITORY_URL}/price-dashboard_promotions:latest",
-"hostname": "promotions",
 "essential": false,
-"memory": 128,
-"cpu": 1,
+"cpu": 128,
+"memory": 1024,
 "portMappings": [
 {
 "containerPort": 5001,
@@ -146,10 +142,9 @@
 {
 "name": "upgrade-rules",
 "image": "${REPOSITORY_URL}/price-dashboard_upgrade-rules:latest",
-"hostname": "upgrade-rules",
 "essential": false,
-"memory": 128,
-"cpu": 1,
+"cpu": 128,
+"memory": 1024,
 "portMappings": [
 {
 "containerPort": 5002,
@@ -180,19 +175,13 @@
 "name": "nginx-stage",
 "image": "${REPOSITORY_URL}/price-dashboard_nginx:latest",
 "essential": true,
+"cpu": 128,
+"memory": 1024,
 "portMappings": [
 {
-"hostPort": 3050,
+"hostPort": 80,
 "containerPort": 80
 }
-],
-"links": [
-"web",
-"user",
-"prices",
-"promotions",
-"upgrade-rules"
-],
-"memory": 128
+]
 }
 ]

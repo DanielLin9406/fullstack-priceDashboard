@@ -16,10 +16,6 @@ variable "private_subnet_cidrs" {
   description = "List of private cidrs, you may want one per avalibility zone"
 }
 
-variable "private_db_subnet_cidrs" {
-  type        = list(string)
-  description = "List of private db cidrs, you may want one per avalibility zone"
-}
 
 variable "availability_zones" {
   type        = list(string)
@@ -38,3 +34,21 @@ variable "instance_group" {
 variable "instance_type" {
   description = "AWS instance type to use"
 }
+
+variable "project_name" {
+  description = "tag name that can be used in aws tag editor"
+}
+
+variable "custom_userdata" {
+  default     = ""
+  description = "Inject extra command in the instance template to be run on boot"
+}
+
+variable "ecs_aws_ami" {
+  description = "The AWS ami id to use for ECS"
+}
+
+variable "key_name" {
+  description = "SSH key name to be used"
+}
+

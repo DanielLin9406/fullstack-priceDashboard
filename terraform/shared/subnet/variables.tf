@@ -11,15 +11,15 @@ variable "cidr_blocks" {
   description = "List of cidrs, for every avalibility zone you want you need one. Example: 10.0.0.0/24 and 10.0.1.0/24"
 }
 
-variable "nat_gateway_id" {
-  default = []
-  type    = list(string)
-}
+# variable "nat_gateway_id" {
+#   default = []
+#   type    = list(string)
+# }
 
-variable "internet_gateway_id" {
-  default = ""
-  type    = string
-}
+# variable "internet_gateway_id" {
+#   default = ""
+#   type    = string
+# }
 
 variable "availability_zones" {
   type        = list(string)
@@ -28,4 +28,8 @@ variable "availability_zones" {
 
 variable "vpc_id" {
   description = "VPC id to place to subnet info"
+}
+
+variable "project_name" {
+  description = "tag name that can be used in aws tag editor"
 }
