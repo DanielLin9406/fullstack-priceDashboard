@@ -31,6 +31,12 @@ variable "instance_group" {
   description = "The name of the instances that you consider as a group"
 }
 
+variable "load_balancers" {
+  type        = list
+  default     = []
+  description = "The load balancers to couple to the instances"
+}
+
 variable "instance_type" {
   description = "AWS instance type to use"
 }
@@ -52,3 +58,14 @@ variable "key_name" {
   description = "SSH key name to be used"
 }
 
+variable "max_size" {
+  description = "Maximum size of the nodes in the cluster"
+}
+
+variable "min_size" {
+  description = "Minimum size of the nodes in the cluster"
+}
+
+variable "desired_capacity" {
+  description = "The desired capacity of the cluster"
+}

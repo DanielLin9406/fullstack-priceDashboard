@@ -7,6 +7,9 @@ module "ecs" {
   vpc_cidr             = var.vpc_cidr
   project_name         = var.project_name
   cluster              = var.cluster
+  max_size             = var.max_size
+  min_size             = var.min_size
+  desired_capacity     = var.desired_capacity
   instance_type        = var.instance_type
   ecs_aws_ami          = var.ecs_aws_ami
   environment          = var.environment
@@ -18,7 +21,7 @@ module "ecs" {
 
 resource "aws_key_pair" "ecs" {
   key_name   = "ecs-key-${var.environment}"
-  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCtMljjj0Ccxux5Mssqraa/iHHxheW+m0Rh17fbd8t365y9EwBn00DN/0PjdU2CK6bjxwy8BNGXWoUXiSDDtGqRupH6e9J012yE5kxhpXnnkIcLGjkAiflDBVV4sXS4b3a2LSXL5Dyb93N2GdnJ03FJM4qDJ8lfDQxb38eYHytZkmxW14xLoyW5Hbyr3SXhdHC2/ecdp5nLNRwRWiW6g9OA6jTQ3LgeOZoM6dK4ltJUQOakKjiHsE+jvmO0hJYQN7+5gYOw0HHsM+zmATvSipAWzoWBWcmBxAbcdW0R0KvCwjylCyRVbRMRbSZ/c4idZbFLZXRb7ZJkqNJuy99+ld41 ecs@aws.fake"
+  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC9H/2sFSFdfL8oOh1Aba0rrcZFVuUzE+Y9HYj41ghWQCWf6tx+F6EcFl8f+0ZkPDGxUW7i8cVKWbGA9oSFGLN0GDJwIODN8SBZxw/iRDtINa4W6svCyf4yBVLJ+EuLQSqQ4FBAN4jk2s8h1CTWUvIYaFib486I82PqOoo81JbK8Dm7NxtcSz1MDt81T0OUMXZSqiLvtR1r3HxGjk1zSaeAHXlr73wNumEcZVg3u6xGLvwhK3SWPAU9wDE1eaXFSgqXcGM+9w/wGXV+bxiBmWYx8k5+RjHTgd3oRI3hwbYpfShjectT2HZ2b7VHikLd8pkxrDfkpvf/fUyWN6y0Rssh"
 }
 
 variable "aws_region" {
@@ -30,6 +33,9 @@ variable "aws_region" {
 #     default = 
 # }
 
+variable "desired_capacity" {}
+variable "max_size" {}
+variable "min_size" {}
 variable "cluster" {
   description = "The name of the ECS cluster"
 }

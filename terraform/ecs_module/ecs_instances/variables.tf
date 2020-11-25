@@ -53,6 +53,12 @@ variable "custom_userdata" {
   description = "Inject extra command in the instance template to be run on boot"
 }
 
+variable "load_balancers" {
+  type        = list
+  default     = []
+  description = "The load balancers to couple to the instances. Only used when NOT using ALB"
+}
+
 variable "key_name" {
   description = "SSH key name to be used"
 }
@@ -60,4 +66,20 @@ variable "key_name" {
 variable "ecs_logging" {
   default     = "[\"json-file\",\"awslogs\"]"
   description = "Adding logging option to ECS that the Docker containers can use. It is possible to add fluentd as well"
+}
+
+variable "max_size" {
+  description = "Maximum size of the nodes in the cluster"
+}
+
+variable "min_size" {
+  description = "Minimum size of the nodes in the cluster"
+}
+
+variable "desired_capacity" {
+  description = "The desired capacity of the cluster"
+}
+
+variable "depends_id" {
+  description = "Workaround to wait for the NAT gateway to finish before starting the instances"
 }

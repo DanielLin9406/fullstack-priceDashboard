@@ -8,3 +8,6 @@ availability_zones = ["us-east-1a", "us-east-1b"]
 aws_region = "us-east-1"
 instance_type = "t2.micro"
 ecs_aws_ami = "ami-275ffe31"
+max_size = 1
+min_size = 1
+desired_capacity = 1

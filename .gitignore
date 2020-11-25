@@ -10,3 +10,4 @@ plan
 terraform.log
 terraform.tfstate
 terraform.tfstate.backup
+*.pem
