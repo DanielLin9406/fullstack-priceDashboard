@@ -10,24 +10,24 @@ metadata:
 spec:
   rules:
     - http:
-      paths:
-        - path: /?(.*)
-          backend:
-            serviceName: web-cluster-ip-service
-            servicePort: 3000
-        - path: /v1/user/?(.*)
-          backend:
-            serviceName: user-cluster-ip-service
-            servicePort: 4999
-        - path: /v1/prices/?(.*)
-          backend:
-            serviceName: prices-cluster-ip-service
-            servicePort: 5000
-        - path: /v1/promotions/?(.*)
-          backend:
-            serviceName: promotions-cluster-ip-service
-            servicePort: 5001
-        - path: /v1/upgrade-rules/?(.*)
-          backend:
-            serviceName: upgrade-rules-cluster-ip-service
-            servicePort: 5002
+        paths:
+          - path: /?(.*)
+            backend:
+              serviceName: web-cluster-ip-service
+              servicePort: 3000
+          - path: /v1/user/?(.*)
+            backend:
+              serviceName: user-cluster-ip-service
+              servicePort: 4999
+          - path: /v1/prices/?(.*)
+            backend:
+              serviceName: prices-cluster-ip-service
+              servicePort: 5000
+          - path: /v1/promotions/?(.*)
+            backend:
+              serviceName: promotions-cluster-ip-service
+              servicePort: 5001
+          - path: /v1/upgrade-rules/?(.*)
+            backend:
+              serviceName: upgrade-rules-cluster-ip-service
+              servicePort: 5002
