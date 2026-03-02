@@ -2,11 +2,13 @@ import 'dotenv/config';
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import './model/pricesModel';
+import './schema/pricesModel';
 import pricesAPI from './routes/pricesAPI';
-import { saveData } from './db/seeds/seeds';
-import { connectDb } from './libs/mongoose/mongoose';
+import { saveData } from './migrations/seeds/seeds';
+import { connectDb } from './db/mongo/mongoose';
 import keys from './config/keys';
+
+import logger from './utils/logger';
 
 const app = express();
 const eraseDatabase = false;
@@ -16,12 +18,16 @@ app.use(cors('*'));
 
 app.use(`/${keys.authVer}`, pricesAPI);
 
+app.get('/health', (req, res) => {
+  res.status(200).send('OK');
+});
+
 connectDb().then(() => {
   if (eraseDatabase) {
     saveData();
   }
   app.listen(process.env.PORT, () => {
-    console.log(`Price API Service listening on port ${process.env.PORT}!`);
+    logger.info(`Price API Service listening on port ${process.env.PORT}!`);
   });
 });
 

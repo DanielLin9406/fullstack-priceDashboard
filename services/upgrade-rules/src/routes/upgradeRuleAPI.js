@@ -1,16 +1,10 @@
-import upgradeRuleRouter from '../libs/router/router';
+import createRouter from '../../../shared/libs/router/router';
 import UpgradeRuleModel from '../model/upgradeRuleModel';
 import ensureAuthenticated from '../libs/auth/authorization';
-import redis from 'redis';
-import util from 'util';
-import keys from '../config/keys';
+import client from '../db/mongo/redis';
 
-const client = redis.createClient({
-  host: keys.redisHost,
-  port: keys.redisPort,
-  retry_strategy: () => 1000
-});
-client.hget = util.promisify(client.hget);
+const upgradeRuleRouter = createRouter();
+
 
 upgradeRuleRouter.get(
   '/upgrade-rules',

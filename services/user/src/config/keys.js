@@ -1,5 +1,9 @@
-if (process.env.NODE_ENV === 'production') {
-  module.exports = require('./prod');
-} else {
-  module.exports = require('./dev');
-}
+import env from './env';
+
+const keys = {
+  clientID: env.CLIENT_ID,
+  clientSecret: env.CLIENT_SECRET,
+  redirectURI: env.REDIRECT_URI
+};
+
+export default keys;

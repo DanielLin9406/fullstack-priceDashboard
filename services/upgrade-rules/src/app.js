@@ -8,6 +8,8 @@ import { saveData } from './db/seeds/seeds';
 import { connectDb } from './libs/mongoose/mongoose';
 import keys from './config/keys';
 
+import logger from './libs/logger';
+
 const app = express();
 const eraseDatabase = false;
 
@@ -16,12 +18,16 @@ app.use(cors('*'));
 
 app.use(`/${keys.authVer}`, upgradeRuleAPI);
 
+app.get('/health', (req, res) => {
+  res.status(200).send('OK');
+});
+
 connectDb().then(() => {
   if (eraseDatabase) {
     saveData();
   }
   app.listen(process.env.PORT, () => {
-    console.log(
+    logger.info(
       `UpgradeRule API Service listening on port ${process.env.PORT}!`
     );
   });

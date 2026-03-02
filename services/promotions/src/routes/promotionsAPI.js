@@ -1,20 +1,25 @@
-import promotionRouter from '../libs/router/router';
-import PromotionsModel from '../model/promotionsModel';
-import ensureAuthenticated from '../libs/auth/authorization';
-import { object2Arr } from '../libs/util/typeHelper';
-import redis from 'redis';
-import util from 'util';
+import createRouter from '../../../shared/libs/router/router';
+import PromotionsModel from '../schema/promotion';
+import ensureAuthenticated from '../middleware/auth/authorization';
+import { object2Arr } from '../../../shared/libs/util/typeHelper';
+import validateRequest from '../../../shared/libs/middleware/validateRequest';
+import { createPromotionSchema, updatePromotionSchema } from '../dto/promotion.zod';
+
 import keys from '../config/keys';
 import axios from 'axios';
+import client from '../db/redis/redis';
 // import promotion from '../db/promotions_db.json';
 
-const client = redis.createClient({
-  host: keys.redisHost,
-  port: keys.redisPort,
-  retry_strategy: () => 1000
-});
-client.hget = util.promisify(client.hget);
+const promotionRouter = createRouter();
 
+/**
+ * GET /promotions
+ * Retrieves all promotions, checking cache first.
+ * 
+ * @param {import('express').Request} req - Express request object.
+ * @param {import('express').Response} res - Express response object.
+ * @returns {Promise<import('express').Response>} List of promotions.
+ */
 promotionRouter.get('/promotions', ensureAuthenticated, async (req, res) => {
   const cachValue = await client.hget('promotions', 'promotionsField');
   if (cachValue) {
@@ -39,7 +44,15 @@ promotionRouter.get('/promotions', ensureAuthenticated, async (req, res) => {
   return res.send(JSON.stringify(object2Arr(promoObj)));
 });
 
-promotionRouter.post('/promotions', async (req, res) => {
+/**
+ * POST /promotions
+ * Creates a new promotion.
+ * 
+ * @param {import('express').Request} req - Express request object.
+ * @param {import('express').Response} res - Express response object.
+ * @returns {Promise<import('express').Response>} The created promotion or updated list.
+ */
+promotionRouter.post('/promotions', validateRequest(createPromotionSchema), async (req, res) => {
   // Pull out input data
   const { end_date, items, name, on_live, start_date } = req.body;
 
@@ -174,7 +187,15 @@ promotionRouter.post('/promotions', async (req, res) => {
   }
 });
 
-promotionRouter.put('/promotions/:id', async (req, res) => {
+/**
+ * PUT /promotions/:id
+ * Updates an existing promotion by ID.
+ * 
+ * @param {import('express').Request} req - Express request object.
+ * @param {import('express').Response} res - Express response object.
+ * @returns {Promise<import('express').Response>} The updated list of promotions.
+ */
+promotionRouter.put('/promotions/:id', validateRequest(updatePromotionSchema), async (req, res) => {
   const { name, start_date, end_date, items } = req.body;
   const _id = req.params.id;
   const payload = {
@@ -232,6 +253,14 @@ promotionRouter.put('/promotions/:id', async (req, res) => {
   }
 });
 
+/**
+ * DELETE /promotions/:id
+ * Deletes a promotion by ID.
+ * 
+ * @param {import('express').Request} req - Express request object.
+ * @param {import('express').Response} res - Express response object.
+ * @returns {Promise<import('express').Response>} The updated list of promotions.
+ */
 promotionRouter.delete('/promotions/:id', async (req, res) => {
   const _id = req.params.id;
   try {

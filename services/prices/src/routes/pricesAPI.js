@@ -1,17 +1,17 @@
-import priceRouter from '../libs/router/router';
-import PricesModel from '../model/pricesModel';
-import ensureAuthenticated from '../libs/auth/authorization';
-import redis from 'redis';
-import util from 'util';
-import keys from '../config/keys';
+import createRouter from '../../../shared/libs/router/router';
+import ensureAuthenticated from '../middleware/auth/authorization';
+import PriceService from '../repo/PriceService';
+import logger from '../utils/logger';
 
-const client = redis.createClient({
-  host: keys.redisHost,
-  port: keys.redisPort,
-  retry_strategy: () => 1000
-});
-client.hget = util.promisify(client.hget);
+const priceRouter = createRouter();
 
+/**
+ * Converts an object of objects into an array of objects.
+ * 
+ * @template T
+ * @param {Object.<string, T>} promoObj - The object to convert.
+ * @returns {T[]} The array of values.
+ */
 function object2Arr(promoObj) {
   const arr = Object.keys(promoObj).map(ele => {
     return promoObj[ele];
@@ -19,23 +19,22 @@ function object2Arr(promoObj) {
   return arr;
 }
 
+/**
+ * GET /prices
+ * Retrieves all prices.
+ * 
+ * @param {import('express').Request} req - Express request object.
+ * @param {import('express').Response} res - Express response object.
+ * @returns {Promise<import('express').Response>} The response containing the prices array.
+ */
 priceRouter.get('/prices', ensureAuthenticated, async (req, res) => {
-  const data = await PricesModel.find({});
-
-  const priceObj = data.reduce((acc, cur, index) => {
-    acc[index] = cur;
-    return acc;
-  }, {});
-
-  const cachValue = await client.hget('prices', 'pricesField');
-  if (cachValue) {
-    console.log('read prices from cache');
-    return res.send(object2Arr(JSON.parse(cachValue)));
+  try {
+    const priceObj = await PriceService.getAllPrices();
+    return res.send(object2Arr(priceObj));
+  } catch (error) {
+    logger.error('Failed to get prices', { error });
+    return res.status(500).send({ error: 'Internal Server Error' });
   }
-
-  client.hset('prices', 'pricesField', JSON.stringify(priceObj), 'EX', 10);
-
-  return res.send(JSON.stringify(object2Arr(priceObj)));
 });
 
 export default priceRouter;

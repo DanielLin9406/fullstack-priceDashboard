@@ -1,5 +1,7 @@
-import userRouter from '../libs/router/router';
-import ensureAuthenticated from '../libs/auth/authorization';
+import createRouter from '../../../shared/libs/router/router';
+import ensureAuthenticated from '../middleware/auth/authorization';
+
+const userRouter = createRouter();
 
 userRouter.get('/user', ensureAuthenticated, (req, res) => {
   res.status(200).json({
