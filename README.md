@@ -1,297 +1,157 @@
 # Price Dashboard
 
 [![Build Status](https://travis-ci.org/DanielLin9406/fullstack-priceDashboard.svg?branch=master)](https://travis-ci.org/DanielLin9406/fullstack-priceDashboard)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-This project was originally desinged as an internal tool for a company I was at and for the purpose of setting and reading product's price. Initially, it contains only front-end code since I had collaborated other member in backend team. After I had left the company, I refactored my front-end code and re-built it to a complete full-stack project with container technique. It also has a basic CI pipeline right now.
+A comprehensive full-stack microservices application designed for managing product pricing, promotions, and upgrade rules. Originally developed as an internal tool, this project has been modernized into a robust, containerized solution demonstrating professional software engineering practices.
 
-Set a new promotion and view a particular promotion.
-![preview1](https://i.imgur.com/rAfJDVF.png)
+![Dashboard Preview](https://i.imgur.com/rAfJDVF.png)
 
-Details price in terms of different user
-![preview2](https://i.imgur.com/MmvQmTv.png)
+## 🚀 Overview
 
-## Features
+The Price Dashboard serves as a central hub for pricing strategy management. It allows administrators to:
+- Visualize current and upcoming promotions.
+- Calculate complex product pricing based on user history and upgrade paths.
+- Manage pricing rules dynamically.
 
-- The state is always up-to-date with backend even when create/update/delete operation has been triggered.
-- Allow user to auto sign in if browser has been permitted to store his/her password.
-- Power visual for understanding which promotion is on live and what is next promotion.
-- You can easily calculate a product price for a user who could has any combination of company's early product before.
+The system is built on a **microservices architecture**, ensuring scalability and separation of concerns.
 
-### Web Service Features
+## 🏗 Architecture
 
-Tech perspective:
+The application is composed of several decoupled services:
 
-- Take advantage of the power of Webpack for packaging web service in dev and prod. environment instead of directly using CRA.
-- Separte layout, route and page as component for more flexibility.
-- Auto sign in with Credential Management API.
-- Separate Redux's mapStateToProps and mapDispatchToProps from every component in order to make it easy to understand.
-- Implement React's design pattern such as compound, render-props and context api to build reuseable and clear component.
-- Use nginx as static file server in production environment.
+- **Web Service**: A React-based frontend application.
+- **User Service**: Handles authentication and user management (OAuth 2.0).
+- **Prices Service**: Manages base product prices.
+- **Promotions Service**: Handles promotional logic and scheduling.
+- **Upgrade Rules Service**: Calculates pricing based on product upgrade paths.
+- **Infrastructure**:
+  - **Nginx**: Acts as a reverse proxy and static file server.
+  - **Redis**: Provides caching for high-performance data retrieval.
+  - **MongoDB Atlas**: Cloud-hosted NoSQL database for persistence.
 
-### User/Promotions/Prices/Upgrade-rules Service Features
+## 🛠 Tech Stack
 
-Tech perspective:
+### Frontend (Web)
+- **Core**: React 16, Redux (Module Pattern), React Router 4
+- **Build Tools**: Webpack 4, Babel 7
+- **Styling**: SCSS, Styled Components
+- **State Management**: Redux Thunk, Context API
+- **Quality**: ESLint, Prettier, Husky
 
-- Best practice of Node/Express with ES6 syntax(e.g. self-contained components as file structure).
-- Thanks to Redis, no extra DB query command is executed when post/update/delete router has been called and still can return a full list of promotion.
-- Every route has implemented Redis as cache server to reduce DB's query operation.
-- Use NGINX as a reverse proxy.
+### Backend (API Services)
+- **Runtime**: Node.js
+- **Framework**: Express.js
+- **Database**: MongoDB (Mongoose ODM)
+- **Caching**: Redis
+- **Authentication**: Google OAuth 2.0
 
-## Prerequisite
+### DevOps & Infrastructure
+- **Containerization**: Docker, Docker Compose
+- **CI/CD**: Travis CI
+- **Cloud**: AWS (ECS, EKS ready), Terraform
+- **Orchestration**: Kubernetes (k8s scripts included)
 
-**This section is necessary no matter which way to start/build this project.**
+## 📋 Prerequisites
 
-- Node v10.16
-- npm v6.9
+Ensure you have the following installed:
+- **Node.js**: v10.16.0 or higher (v14+ recommended for local dev outside Docker)
+- **npm**: v6.9+
+- **Docker**: v19.03+
+- **Docker Compose**: v1.25+
 
-### Web Services
+## ⚡ Getting Started
 
-```bash
-# ./services/web/.env
+The recommended way to run the application is via **Docker Compose**, which orchestrates all services and dependencies automatically.
 
-GOOGLE_CLIENT_ID=<Google OAuth 2 Client Id>
+### Method 1: Docker Compose (Recommended)
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/DanielLin9406/fullstack-priceDashboard.git
+   cd fullstack-priceDashboard
+   ```
+
+2. **Configure Environment Variables**
+   Ensure `.env` files are set up in each service directory (`services/*/`). See the Environment Configuration section below.
+
+3. **Start the Application**
+   ```bash
+   docker-compose -f docker-compose-dev.yml up
+   ```
+
+4. **Access the Dashboard**
+   Open your browser and navigate to [http://localhost:3050](http://localhost:3050).
+
+### Method 2: Local Development (npm)
+
+For individual service development, you can run services locally.
+
+1. **Install Dependencies**
+   ```bash
+   # Root dependencies
+   npm install
+
+   # Service dependencies
+   npm install --prefix services/web
+   npm install --prefix services/prices
+   # ... repeat for other services
+   ```
+
+2. **Start Redis**
+   ```bash
+   redis-server
+   ```
+
+3. **Start Services**
+   ```bash
+   npm start
+   ```
+   This will use `concurrently` to start all services. Access the web app at [http://localhost:8080](http://localhost:8080).
+
+## 🔧 Environment Configuration
+
+Each service requires specific environment variables. Create a `.env` file in the respective service directories:
+
+**Web Service** (`services/web/.env`)
+```ini
+GOOGLE_CLIENT_ID=<Your Google OAuth Client ID>
 API_HOST_PRICES=http://localhost
-API_HOST_PROMOTIONS=http://localhost
-API_HOST_UPGRADERULES=http://localhost
 API_PORT_PRICES=5000
-API_PORT_PROMOTIONS=5001
-API_PORT_UPGRADERULES=5002
-API_VER_PRICES=v1
-API_VER_PROMOTIONS=v1
-API_VER_UPGRADERULES=v1
+# ... (see .env.example if available)
 ```
 
-### User Services
-
-```bash
-# ./services/user/.env
-
-PORT=4999
-# Same as the client id in web service
-CLIENT_ID=<Google OAuth 2 Client Id>
-CLIENT_SECRET=<Google OAuth 2.0 client Secret>
-REDIRECT_URI=http://localhost:8080/auth/callback
-
-```
-
-### Prices,Promotions,Upgrade-Rules Services
-
-```bash
-# ./services/prices/.env
-# ./services/promotions/.env
-# ./services/upgrade-rules/.env
-
-PORT=5000(promotions) | 5001(prices)| 5002(upgrade-rules)
-DATABASE_URL_PROD=<MongoDB Altas URL>
-DATABASE_URL_DEV=<MongoDB Altas URL>
+**Backend Services** (`services/prices/.env`, etc.)
+```ini
+PORT=5000
+DATABASE_URL_DEV=<Your MongoDB Atlas Connection String>
 REDIS_HOST_DEV=127.0.0.1
-REDIS_HOST_PROD=127.0.0.1
-REDIS_PORT_DEV=6379
-REDIS_PORT_PROD=6379
 AUTH_HOST_DEV=localhost
-AUTH_HOST_PROD=localhost
-AUTH_PORT_DEV=4999
-AUTH_PORT_PROD=4999
-AUTH_VER_DEV=v1
-AUTH_VER_PROD=v1
 ```
 
-## Start Project by Default Environment Setting
+## 📦 Production Build
 
-You have two ways to start this project:
-
-```bash
-# Method 1. In project root (Highly Recommonded)
-docker-compose -f docker-compose-dev.yml up
-
-# Method 2. In project root
-See below details
-```
-
-### Method 1: docker-compose
-
-This method is easy.
-Open browser and go to http://localhost:3050.
-You can see the dashboard.
-
-### Method 2: npm script
-
-If you want to do it with purely npm command, there are more additional setup:
-
-1. Install Redis.
+To run the production version locally:
 
 ```bash
-# Use homebrew on MacOSX
-brew install redis
-```
-
-2. Install Dependence of each service
-
-```bash
-# ./
-# ./services/web
-# ./services/promotions
-# ./services/prices
-# ./services/upgrade-rules
-# ./services/user
-
-npm i
-```
-
-3. Start Redis
-
-```bash
-redis-server
-```
-
-4. Start Project
-
-```bash
-# ./ @project root
-npm start
-```
-
-5. Check result
-
-Open browser and go to http://localhost:8080.
-
-### More Slient Start Script
-
-```bash
-# with JSON Mock server (only get data is available )
-npm run start:jsonserver
-
-# with other server on same localhost but port
-# Need to start server first
-npm run start:dev
-```
-
-## Build Project and Run Production version
-
-You also have two ways to run production version:
-
-```bash
-# Method 1. In project root (Highly Recommonded)
 docker-compose -f docker-compose-stage.yml up
-
-# Method 2. In project root
-(TODO)See below details
 ```
+This serves the optimized React build via Nginx. Access at [http://localhost:3060](http://localhost:3060).
 
-### Method 1: docker-compose
+## 🧪 Testing (TODO)
 
-This method is easy.
-Open browser and go to http://localhost:3060.
-You can see the dashboard.
+- **Unit Tests**: Jest + Enzyme/React Testing Library
+- **Integration Tests**: Supertest for APIs
+- **E2E**: Cypress or Puppeteer
 
-### Method 2: npm script
+## 🤝 Contributing
 
-1. Run Production Bbuild
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-```bash
-# ./ @project root
-# Use Babel to complie import syntax to require
-npm run build
-```
+## 📄 License
 
-2. Run Production Server
-
-```bash
-# ./ @project root
-# Use Babel to complie import syntax to require
-npm run prod
-```
-
-3. Check result
-
-Open browser and go to http://localhost:8080.
-
-### More Client Build Script
-
-```bash
-# ./services/web
-# with other localhost API server in different port
-npm run build:dev
-
-# stage as API server
-npm run build:stage
-
-# production as API server
-npm run build:prod
-```
-
-## TechStacks
-
-### Web
-
-- Webpack 4 custom scaffold
-- Babel 7
-- React 16 with render props, compound pattern
-- Redux with Module pattern
-- Redux-thunk
-- React-Router 4
-- React Hot loader
-- React-Loadable for async loading page
-- Redux with module pattern
-- (TODO) Server side rendering (SSR)
-- (TODO) Jest+puppeteer for component unit test
-- (TODO) Google Analytics and use Google Optimize
-- Husky+Lint-stage
-- ESlint+Prettier
-- Json-server
-- Sensitive data handler: dotenv
-- Google OAuth 2.0
-
-### Promotions, Price, Upgrade-Rules and User
-
-- Babel node for compiling ES6 syntax
-- Express.js
-- Restful API
-- (TODO) Mocha+Chi for API unit test
-- Mongoose
-- MongoDB Altas
-- Redis for DB caching
-- Sensitive data handler: dotenv
-- API authorization between services
-
-### Dev-Ops
-
-- Docker
-- Docker-compose
-- Nginx as reverse-proxy
-- Nginx as static file server in production
-- Bash 5 for development
-- Travis plays as CI role
-  - Delegate gcloud to handle kubectl command
-- Leverage Terraform to create ECS and EKS.
-
-### Cloud - Service Structure on AWS for multi-docker
-
-- AWS Elastic Beanstalk (EB)
-- AWS Elastic Container Service (ECS)
-- (TODO)AWS Elastic Cache (EC) for Caching instead of Redis
-
-### Cloud - Service Structure on AWS for Kubernetes
-
-- (TODO) AWS Elastic Container Service for Kubernetes (EKS)
-
-## History
-
-- origin/initial-version: this is the first version which contains only front-end side code
-- origin/basic: Add client and server to become full-stack project
-- origin/basic-refractor-setpricerule: Checkout from origin/basic and refractor a huge amout of the front-end code that becomes componentization.
-- origin/master: complete full-stack project with dev-ops pipeline.
-
-## License
-
-[MIT](https://choosealicense.com/licenses/mit/)
-
-## TODO
-
-1. Check React performance with an idea provided by this [article](https://medium.com/@evenchange4/react-stack-%E9%96%8B%E7%99%BC%E9%AB%94%E9%A9%97%E8%88%87%E5%84%AA%E5%8C%96%E7%AD%96%E7%95%A5-b056da2fa0aa)
-
-2. Implemtn GA and Google Optimizie
-
-3. Check Node practice to match a [Node.js best practice guide](https://github.com/goldbergyoni/nodebestpractices)
-
-4. Replace one or several services from Node to Python or GoLang for study purpose.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
